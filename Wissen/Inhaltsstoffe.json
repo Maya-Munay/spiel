@@ -1,0 +1,1709 @@
+{
+ "meta": {
+  "titel": "Inhaltsstoffe des Kakaos – Wissensbasis Kakao-Spiel Maya Munay",
+  "stand": "2026-11-05",
+  "hinweise": [
+   "Zahlen: USDA FoodData Central (SR Legacy) für US-Handelsprodukte, nicht für Maya-Munay-Chargen.",
+   "kakaomasse = USDA 167568 (Baking chocolate, unsweetened); kakaopulver = 169593; dunkle_schokolade = 170273.",
+   "nrv_prozent = Anteil an EU-Referenzmenge (VO 1169/2011, aus Fachwissen, nicht live geprüft).",
+   "ampel: gruen = sagbar mit Bedingungen, gelb = nur Wissen/nach Prüfung, rot = tabu. Keine Rechtsberatung.",
+   "Alle Krafttier-Zuordnungen sind Ideen."
+  ],
+  "ampel_legende": {
+   "gruen": "sagbar mit Bedingungen",
+   "gelb": "nur Wissen / nach Prüfung",
+   "rot": "tabu"
+  }
+ },
+ "top10_fakten": [
+  "Die Hälfte der Kakaomasse ist Fett (Kakaobutter) und sie schmilzt bei ca. 32-35 °C: knapp unter Körpertemperatur.",
+  "Kakaomasse hat mehr als die Tagesmenge an Kupfer (323 %) und Mangan (208 %) in 100 g und fast so viel Zink und Eisen (96 % / 124 %).",
+  "25 g Kakaomasse liefern ca. 82 mg Magnesium, etwa 22 % der EU-Referenzmenge.",
+  "Theobromin (1300 mg/100 g) überwiegt Koffein (80 mg/100 g) um das 16-fache: 25 g Kakaomasse haben ca. 20 mg Koffein, eine Tasse Filterkaffee ca. 96 mg.",
+  "Fermentation senkt Epicatechin und Catechin um mehr als 80 %: der Preis für mildes Aroma.",
+  "Dutching senkt die Flavanole von 34,6 auf 3,9 mg/g (−89 %).",
+  "Porcelana, ein Criollo-Typ, kommt vom Südufer des Maracaibo-Sees: Sur del Lago.",
+  "Anandamid, PEA, Salsolinol sind in Kakao nachgewiesen, aber ein 'Glücks-High' ist nicht belegt.",
+  "Kakaoschalen (Tee!) enthalten bis 66 g/100 g Ballaststoffe und Theobromin.",
+  "Die einzige zugelassene Kakao-Gesundheitsangabe betrifft Flavanole und die Durchblutung (200 mg/Tag)."
+ ],
+ "bestandteile_frucht": [
+  {
+   "teil": "Fruchtwand (Schote, 'Pod Husk')",
+   "anteil": "der größte Teil des Gewichts der Frucht (Branchenwissen, keine Zahl geprüft)",
+   "enthaelt": "viel Ballaststoffe, Pektin, Kalium (Literatur, hier nicht im Detail geprüft)",
+   "nutzung": "Kompost, Tierfutter, Pektin-Gewinnung, Pottasche/Seife; kaum für Menschen als Lebensmittel",
+   "evidenz": "mittel",
+   "quellen": [
+    "L"
+   ]
+  },
+  {
+   "teil": "Fruchtfleisch (Pulpa, 'Cocoa Honey', Mucilage)",
+   "anteil": "umhüllt die Bohnen, weiß-rosa, süß-säuerlich",
+   "enthaelt": "Wasser 83-86 %, Zucker 11-13 % (Glucose, Fructose, Saccharose), Pektin 0,5-1,2 %, Zitronensäure 0,3-1,3 %, pH ca. 3,3-3,9; reich an Mineralstoffen wie Magnesium und Zink, wenig Natrium (Review 2026). Eine belastbare Vitamin-Tabelle (z. B. Vitamin C) wurde in dieser Recherche NICHT gefunden.",
+   "nutzung": "Nahrung für die Fermentation (Hefen wandeln Zucker in Alkohol, danach Milch- und Essigsäure); als Saft, Sirup, Marmelade, Eis, Getränk; Schwankung der Zuckermenge zwischen Sorten ca. 20 Prozentpunkte (Moretti 2023)",
+   "evidenz": "mittel (Sekundärquelle für Prozentwerte)",
+   "quellen": [
+    "S1",
+    "P12",
+    "P13"
+   ]
+  },
+  {
+   "teil": "Bohne (Samen) mit Keimblättern (Kotyledonen)",
+   "anteil": "rund 20-60 Samen je Frucht (Branchenwissen)",
+   "enthaelt": "Kakaobutter, Eiweiß, Ballaststoffe, Mineralstoffe, Theobromin, Polyphenole (siehe Tabellen unten)",
+   "nutzung": "Nibs, Kakaomasse, Kakaobutter, Pulver, Schokolade",
+   "evidenz": "gut",
+   "quellen": [
+    "U1",
+    "U2"
+   ]
+  },
+  {
+   "teil": "Samenschale (Testa, 'Cocoa Bean Shell')",
+   "anteil": "ca. 10-14 % des Samens (Branchenwissen, nicht geprüft)",
+   "enthaelt": "Ballaststoffe 13,8-65,6 g/100 g (je nach Studie und Röstung), Theobromin 0,7-1,3 % (Ghana-Schalenmehl), Polyphenole",
+   "nutzung": "Tee ('Kakaoschalen-Tee'), Mehl, Mulch, Tierfutter. Eine Studie von 2022 fand im Tee aus Malaysia und Venezuela mehr Theobromin und deutlich weniger Koffein als im grünen Tee und keine Aflatoxine, kein Ochratoxin A, keine Pestizide über der Nachweisgrenze (Einzelstudie). Hinweis: Schalen sind besonders anfällig für Rückstände und Cadmium → Charge prüfen lassen.",
+   "evidenz": "mittel",
+   "quellen": [
+    "S2"
+   ]
+  },
+  {
+   "teil": "Keim (Embryo, Würzelchen)",
+   "anteil": "winzig",
+   "enthaelt": "keine eigenen Zahlen gefunden",
+   "nutzung": "Wird beim Worfeln (Entfernen der Schale) meist mit abgetrennt. Die Fermentation (Wärme + Säure) tötet den Keim ab; deshalb keimen Handels-Kakaobohnen nicht.",
+   "evidenz": "Lehrbuchwissen, nicht geprüft",
+   "quellen": [
+    "L"
+   ]
+  }
+ ],
+ "naehrstoffe": [
+  {
+   "id": "energie",
+   "kategorie": "makro",
+   "name": "Energie",
+   "einheit": "kcal",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Kakaomasse ist energiereich, weil sie zur Hälfte aus Fett besteht.",
+   "kakaomasse_100g": 642,
+   "kakaopulver_entoelt_100g": 228,
+   "dunkle_schokolade_70_85_100g": 598,
+   "kakaomasse_25g": 160.5,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "fett",
+   "kategorie": "makro",
+   "name": "Fett (Kakaobutter)",
+   "einheit": "g",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Die Hälfte der Kakaomasse ist Kakaobutter. Sie schmilzt knapp unter Körpertemperatur.",
+   "kakaomasse_100g": 52.3,
+   "kakaopulver_entoelt_100g": 13.7,
+   "dunkle_schokolade_70_85_100g": 42.6,
+   "kakaomasse_25g": 13.07,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "fett_gesaettigt",
+   "kategorie": "makro",
+   "name": "Gesättigte Fettsäuren gesamt",
+   "einheit": "g",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Der größte Teil der Kakaobutter besteht aus gesättigten Fettsäuren.",
+   "kakaomasse_100g": 32.3,
+   "kakaopulver_entoelt_100g": 8.07,
+   "dunkle_schokolade_70_85_100g": 24.5,
+   "kakaomasse_25g": 8.07,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "stearinsaeure",
+   "kategorie": "makro",
+   "name": "Stearinsäure (C18:0)",
+   "einheit": "g",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Wichtigste Fettsäure der Kakaobutter; wird im Körper zum Teil in Ölsäure umgebaut (Fachliteratur, hier nicht einzeln geprüft).",
+   "kakaomasse_100g": 18.2,
+   "kakaopulver_entoelt_100g": 4.25,
+   "dunkle_schokolade_70_85_100g": 13.6,
+   "kakaomasse_25g": 4.55,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "oelsaeure",
+   "kategorie": "makro",
+   "name": "Ölsäure (C18:1)",
+   "einheit": "g",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Dieselbe Fettsäure wie im Olivenöl, ein Drittel der Kakaobutter.",
+   "kakaomasse_100g": 16.0,
+   "kakaopulver_entoelt_100g": 4.57,
+   "dunkle_schokolade_70_85_100g": 12.7,
+   "kakaomasse_25g": 4.0,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "palmitinsaeure",
+   "kategorie": "makro",
+   "name": "Palmitinsäure (C16:0)",
+   "einheit": "g",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Dritte Hauptfettsäure der Kakaobutter.",
+   "kakaomasse_100g": 13.3,
+   "kakaopulver_entoelt_100g": 3.69,
+   "dunkle_schokolade_70_85_100g": 10.1,
+   "kakaomasse_25g": 3.33,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "linolsaeure",
+   "kategorie": "makro",
+   "name": "Linolsäure (C18:2)",
+   "einheit": "g",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Mehrfach ungesättigt, nur in kleiner Menge.",
+   "kakaomasse_100g": 1.44,
+   "kakaopulver_entoelt_100g": 0.44,
+   "dunkle_schokolade_70_85_100g": 1.22,
+   "kakaomasse_25g": 0.36,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "eiweiss",
+   "kategorie": "makro",
+   "name": "Eiweiß",
+   "einheit": "g",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Kakao enthält pflanzliches Eiweiß; als Eiweißquelle ist Kakaomasse im Sinne der EU-Regeln zu schwach (siehe Ampel).",
+   "kakaomasse_100g": 14.3,
+   "kakaopulver_entoelt_100g": 19.6,
+   "dunkle_schokolade_70_85_100g": 7.79,
+   "kakaomasse_25g": 3.58,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "ballaststoffe",
+   "kategorie": "makro",
+   "name": "Ballaststoffe",
+   "einheit": "g",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Pflanzenfasern, die Verdauung und Sättigung begleiten. Kakaomasse ist sehr ballaststoffreich.",
+   "kakaomasse_100g": 16.6,
+   "kakaopulver_entoelt_100g": 37.0,
+   "dunkle_schokolade_70_85_100g": 10.9,
+   "kakaomasse_25g": 4.15,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "kohlenhydrate",
+   "kategorie": "makro",
+   "name": "Kohlenhydrate (inkl. Ballaststoffe)",
+   "einheit": "g",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Ein großer Teil davon sind Ballaststoffe, nicht Zucker.",
+   "kakaomasse_100g": 28.4,
+   "kakaopulver_entoelt_100g": 57.9,
+   "dunkle_schokolade_70_85_100g": 45.9,
+   "kakaomasse_25g": 7.1,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "zucker",
+   "kategorie": "makro",
+   "name": "Zucker",
+   "einheit": "g",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Reine Kakaomasse enthält von Natur aus fast keinen Zucker.",
+   "kakaomasse_100g": 0.91,
+   "kakaopulver_entoelt_100g": 1.75,
+   "dunkle_schokolade_70_85_100g": 24.0,
+   "kakaomasse_25g": 0.23,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "magnesium",
+   "kategorie": "mineral",
+   "name": "Magnesium",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Wichtig für Muskeln, Nerven und Energiestoffwechsel. Kakao gehört zu den magnesiumreichsten Lebensmitteln.",
+   "kakaomasse_100g": 327,
+   "kakaopulver_entoelt_100g": 499,
+   "dunkle_schokolade_70_85_100g": 228,
+   "kakaomasse_25g": 81.8,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 87,
+    "kakaopulver_entoelt_100g": 133,
+    "dunkle_schokolade_70_85_100g": 61
+   },
+   "nrv_prozent_25g_kakaomasse": 22,
+   "nrv_referenz": "375 mg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "eisen",
+   "kategorie": "mineral",
+   "name": "Eisen",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Pflanzliches (Nicht-Häm-)Eisen: wird schlechter aufgenommen als Eisen aus Fleisch; Polyphenole bremsen die Aufnahme zusätzlich (Lehrbuchwissen).",
+   "kakaomasse_100g": 17.4,
+   "kakaopulver_entoelt_100g": 13.9,
+   "dunkle_schokolade_70_85_100g": 11.9,
+   "kakaomasse_25g": 4.35,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 124,
+    "kakaopulver_entoelt_100g": 99,
+    "dunkle_schokolade_70_85_100g": 85
+   },
+   "nrv_prozent_25g_kakaomasse": 31,
+   "nrv_referenz": "14 mg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "zink",
+   "kategorie": "mineral",
+   "name": "Zink",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Beteiligt an Immunsystem, Haut und vielen Enzymen.",
+   "kakaomasse_100g": 9.63,
+   "kakaopulver_entoelt_100g": 6.81,
+   "dunkle_schokolade_70_85_100g": 3.31,
+   "kakaomasse_25g": 2.41,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 96,
+    "kakaopulver_entoelt_100g": 68,
+    "dunkle_schokolade_70_85_100g": 33
+   },
+   "nrv_prozent_25g_kakaomasse": 24,
+   "nrv_referenz": "10 mg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "kupfer",
+   "kategorie": "mineral",
+   "name": "Kupfer",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Spurenelement mit außergewöhnlich hohem Gehalt in Kakao.",
+   "kakaomasse_100g": 3.23,
+   "kakaopulver_entoelt_100g": 3.79,
+   "dunkle_schokolade_70_85_100g": 1.77,
+   "kakaomasse_25g": 0.81,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 323,
+    "kakaopulver_entoelt_100g": 379,
+    "dunkle_schokolade_70_85_100g": 177
+   },
+   "nrv_prozent_25g_kakaomasse": 81,
+   "nrv_referenz": "1.0 mg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "mangan",
+   "kategorie": "mineral",
+   "name": "Mangan",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Spurenelement für Knochen, Bindegewebe und Enzyme.",
+   "kakaomasse_100g": 4.17,
+   "kakaopulver_entoelt_100g": 3.84,
+   "dunkle_schokolade_70_85_100g": 1.95,
+   "kakaomasse_25g": 1.04,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 208,
+    "kakaopulver_entoelt_100g": 192,
+    "dunkle_schokolade_70_85_100g": 98
+   },
+   "nrv_prozent_25g_kakaomasse": 52,
+   "nrv_referenz": "2.0 mg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "phosphor",
+   "kategorie": "mineral",
+   "name": "Phosphor",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Baustein für Knochen und Zellenergie.",
+   "kakaomasse_100g": 400,
+   "kakaopulver_entoelt_100g": 734,
+   "dunkle_schokolade_70_85_100g": 308,
+   "kakaomasse_25g": 100.0,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 57,
+    "kakaopulver_entoelt_100g": 105,
+    "dunkle_schokolade_70_85_100g": 44
+   },
+   "nrv_prozent_25g_kakaomasse": 14,
+   "nrv_referenz": "700 mg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "kalium",
+   "kategorie": "mineral",
+   "name": "Kalium",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Salz der Nerven und Muskeln. Beim Alkalisieren (Dutching) steigt der Kaliumgehalt meist, weil Kaliumcarbonat eingesetzt wird (Lehrbuchwissen).",
+   "kakaomasse_100g": 830,
+   "kakaopulver_entoelt_100g": 1520.0,
+   "dunkle_schokolade_70_85_100g": 715,
+   "kakaomasse_25g": 207.5,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 42,
+    "kakaopulver_entoelt_100g": 76,
+    "dunkle_schokolade_70_85_100g": 36
+   },
+   "nrv_prozent_25g_kakaomasse": 10,
+   "nrv_referenz": "2000 mg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "calcium",
+   "kategorie": "mineral",
+   "name": "Calcium",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Kakao enthält Calcium, aber zu wenig für eine Kennzeichnung als Quelle.",
+   "kakaomasse_100g": 101,
+   "kakaopulver_entoelt_100g": 128,
+   "dunkle_schokolade_70_85_100g": 73.0,
+   "kakaomasse_25g": 25.2,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 13,
+    "kakaopulver_entoelt_100g": 16,
+    "dunkle_schokolade_70_85_100g": 9
+   },
+   "nrv_prozent_25g_kakaomasse": 3,
+   "nrv_referenz": "800 mg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "selen",
+   "kategorie": "mineral",
+   "name": "Selen",
+   "einheit": "µg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Spurenelement; Gehalt hängt stark vom Boden ab.",
+   "kakaomasse_100g": 8.1,
+   "kakaopulver_entoelt_100g": 14.3,
+   "dunkle_schokolade_70_85_100g": 6.8,
+   "kakaomasse_25g": 2.02,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 15,
+    "kakaopulver_entoelt_100g": 26,
+    "dunkle_schokolade_70_85_100g": 12
+   },
+   "nrv_prozent_25g_kakaomasse": 4,
+   "nrv_referenz": "55 µg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "natrium",
+   "kategorie": "mineral",
+   "name": "Natrium",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Kakao enthält von Natur aus sehr wenig Natrium.",
+   "kakaomasse_100g": 24.0,
+   "kakaopulver_entoelt_100g": 21.0,
+   "dunkle_schokolade_70_85_100g": 20.0,
+   "kakaomasse_25g": 6.0,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "thiamin",
+   "kategorie": "vitamin",
+   "name": "Vitamin B1 (Thiamin)",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Kleine Mengen.",
+   "kakaomasse_100g": 0.147,
+   "kakaopulver_entoelt_100g": 0.078,
+   "dunkle_schokolade_70_85_100g": 0.034,
+   "kakaomasse_25g": 0.037,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 13,
+    "kakaopulver_entoelt_100g": 7,
+    "dunkle_schokolade_70_85_100g": 3
+   },
+   "nrv_prozent_25g_kakaomasse": 3,
+   "nrv_referenz": "1.1 mg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "riboflavin",
+   "kategorie": "vitamin",
+   "name": "Vitamin B2 (Riboflavin)",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Im entölten Pulver erreicht B2 knapp die 15-%-Schwelle.",
+   "kakaomasse_100g": 0.1,
+   "kakaopulver_entoelt_100g": 0.241,
+   "dunkle_schokolade_70_85_100g": 0.078,
+   "kakaomasse_25g": 0.025,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 7,
+    "kakaopulver_entoelt_100g": 17,
+    "dunkle_schokolade_70_85_100g": 6
+   },
+   "nrv_prozent_25g_kakaomasse": 2,
+   "nrv_referenz": "1.4 mg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "niacin",
+   "kategorie": "vitamin",
+   "name": "Niacin (B3)",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Kleine Mengen.",
+   "kakaomasse_100g": 1.36,
+   "kakaopulver_entoelt_100g": 2.18,
+   "dunkle_schokolade_70_85_100g": 1.05,
+   "kakaomasse_25g": 0.34,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 8,
+    "kakaopulver_entoelt_100g": 14,
+    "dunkle_schokolade_70_85_100g": 7
+   },
+   "nrv_prozent_25g_kakaomasse": 2,
+   "nrv_referenz": "16 mg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "panto",
+   "kategorie": "vitamin",
+   "name": "Pantothensäure (B5)",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Kleine Mengen.",
+   "kakaomasse_100g": 0.168,
+   "kakaopulver_entoelt_100g": 0.254,
+   "dunkle_schokolade_70_85_100g": 0.418,
+   "kakaomasse_25g": 0.042,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 3,
+    "kakaopulver_entoelt_100g": 4,
+    "dunkle_schokolade_70_85_100g": 7
+   },
+   "nrv_prozent_25g_kakaomasse": 1,
+   "nrv_referenz": "6 mg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "b6",
+   "kategorie": "vitamin",
+   "name": "Vitamin B6",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Sehr wenig.",
+   "kakaomasse_100g": 0.027,
+   "kakaopulver_entoelt_100g": 0.118,
+   "dunkle_schokolade_70_85_100g": 0.038,
+   "kakaomasse_25g": 0.007,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 2,
+    "kakaopulver_entoelt_100g": 8,
+    "dunkle_schokolade_70_85_100g": 3
+   },
+   "nrv_prozent_25g_kakaomasse": 0,
+   "nrv_referenz": "1.4 mg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "folat",
+   "kategorie": "vitamin",
+   "name": "Folat",
+   "einheit": "µg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Kleine Mengen.",
+   "kakaomasse_100g": 28.0,
+   "kakaopulver_entoelt_100g": 32.0,
+   "dunkle_schokolade_70_85_100g": null,
+   "kakaomasse_25g": 7.0,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 14,
+    "kakaopulver_entoelt_100g": 16,
+    "dunkle_schokolade_70_85_100g": null
+   },
+   "nrv_prozent_25g_kakaomasse": 4,
+   "nrv_referenz": "200 µg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "vitk",
+   "kategorie": "vitamin",
+   "name": "Vitamin K (Phyllochinon)",
+   "einheit": "µg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Kleine Mengen.",
+   "kakaomasse_100g": 9.7,
+   "kakaopulver_entoelt_100g": 2.5,
+   "dunkle_schokolade_70_85_100g": 7.3,
+   "kakaomasse_25g": 2.42,
+   "nrv_prozent_100g": {
+    "kakaomasse_100g": 13,
+    "kakaopulver_entoelt_100g": 3,
+    "dunkle_schokolade_70_85_100g": 10
+   },
+   "nrv_prozent_25g_kakaomasse": 3,
+   "nrv_referenz": "75 µg",
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "vite",
+   "kategorie": "vitamin",
+   "name": "Vitamin E (alpha-Tocopherol)",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Kakao enthält vor allem gamma-Tocopherol (ca. 5,8 mg/100 g Kakaomasse), das in der Tabelle nicht als Vitamin-E-Wert zählt.",
+   "kakaomasse_100g": 0.4,
+   "kakaopulver_entoelt_100g": 0.1,
+   "dunkle_schokolade_70_85_100g": 0.59,
+   "kakaomasse_25g": 0.1,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "cholin",
+   "kategorie": "vitamin",
+   "name": "Cholin",
+   "einheit": "mg",
+   "evidenz": "gut belegt",
+   "erklaerung_einfach": "Vitaminähnlicher Stoff; Kakaomasse enthält etwa 46 mg/100 g.",
+   "kakaomasse_100g": 45.7,
+   "kakaopulver_entoelt_100g": 12.0,
+   "dunkle_schokolade_70_85_100g": null,
+   "kakaomasse_25g": 11.43,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "tryptophan",
+   "kategorie": "weitere",
+   "name": "Tryptophan (Aminosäure)",
+   "einheit": "g",
+   "evidenz": "gut belegt (Gehalt); Wirkung auf Stimmung: dünn",
+   "erklaerung_einfach": "Vorstufe von Serotonin. Die Menge in Kakao ist klein; ob Kakao-Tryptophan die Stimmung merklich beeinflusst, ist nicht belegt.",
+   "kakaomasse_100g": 0.13,
+   "kakaopulver_entoelt_100g": 0.293,
+   "dunkle_schokolade_70_85_100g": null,
+   "kakaomasse_25g": 0.033,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "theobromin",
+   "kategorie": "methylxanthin",
+   "name": "Theobromin",
+   "einheit": "mg",
+   "evidenz": "Gehalt gut belegt; Wirkung teils belegt",
+   "erklaerung_einfach": "Hauptalkaloid des Kakaos, ein Cousin des Koffeins, sanfter für das Nervensystem, wirkt länger.",
+   "kakaomasse_100g": 1300.0,
+   "kakaopulver_entoelt_100g": 2060.0,
+   "dunkle_schokolade_70_85_100g": 802,
+   "kakaomasse_25g": 325.0,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "koffein",
+   "kategorie": "methylxanthin",
+   "name": "Koffein",
+   "einheit": "mg",
+   "evidenz": "Gehalt gut belegt",
+   "erklaerung_einfach": "Kakao enthält Koffein, aber rund zehnmal weniger als Theobromin.",
+   "kakaomasse_100g": 80.0,
+   "kakaopulver_entoelt_100g": 230,
+   "dunkle_schokolade_70_85_100g": 80.0,
+   "kakaomasse_25g": 20.0,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  },
+  {
+   "id": "beta_sitosterin",
+   "kategorie": "weitere",
+   "name": "beta-Sitosterin (Pflanzensterin)",
+   "einheit": "mg",
+   "evidenz": "gut belegt (Gehalt)",
+   "erklaerung_einfach": "Pflanzensterine kommen in vielen Pflanzenfetten vor.",
+   "kakaomasse_100g": 85.0,
+   "kakaopulver_entoelt_100g": null,
+   "dunkle_schokolade_70_85_100g": 86.0,
+   "kakaomasse_25g": 21.2,
+   "quelle_ids": [
+    "U2 (Kakaomasse)",
+    "U1 (Pulver)",
+    "U3 (dunkle Schokolade)"
+   ]
+  }
+ ],
+ "methylxanthine": {
+  "erklaerung": "Theobromin und Koffein sind Cousins (Methylxanthine). Kakao enthält je nach Produkt etwa 10- bis 16-mal mehr Theobromin als Koffein (Kakaomasse 1300 : 80 mg/100 g; Pulver 2060 : 230; dunkle Schokolade 802 : 80, laut USDA).",
+  "unterschied": "Lehrbuchwissen (Quelle für den öffentlichen Einsatz noch zu ergänzen, z. B. Smit et al. 2004, Psychopharmacology): Theobromin wirkt schwächer anregend auf das Nervensystem als Koffein, dafür etwas stärker auf glatte Muskulatur und Gefäße; es bleibt länger im Körper (Halbwertszeit grob 6-10 Stunden gegenüber 3-6 Stunden bei Koffein).",
+  "vorsichtig": "Formulierung: 'Theobromin ist ein Stoff, der in Kakao natürlich vorkommt und dem Koffein nahesteht.' Zu Stimmung, Konzentration oder Herzfrequenz gibt es Studien mit gemischter Aussagekraft; für öffentliche Texte taugt das nicht als Werbeaussage.",
+  "koffein_maßstab": "25 g Kakaomasse enthalten ca. 20 mg Koffein (USDA). Eine Tasse Filterkaffee (240 ml) liegt bei ca. 96 mg (USDA 40 mg/100 g). EFSA-Einschätzung 2015 für gesunde Erwachsene: bis 400 mg/Tag gesamt, bis 200 mg auf einmal, ca. 200 mg/Tag in der Schwangerschaft (aus Fachwissen, bitte gegenprüfen).",
+  "hund": "Wichtiger Sicherheitshinweis fürs Spiel: Für Hunde ist Theobromin giftig, weil sie es langsam abbauen. Kakao, Schokolade und Kakaoschalen gehören nicht in Hundereichweite (tierärztliches Allgemeinwissen, Quelle ergänzen: z. B. MSD Veterinary Manual)."
+ },
+ "polyphenole": {
+  "ueberblick": "Kakao enthält Flavanole (Flavan-3-ole): die Monomere (−)-Epicatechin (der Hauptstoff) und (+)-Catechin sowie Oligomere/Polymere, die Procyanidine. Je nach Messmethode wird 'Flavanol' unterschiedlich gezählt (nur Monomere, bis Polymerisationsgrad 10 oder alles).",
+  "zahlen": "Gesamtflavanole in kommerziellen Kakaopulvern (Miller 2008): natürlich (nicht alkalisiert) 34,6 ± 6,8 mg/g; leicht alkalisiert 13,8 ± 7,3; mittel 7,8 ± 4,0; stark 3,9 ± 1,8 mg/g. Für Kakaomasse, Nibs und 'Rohkakao' aus Venezuela gibt es in dieser Recherche KEINE geprüften Zahlen → Laboranalyse der Charge nötig.",
+  "wirkung": "Teilweise belegt: Die EFSA hat 2012 für Kakaoflavanole (200 mg/Tag) einen Zusammenhang mit der Erhaltung einer normalen Gefäßerweiterung/Durchblutung bestätigt (E1). Reviews beschreiben weitere mögliche Effekte (Gefäße, Entzündung, Insulin; Katz 2011), Metaanalysen zum Blutdruck lassen Fragen zu Dosis und Matrix offen (Amoah 2022). Für öffentliche Aussagen zählt nur die zugelassene Angabe (siehe Ampel).",
+  "mythos": "ORAC-Werte oder 'Antioxidantien-Kraft' sind kein Nachweis für Wirkung im Körper; die USDA hat ihre ORAC-Datenbank 2012 zurückgezogen (Allgemeinwissen, Quelle ergänzen)."
+ },
+ "weitere_stoffe": [
+  {
+   "id": "anandamid",
+   "name": "Anandamid und ähnlich gebaute N-Acylethanolamine",
+   "stand": "Mythos / Datenlage dünn",
+   "ampel_wissen": "gelb",
+   "ampel_werbung": "rot",
+   "text": "Di Tomaso et al. (Nature 1996) fanden in Schokolade Anandamid, einen körpereigenen 'Cannabinoid'-Botenstoff, und zwei ähnlich gebaute Stoffe. Die Mengen sind sehr klein, Anandamid wird im Körper schnell abgebaut; ein 'High' durch Schokolade ist nicht belegt. Ob die ähnlich gebauten Stoffe den Abbau des körpereigenen Anandamids bremsen, war eine Annahme der Autoren, kein bestätigter Effekt. Konkrete Mengen habe ich bewusst nicht genannt, weil das Abstract nicht abrufbar war.",
+   "quellen": [
+    "P6"
+   ]
+  },
+  {
+   "id": "pea",
+   "name": "Phenylethylamin (PEA)",
+   "stand": "Mythos als 'Liebesstoff'",
+   "ampel_wissen": "gelb",
+   "ampel_werbung": "rot",
+   "text": "PEA ist ein Spurenamin, das in Kakao vorkommt und im Körper (auch im Gehirn) vorkommt. Aus Nahrung aufgenommenes PEA wird nach Lehrbuchwissen durch das Enzym MAO-B größtenteils schnell abgebaut, bevor es im Gehirn wirken könnte. Die Aussage 'Schokolade weckt Liebesgefühle' ist deshalb nicht belegt (Review: Irsfeld 2013 beschreibt PEA als Neuromodulator, nicht als Schokoladen-Effekt; Abbau-Aussage hier nicht im Volltext geprüft).",
+   "quellen": [
+    "P8",
+    "L"
+   ]
+  },
+  {
+   "id": "salsolinol",
+   "name": "Salsolinol",
+   "stand": "Laborbefund, Wirkung im Menschen ungeklärt",
+   "ampel_wissen": "gelb",
+   "ampel_werbung": "rot",
+   "text": "Kakao und Schokolade enthalten bis zu 25 µg/g Salsolinol; im Reagenzglas bindet es an Dopamin-D2/D3-Rezeptoren (Melzig 2000). Die Autoren halten es für möglicherweise psychoaktiv und spekulieren über 'Schokoladensucht'. Ein Review (Kurnik-Łucka 2018) nennt Salsolinol ein 'rätselhaftes, doppelgesichtiges' Molekül. Für den Menschen beim Kakaoverzehr ist nichts belegt.",
+   "quellen": [
+    "P7",
+    "P17"
+   ]
+  },
+  {
+   "id": "tryptophan_serotonin",
+   "name": "Tryptophan und Serotonin",
+   "stand": "Gehalt belegt; Stimmungseffekt dünn",
+   "ampel_wissen": "gelb",
+   "ampel_werbung": "rot",
+   "text": "Tryptophan: 0,13 g/100 g Kakaomasse, 0,29 g/100 g Pulver (USDA). Das ist eine kleine Menge, und Tryptophan konkurriert im Blut mit anderen Aminosäuren um den Weg ins Gehirn. Ein direkter 'Glückshormon'-Effekt durch Kakao ist nicht belegt.",
+   "quellen": [
+    "U1",
+    "U2"
+   ]
+  },
+  {
+   "id": "magnesium_laune",
+   "name": "Magnesium und 'Schokoladen-Heißhunger'",
+   "stand": "Annahme",
+   "ampel_wissen": "gelb",
+   "ampel_werbung": "rot",
+   "text": "Die Idee, Heißhunger auf Schokolade zeige Magnesiummangel, ist eine weit bekannte Annahme. In dieser Recherche wurde keine belastbare Studie dazu gefunden; als Aussage taugt sie nicht.",
+   "quellen": []
+  }
+ ],
+ "verarbeitung": [
+  {
+   "schritt": "Ernte und Öffnen der Frucht",
+   "was": "Bohnen samt Pulpa werden aus der Frucht geholt.",
+   "wirkung": "Unreife Bohnen enthalten laut Payne 2010 ca. 29 % mehr Epicatechin als reife.",
+   "quellen": [
+    "P1"
+   ],
+   "evidenz": "gut"
+  },
+  {
+   "schritt": "Fermentation (meist ca. 5-7 Tage in Kisten oder Haufen)",
+   "was": "Hefen, Milchsäure- und Essigsäurebakterien bauen die Pulpa ab; es wird warm (typisch bis ca. 45-50 °C), Säure und Wärme dringen in die Bohne ein, der Keim stirbt, Aromavorstufen entstehen.",
+   "wirkung": "Bei Epicatechin und Catechin sinken die Werte um mehr als 80 % gegenüber unfermentierten Bohnen (Payne 2010); Bitterkeit und Herbe nehmen ab. Teile von Theobromin und Polyphenolen wandern auch mit dem abfließenden Saft aus der Bohne (Lehrbuchwissen).",
+   "quellen": [
+    "P1",
+    "P15",
+    "L"
+   ],
+   "evidenz": "gut (Zahl), mittel (Ablauf)"
+  },
+  {
+   "schritt": "Trocknung",
+   "was": "Meist Sonne oder Trockner auf ca. 6-8 % Restfeuchte (Branchenwissen).",
+   "wirkung": "Trocknung hat laut Payne 2010 kaum Einfluss auf Epicatechin und Catechin.",
+   "quellen": [
+    "P1"
+   ],
+   "evidenz": "gut"
+  },
+  {
+   "schritt": "Röstung",
+   "was": "Wärme erzeugt Röstaromen (Maillard-Reaktion).",
+   "wirkung": "Über ca. 70 °C Bohnentemperatur sinkt (−)-Epicatechin deutlich; bei Röstung bis 120 °C steigt das 'Spiegelbild' (−)-Catechin um mehr als das Sechsfache an (Epimerisierung; Payne 2010, Hurst 2011).",
+   "quellen": [
+    "P1",
+    "P2"
+   ],
+   "evidenz": "gut"
+  },
+  {
+   "schritt": "'Rohkakao'",
+   "was": "Kein einheitlich festgelegter Begriff (Annahme, bitte rechtlich gegenprüfen): meist Bohnen oder Nibs ohne oder mit nur schwacher Wärme nach der Fermentation. 'Roh' heißt nicht 'unfermentiert': fermentiert wird praktisch jeder Kakao.",
+   "wirkung": "Wärmeempfindliche Stoffe wie Epicatechin bleiben besser erhalten als nach starker Röstung. Aber: Fermentation senkt die Flavanole ohnehin stark (siehe oben), und was 'roh' für Enzyme, Vitamine oder 'Lebendigkeit' bedeuten soll, ist hier nicht belegt. Ohne Hitzeschritt ist die Keimzahl ein Qualitätsthema (Lebensmittelsicherheit).",
+   "quellen": [
+    "P1",
+    "L"
+   ],
+   "evidenz": "mittel"
+  },
+  {
+   "schritt": "Pressen: Kakaomasse → Kakaobutter + Presskuchen → Pulver",
+   "was": "Ein Teil der Butter wird abgepresst; der Rest wird zu Pulver gemahlen.",
+   "wirkung": "Entöltes Pulver ist konzentrierter: Eiweiß 19,6 statt 14,3 g, Magnesium 499 statt 327 mg, Theobromin 2060 statt 1300 mg pro 100 g (USDA), Fett nur 13,7 g.",
+   "quellen": [
+    "U1",
+    "U2"
+   ],
+   "evidenz": "gut"
+  },
+  {
+   "schritt": "Alkalisierung (Dutching)",
+   "was": "Behandlung mit Lauge (z. B. Kaliumcarbonat), macht das Pulver dunkler, milder, besser löslich.",
+   "wirkung": "Die Flavanole fallen mit steigendem pH linear: Gesamtflavanole 34,6 mg/g (natürlich) → 13,8 → 7,8 → 3,9 mg/g (stark alkalisiert) (Miller 2008); Epicatechin bis −98 %, Catechin bis −80 % (Payne 2010). Der Kaliumgehalt steigt in der Regel (Lehrbuchwissen).",
+   "quellen": [
+    "P3",
+    "P1",
+    "L"
+   ],
+   "evidenz": "gut"
+  },
+  {
+   "schritt": "Zur Schokolade",
+   "was": "Kakaomasse + Kakaobutter + Zucker (+ Milch), Conchieren, Temperieren.",
+   "wirkung": "Mit Zucker und Milch wird der Kakaoanteil kleiner: dunkle Schokolade 70-85 % hat Theobromin 802 statt 1300 mg, Magnesium 228 statt 327 mg, aber 24 g Zucker pro 100 g (USDA). Laut Miller 2006 hängen Polyphenole in US-Produkten vor allem vom Anteil fettfreier Kakaotrockenmasse ab, Bohnenmischung und Prozess sind (außer Dutching) zweitrangig.",
+   "quellen": [
+    "U3",
+    "P4"
+   ],
+   "evidenz": "gut"
+  }
+ ],
+ "sorten_herkunft": {
+  "hinweis": "Zu Maya Munays Sorten ALOHA und KUKULKAN gibt es hier keine geprüften Inhaltsstoff-Zahlen. Die genaue Genetik (Criollo-, Trinitario-Anteile) ist mir nicht bekannt; bitte bei Maya Munay erfragen. Gesicherte Unterschiede nach Sorte sind klein neben Fermentation, Röstung und Dutching.",
+  "gruppen": [
+   {
+    "name": "Criollo",
+    "was": "Alte 'Maya-Kakao'-Gruppe, selten, mild, wenig Bitterkeit. Genetisch eine kleine, eng zusammenhängende Gruppe (Motamayor 2002). Lehrbuchwissen: helle Bohnen mit wenigen Anthocyanen, daher weniger herb.",
+    "quellen": [
+     "P10",
+     "L"
+    ],
+    "evidenz": "mittel"
+   },
+   {
+    "name": "Forastero",
+    "was": "Sammelname für viele Amazonas-Kakaos; weltweit am häufigsten angebaut (Branchenwissen). Die klassische Zweiteilung ist überholt: Motamayor 2008 fand 10 genetische Gruppen.",
+    "quellen": [
+     "P11"
+    ],
+    "evidenz": "gut"
+   },
+   {
+    "name": "Trinitario",
+    "was": "Natürliche Kreuzung aus Criollo und Forastero. Der Ursprung (Trinidad nach Hurrikan? Orinoco-Delta?) wird in Handelsquellen unterschiedlich erzählt; ich habe keine belastbare Quelle gefunden.",
+    "quellen": [],
+    "evidenz": "offen"
+   },
+   {
+    "name": "Nacional ('Arriba')",
+    "was": "Ecuador; eigene genetische Gruppe (Motamayor 2008), florale Aromen (Branchenwissen).",
+    "quellen": [
+     "P11"
+    ],
+    "evidenz": "mittel"
+   },
+   {
+    "name": "Porcelana",
+    "was": "Criollo-Typ vom Südufer des Maracaibo-Sees, Venezuela, also genau die Region 'Sur del Lago'. Handel nennt ihn extrafein, die Zuordnung zur Region stützt eine Studie der Universidad del Zulia. Behauptungen wie 'arm an Theobromin' stammen aus Werbetexten und sind nicht belegt.",
+    "quellen": [
+     "S3"
+    ],
+    "evidenz": "mittel"
+   }
+  ],
+  "standort": "Auch Standort und Handwerk zählen: In einer Studie aus Brasilien (Silva 2026) unterschieden sich Überschwemmungs- und Hochland-Kakao deutlich bei Polyphenolen (27,0 vs. 14,2 mg CE/g) und Ballaststoffen (17,7 vs. 14,6 g/100 g Trockenmasse), und das Theobromin/Koffein-Quotient entsprach dem Criollo-Typ.",
+  "venezuela": "Venezuela gilt als Heimat bekannter Edelkakaos (Handelswissen). Maya Munay nennt als Herkunft Sur del Lago, Macuro und Hacienda Caripito."
+ },
+ "ampel": {
+  "grundsatz": "Gilt für jede geschäftliche Mitteilung (Webshop, Lernplattform mit Produktbezug, Social Media, Flyer). Wer Kakao anbietet, ist zuständig; Yilmaz als Botschafter in eigenen Kanälen ebenfalls. Allgemeine, unspezifische Gesundheitsaussagen ('gut für dich') brauchen eine passende zugelassene spezifische Angabe daneben (VO 1924/2006, Art. 10 Abs. 3). Nach meiner Einschätzung kein Rechtsrat: Eine kurze Prüfung durch Lebensmittelrechtler oder die Lebensmittelüberwachung lohnt sich vor dem Start.",
+  "gruen_naehrwert": [
+   {
+    "aussage": "'enthält Magnesium' / 'Quelle von Magnesium'",
+    "bedingung": "mind. 15 % NRV je 100 g (Mg: ≥ 56,3 mg). Kakaomasse (USDA) 327 mg = 87 %; Pulver 499 mg = 133 %.",
+    "ergebnis": "ok, Charge per Labor belegen"
+   },
+   {
+    "aussage": "'reich an Magnesium' / 'hoher Gehalt'",
+    "bedingung": "mind. 30 % NRV je 100 g (Mg: ≥ 112,5 mg).",
+    "ergebnis": "ok (87 %/133 %)"
+   },
+   {
+    "aussage": "Quelle/reich an Eisen",
+    "bedingung": "≥ 2,1 mg / ≥ 4,2 mg je 100 g.",
+    "ergebnis": "ok (17,4 mg = 124 %)"
+   },
+   {
+    "aussage": "Quelle/reich an Zink",
+    "bedingung": "≥ 1,5 mg / ≥ 3 mg je 100 g.",
+    "ergebnis": "ok (9,6 mg = 96 %)"
+   },
+   {
+    "aussage": "Quelle/reich an Kupfer und Mangan",
+    "bedingung": "Kupfer ≥ 0,15 / 0,3 mg; Mangan ≥ 0,3 / 0,6 mg je 100 g.",
+    "ergebnis": "ok (Kupfer 323 %, Mangan 208 %)"
+   },
+   {
+    "aussage": "Quelle von Phosphor und Kalium",
+    "bedingung": "Phosphor ≥ 105 mg; Kalium ≥ 300 mg je 100 g.",
+    "ergebnis": "ok (57 % bzw. 42 %)"
+   },
+   {
+    "aussage": "'Quelle von Calcium'",
+    "bedingung": "≥ 120 mg je 100 g.",
+    "ergebnis": "NEIN für Kakaomasse (101 mg = 13 %); Pulver ja (128 mg = 16 %)"
+   },
+   {
+    "aussage": "'Quelle von Selen'",
+    "bedingung": "≥ 8,25 µg je 100 g.",
+    "ergebnis": "NEIN für Kakaomasse (8,1 µg = 14,7 %, knapp darunter); Pulver ja"
+   },
+   {
+    "aussage": "'Quelle von Ballaststoffen' / 'reich an Ballaststoffen'",
+    "bedingung": "≥ 3 g / ≥ 6 g je 100 g.",
+    "ergebnis": "ok (16,6 g)"
+   },
+   {
+    "aussage": "'Quelle von Eiweiß'",
+    "bedingung": "≥ 12 % der Energie aus Eiweiß.",
+    "ergebnis": "NEIN für Kakaomasse (ca. 9 %); Pulver ja (ca. 35 %)"
+   },
+   {
+    "aussage": "'natriumarm' / 'ohne Zuckerzusatz'",
+    "bedingung": "≤ 0,12 g Natrium je 100 g; ohne zugesetzte Zucker.",
+    "ergebnis": "ok, wenn wirklich nichts zugesetzt wird (Natrium 24 mg)"
+   }
+  ],
+  "gruen_health": [
+   {
+    "aussage": "Magnesium trägt zur Verringerung von Müdigkeit und Ermüdung bei / zu einem normalen Energiestoffwechsel / zu einer normalen Muskelfunktion / zu einer normalen Funktion des Nervensystems / zu einer normalen psychischen Funktion",
+    "bedingung": "Lebensmittel erreicht mindestens 'Quelle von Magnesium'. Wortlaut exakt aus dem EU-Register übernehmen (E3 – hier nicht live geprüft!). Zusatzhinweise (abwechslungsreiche Ernährung, Portionsgröße) nach Art. 10 Abs. 2."
+   },
+   {
+    "aussage": "Eisen trägt zu einer normalen kognitiven Funktion bei / zur Verringerung von Müdigkeit bei / zur normalen Bildung roter Blutkörperchen",
+    "bedingung": "'Quelle von Eisen' erreicht; Wortlaut im Register prüfen (E3)."
+   },
+   {
+    "aussage": "Zink trägt zu einer normalen kognitiven Funktion bei / zum Schutz der Zellen vor oxidativem Stress bei; Kupfer trägt zum Schutz der Zellen vor oxidativem Stress bei; Mangan trägt zur Erhaltung normaler Knochen bei",
+    "bedingung": "jeweils 'Quelle von'; Wortlaut im Register prüfen (E3)."
+   },
+   {
+    "aussage": "Kakaoflavanole: 'Kakaoflavanole tragen zur Erhaltung der Elastizität der Blutgefäße bei, was zu einer normalen Durchblutung beiträgt.'",
+    "bedingung": "Zugelassen. Nur für Kakaogetränke aus Kakaopulver und dunkle Schokolade (sowie Kapseln/Tabletten mit flavanolreichem Extrakt), die mind. 200 mg Kakaoflavanole (Polymerisationsgrad 1-10) je Tagesmenge liefern; Konsumenten bekommen die Information, dass die Wirkung bei täglich 200 mg eintritt. Anfangs auf Barry Callebaut beschränkt, 5 Jahre ab 21.04.2015, also seit 2020 für alle Unternehmen nutzbar (E2; Wortlaut deutsch aus dem Register prüfen). EFSA nannte als Beispiel 2,5 g sehr flavanolreiches Pulver oder 10 g sehr flavanolreiche dunkle Schokolade (E1): das sind Spezialprodukte, normaler Kakao liegt dafür meist anders."
+   }
+  ],
+  "gelb": [
+   {
+    "aussage": "Kakaoflavanol-Angabe für Kakaomasse, Nibs, 'Rohkakao' oder Zeremonialkakao",
+    "grund": "Die zugelassenen Lebensmittelarten sind Kakaogetränk aus Kakaopulver und dunkle Schokolade. Ob ein Getränk aus Kakaomasse darunter fällt, ist Auslegungssache. Außerdem braucht es eine Laboranalyse (HPLC, Polymerisationsgrad 1-10) je Produkt. → Rechtsauskunft einholen, vorher nicht nutzen."
+   },
+   {
+    "aussage": "Inhaltsstoffe nennen, ohne Wirkung ('Kakao enthält Theobromin, ein Cousin des Koffeins', 'Kakaobutter besteht zu etwa einem Drittel aus Stearinsäure', 'Anandamid wurde in Schokolade nachgewiesen')",
+    "grund": "Reine Sachaussage über das Vorkommen ist keine Gesundheitsangabe. Sobald Wirkung angedeutet wird ('macht wach', 'hebt die Stimmung'), ist es eine. Auf einer Plattform mit Produktbezug urteilt die Behörde nach Gesamteindruck. → Lernspiel sachlich halten, Abstand zur Shop-Seite wahren."
+   },
+   {
+    "aussage": "Forschungsstand berichten ('In Studien wurde untersucht …')",
+    "grund": "Gilt in der Werbung leicht als indirekte Angabe. Nur mit Quelle, ohne Produktbezug, ohne 'hilft'/'senkt'."
+   },
+   {
+    "aussage": "Kultur und Erfahrung ('Die Maya nannten Kakao …', 'Viele erleben die Zeremonie als …')",
+    "grund": "Geschichte und persönliches Erleben sind erlaubt, solange keine Gesundheits- oder Heilwirkung zugesagt wird."
+   },
+   {
+    "aussage": "Pulpa, Schalen-Tee, Fruchtwand-Nutzung",
+    "grund": "Schalen-Tee und andere Nebenprodukte brauchen eigene Lebensmittelrechts-Prüfung (Neuartige Lebensmittel? Rückstände?); im Spiel nur als Wissen über die Frucht erzählen."
+   },
+   {
+    "aussage": "Mengen pro Portion nennen (z. B. '25 g Kakaomasse enthalten ca. 82 mg Magnesium')",
+    "grund": "Zahlen aus USDA sind US-Handelsprodukte, keine Maya-Munay-Werte. Im öffentlichen Text nur mit eigenen Laborwerten."
+   }
+  ],
+  "rot": [
+   {
+    "aussage": "Senkt Blutdruck, schützt das Herz, senkt Cholesterin, gut gegen Diabetes, Demenz, Depression",
+    "grund": "Nicht zugelassen; zugelassen ist nur die Durchblutungsaussage zu Kakaoflavanolen."
+   },
+   {
+    "aussage": "'Macht glücklich', 'Liebesstoff', 'Glückshormone', 'Aphrodisiakum', 'öffnet das Herz' als Wirkaussage",
+    "grund": "PEA, Anandamid, Serotonin-Wirkung sind nicht belegt; Stimmungsangaben sind nicht zugelassen."
+   },
+   {
+    "aussage": "'Antioxidantien', 'ORAC', 'Superfood', 'entgiftet', 'stärkt das Immunsystem', 'Anti-Aging'",
+    "grund": "Nicht zugelassene Angaben beziehungsweise irreführend (Antioxidans-Kraft im Reagenzglas ist keine Wirkung im Körper)."
+   },
+   {
+    "aussage": "'Theobromin/Koffein macht wach / steigert Konzentration / Fokus'",
+    "grund": "Für Koffein gibt es zugelassene Angaben nur ab einer Mindestmenge je Portion (laut Fachwissen ca. 75 mg, Register prüfen), die 25 g Kakaomasse (ca. 20 mg) nicht erreichen; für Theobromin gibt es keine zugelassene Angabe."
+   },
+   {
+    "aussage": "'Magnesium gegen Stress', 'Eisen gegen Blutarmut', 'heilt', 'lindert', 'wirkt gegen'",
+    "grund": "Heil- und Linderungsaussagen sind für Lebensmittel nicht erlaubt."
+   },
+   {
+    "aussage": "Zahlen aus USDA als 'Gehalt unseres Kakaos' ausgeben",
+    "grund": "Irreführend, solange keine eigenen Analysen vorliegen."
+   },
+   {
+    "aussage": "Unbelegte Schwangerschafts-, Kinder- oder Hunde-Aussagen ('unbedenklich')",
+    "grund": "Theobromin und Koffein fordern Sorgfalt; bitte eher Vorsichtshinweise ergänzen."
+   }
+  ]
+ },
+ "quiz": [
+  {
+   "id": 1,
+   "frage": "Aus welchem Teil der Kakaofrucht wird Kakaomasse gemacht?",
+   "optionen": [
+    "Fruchtwand",
+    "Samen (Bohne)",
+    "Fruchtfleisch",
+    "Blüte"
+   ],
+   "richtig": 1,
+   "erklaerung": "Aus den Samen, die in der Pulpa liegen.",
+   "quelle": "P5, L",
+   "stufe": "leicht"
+  },
+  {
+   "id": 2,
+   "frage": "Welche Säure prägt den Geschmack des Fruchtfleischs (Pulpa) hauptsächlich?",
+   "optionen": [
+    "Zitronensäure",
+    "Essigsäure",
+    "Milchsäure",
+    "Salzsäure"
+   ],
+   "richtig": 0,
+   "erklaerung": "Zitronensäure (ca. 0,3-1,3 %); Essig- und Milchsäure entstehen erst bei der Fermentation.",
+   "quelle": "S1",
+   "stufe": "mittel"
+  },
+  {
+   "id": 3,
+   "frage": "Etwa wie viel Wasser enthält frische Pulpa?",
+   "optionen": [
+    "10 %",
+    "40 %",
+    "ca. 85 %",
+    "99 %"
+   ],
+   "richtig": 2,
+   "erklaerung": "Rund 83-86 %, dazu 11-13 % Zucker (Sammelangabe, Schwankung je Sorte).",
+   "quelle": "S1",
+   "stufe": "mittel"
+  },
+  {
+   "id": 4,
+   "frage": "Welche drei Fettsäuren machen den größten Teil der Kakaobutter aus?",
+   "optionen": [
+    "Stearin-, Öl-, Palmitinsäure",
+    "Omega-3, Omega-6, Omega-9",
+    "Laurin-, Myristin-, Buttersäure",
+    "Vitamin C, E, A"
+   ],
+   "richtig": 0,
+   "erklaerung": "Pro 100 g Kakaomasse: Stearinsäure 18,2 g, Ölsäure 16,0 g, Palmitinsäure 13,3 g.",
+   "quelle": "U2",
+   "stufe": "mittel"
+  },
+  {
+   "id": 5,
+   "frage": "Bei welcher Temperatur ungefähr schmilzt Kakaobutter?",
+   "optionen": [
+    "10-15 °C",
+    "32-35 °C",
+    "60 °C",
+    "100 °C"
+   ],
+   "richtig": 1,
+   "erklaerung": "Der schmale Schmelzbereich liegt knapp unter Körpertemperatur.",
+   "quelle": "P9",
+   "stufe": "leicht"
+  },
+  {
+   "id": 6,
+   "frage": "Welches Mineral hat in Kakaomasse den höchsten Anteil an der EU-Referenzmenge (pro 100 g)?",
+   "optionen": [
+    "Calcium",
+    "Kupfer",
+    "Selen",
+    "Natrium"
+   ],
+   "richtig": 1,
+   "erklaerung": "Kupfer: 3,23 mg = 323 % der Referenzmenge; Calcium nur 13 %.",
+   "quelle": "U2, E4",
+   "stufe": "mittel"
+  },
+  {
+   "id": 7,
+   "frage": "Wie viel Magnesium stecken etwa in 25 g Kakaomasse?",
+   "optionen": [
+    "ca. 8 mg",
+    "ca. 82 mg",
+    "ca. 820 mg",
+    "ca. 8 g"
+   ],
+   "richtig": 1,
+   "erklaerung": "327 mg pro 100 g × 0,25 ≈ 82 mg (ca. 22 % der Referenzmenge).",
+   "quelle": "U2",
+   "stufe": "mittel"
+  },
+  {
+   "id": 8,
+   "frage": "Welcher Stoff kommt in Kakao in größerer Menge vor: Theobromin oder Koffein?",
+   "optionen": [
+    "Koffein, etwa 10-mal mehr",
+    "Gleich viel",
+    "Theobromin, etwa 10- bis 16-mal mehr",
+    "Keiner von beiden"
+   ],
+   "richtig": 2,
+   "erklaerung": "Kakaomasse: 1300 mg Theobromin vs. 80 mg Koffein pro 100 g.",
+   "quelle": "U2",
+   "stufe": "leicht"
+  },
+  {
+   "id": 9,
+   "frage": "Wie viel Koffein enthalten 25 g Kakaomasse gegenüber einer Tasse Filterkaffee (240 ml)?",
+   "optionen": [
+    "ca. 20 mg gegenüber ca. 96 mg",
+    "ca. 200 mg gegenüber ca. 20 mg",
+    "gleich viel",
+    "Kakao hat kein Koffein"
+   ],
+   "richtig": 0,
+   "erklaerung": "Kakaomasse 80 mg/100 g → 20 mg; Filterkaffee 40 mg/100 g → ca. 96 mg.",
+   "quelle": "U2, U4",
+   "stufe": "mittel"
+  },
+  {
+   "id": 10,
+   "frage": "Was passiert bei der Fermentation mit Epicatechin und Catechin (gegenüber unfermentierten Bohnen)?",
+   "optionen": [
+    "Sie steigen um das Doppelte",
+    "Sie bleiben gleich",
+    "Sie sinken um mehr als 80 %",
+    "Sie sind ganz weg"
+   ],
+   "richtig": 2,
+   "erklaerung": "Payne et al. 2010 fanden einen Rückgang von über 80 %.",
+   "quelle": "P1",
+   "stufe": "schwer"
+  },
+  {
+   "id": 11,
+   "frage": "Ab welcher Bohnentemperatur sinkt beim Rösten das Epicatechin deutlich?",
+   "optionen": [
+    "ab ca. 30 °C",
+    "ab ca. 70 °C",
+    "ab ca. 150 °C",
+    "nie"
+   ],
+   "richtig": 1,
+   "erklaerung": "Über ca. 70 °C Bohnentemperatur gab es einen klare Abnahme; dabei entsteht (−)-Catechin.",
+   "quelle": "P1, P2",
+   "stufe": "schwer"
+  },
+  {
+   "id": 12,
+   "frage": "Wie viel Flavanol enthält stark alkalisiertes ('gedutchtes') Kakaopulver im Mittel gegenüber natürlichem?",
+   "optionen": [
+    "gleich viel",
+    "ca. 3,9 statt 34,6 mg/g",
+    "doppelt so viel",
+    "ca. 30 statt 34,6 mg/g"
+   ],
+   "richtig": 1,
+   "erklaerung": "Miller et al. 2008: natürlich 34,6; leicht 13,8; mittel 7,8; stark 3,9 mg/g.",
+   "quelle": "P3",
+   "stufe": "schwer"
+  },
+  {
+   "id": 13,
+   "frage": "Wie viel Kakaoflavanole nennt die zugelassene EU-Angabe als tägliche Menge?",
+   "optionen": [
+    "20 mg",
+    "200 mg",
+    "2 g",
+    "20 g"
+   ],
+   "richtig": 1,
+   "erklaerung": "200 mg Kakaoflavanole (Polymerisationsgrad 1-10) pro Tag; die Aussage betrifft die Durchblutung.",
+   "quelle": "E1, E2",
+   "stufe": "mittel"
+  },
+  {
+   "id": 14,
+   "frage": "Ab wie viel Prozent der EU-Referenzmenge pro 100 g darf ein Lebensmittel 'Quelle von' einem Mineralstoff heißen?",
+   "optionen": [
+    "5 %",
+    "15 %",
+    "50 %",
+    "100 %"
+   ],
+   "richtig": 1,
+   "erklaerung": "15 % ('reich an': 30 %).",
+   "quelle": "E4 (aus Fachwissen)",
+   "stufe": "mittel"
+  },
+  {
+   "id": 15,
+   "frage": "Stimmt es: 'Schokolade macht high wie Cannabis, weil sie Anandamid enthält'?",
+   "optionen": [
+    "Ja, wissenschaftlich bewiesen",
+    "Nein: die Mengen sind sehr klein und ein 'High' ist nicht belegt",
+    "Ja, aber nur bei Rohkakao",
+    "Nur bei Kindern"
+   ],
+   "richtig": 1,
+   "erklaerung": "Anandamid wurde 1996 in Schokolade gefunden; ein spürbarer Effekt beim Essen ist nicht belegt.",
+   "quelle": "P6",
+   "stufe": "mittel"
+  },
+  {
+   "id": 16,
+   "frage": "'Das Glücksmolekül Phenylethylamin (PEA) in Kakao weckt Liebesgefühle.' Was trifft zu?",
+   "optionen": [
+    "Bewiesen",
+    "PEA wird nach Lehrbuchwissen im Körper rasch abgebaut; der Effekt ist nicht belegt",
+    "PEA kommt in Kakao gar nicht vor",
+    "Nur nachts wirksam"
+   ],
+   "richtig": 1,
+   "erklaerung": "PEA kommt vor; als 'Liebesstoff' aus Schokolade ist es Mythos.",
+   "quelle": "P8, L",
+   "stufe": "mittel"
+  },
+  {
+   "id": 17,
+   "frage": "Wie viel Salsolinol fand man bis zu in Kakao und Schokolade?",
+   "optionen": [
+    "bis 25 µg/g",
+    "bis 25 g/100 g",
+    "kein Salsolinol",
+    "bis 250 mg/g"
+   ],
+   "richtig": 0,
+   "erklaerung": "Melzig 2000; die Wirkung im Menschen ist ungeklärt.",
+   "quelle": "P7",
+   "stufe": "schwer"
+  },
+  {
+   "id": 18,
+   "frage": "Wie viele genetische Gruppen unterschied Motamayor 2008 beim Kakaobaum?",
+   "optionen": [
+    "2",
+    "3",
+    "10",
+    "100"
+   ],
+   "richtig": 2,
+   "erklaerung": "10 Cluster statt der klassischen Aufteilung in Criollo und Forastero.",
+   "quelle": "P11",
+   "stufe": "schwer"
+  },
+  {
+   "id": 19,
+   "frage": "Welche Kakao-Art kommt vom Südufer des Maracaibo-Sees (Sur del Lago)?",
+   "optionen": [
+    "Nacional",
+    "Porcelana (Criollo-Typ)",
+    "Amelonado",
+    "Keine"
+   ],
+   "richtig": 1,
+   "erklaerung": "Porcelana wird dem Südufer des Maracaibo-Sees zugeordnet.",
+   "quelle": "S3",
+   "stufe": "mittel"
+  },
+  {
+   "id": 20,
+   "frage": "Wer hat Kakao ursprünglich bei den Maya kultiviert?",
+   "optionen": [
+    "Der Criollo-Typ",
+    "Der Nacional-Typ",
+    "Der Trinitario-Typ",
+    "Kein Typ"
+   ],
+   "richtig": 0,
+   "erklaerung": "Die alte Criollo-Gruppe wurde von den Maya kultiviert (Motamayor 2002).",
+   "quelle": "P10",
+   "stufe": "mittel"
+  },
+  {
+   "id": 21,
+   "frage": "Warum keimen Handels-Kakaobohnen nicht mehr?",
+   "optionen": [
+    "Zu trocken",
+    "Der Keim stirbt bei der Fermentation",
+    "Weil sie gepresst wurden",
+    "Weil sie zu alt sind"
+   ],
+   "richtig": 1,
+   "erklaerung": "Wärme und Säure der Fermentation töten den Keim (Lehrbuchwissen).",
+   "quelle": "L",
+   "stufe": "mittel"
+  },
+  {
+   "id": 22,
+   "frage": "Für welches Haustier ist Theobromin besonders gefährlich?",
+   "optionen": [
+    "Hund",
+    "Fisch",
+    "Papagei",
+    "Alle gleich"
+   ],
+   "richtig": 0,
+   "erklaerung": "Hunde bauen Theobromin langsam ab; Kakao und Schokolade gehören nicht in ihre Reichweite.",
+   "quelle": "L (MSD Vet Manual ergänzen)",
+   "stufe": "leicht"
+  },
+  {
+   "id": 23,
+   "frage": "Was ist die Samenschale der Kakaobohne, und wofür nutzt man sie?",
+   "optionen": [
+    "Abfall ohne Nutzen",
+    "Als Tee, Mehl, Mulch; enthält Ballaststoffe und Theobromin",
+    "Zum Einwickeln von Schokolade",
+    "Als Gewürz in Schokolade"
+   ],
+   "richtig": 1,
+   "erklaerung": "Kakaoschalen enthalten 13,8-65,6 g/100 g Ballaststoffe und Theobromin (0,7-1,3 % in Ghana-Schalenmehl).",
+   "quelle": "S2",
+   "stufe": "mittel"
+  },
+  {
+   "id": 24,
+   "frage": "Warum sinkt das Theobromin, wenn man von reiner Kakaomasse zu dunkler Schokolade (70-85 %) wechselt?",
+   "optionen": [
+    "Zucker und Milch machen den Anteil kleiner",
+    "Es wird abgeschafft",
+    "Es trocknet weg",
+    "Es wird zu Koffein"
+   ],
+   "richtig": 0,
+   "erklaerung": "Dunkle Schokolade: 802 mg statt 1300 mg pro 100 g.",
+   "quelle": "U2, U3",
+   "stufe": "leicht"
+  },
+  {
+   "id": 25,
+   "frage": "Darf Maya Munay sagen 'Kakao senkt den Blutdruck'?",
+   "optionen": [
+    "Ja, steht in vielen Studien",
+    "Nein: dafür gibt es keine zugelassene Angabe",
+    "Ja, wenn man 'kann' schreibt",
+    "Ja, auf Instagram"
+   ],
+   "richtig": 1,
+   "erklaerung": "Zugelassen ist nur die Durchblutungsaussage zu Kakaoflavanolen mit Bedingungen; Studien zum Blutdruck sind uneinheitlich (Dosis/Matrix offen).",
+   "quelle": "E2, P16",
+   "stufe": "mittel"
+  }
+ ],
+ "merksaetze": [
+  "Kakao ist ein Samen: Fruchtwand, Fruchtfleisch, Samenschale und Samen haben jeweils eigene Aufgaben.",
+  "Die Hälfte der Kakaomasse ist Kakaobutter; ihre drei Hauptfettsäuren sind Stearin-, Öl- und Palmitinsäure.",
+  "Kakaobutter schmilzt im Mund: ihr Schmelzbereich liegt bei ca. 32-35 °C.",
+  "Theobromin ist der Hauptstoff, Koffein nur etwa ein Zehntel bis ein Sechzehntel davon.",
+  "In 25 g Kakaomasse steckt etwa ein Fünftel des täglichen Magnesiumbedarfs (22 % der EU-Referenzmenge).",
+  "Kupfer und Mangan: Kakao hat von beiden mehr als die Tagesmenge in 100 g.",
+  "Fermentation senkt die Flavanole um mehr als 80 %, macht aber Aroma und mildert Bitterkeit.",
+  "Dutching macht Kakao dunkel und mild, aber die Flavanole fallen von ca. 35 auf ca. 4 mg/g.",
+  "Rohkakao ist kein 'unfermentierter' Kakao: Es heißt nur: wenig Hitze nach der Fermentation.",
+  "Anandamid, PEA, Salsolinol: nachgewiesen ja, 'Glückshormon-Effekt' beim Essen: nicht belegt.",
+  "Wer öffentlich über Kakao spricht, braucht für jede Wirkaussage eine zugelassene Angabe.",
+  "Für Hunde ist Theobromin giftig; Kakao gehört nicht in ihre Reichweite."
+ ],
+ "krafttier_ideen": [
+  {
+   "tier": "Kolibri",
+   "thema": "Theobromin und Energie",
+   "idee": "Kolibri zeigt: Kakao enthält Theobromin, einen sanften Cousin des Koffeins; stellt Kaffee gegenüber (20 mg vs. 96 mg). Nur als Wissen, keine Wirkzusage. (Idee)"
+  },
+  {
+   "tier": "Jaguar",
+   "thema": "Mineralstoffe: Magnesium, Eisen, Zink, Kupfer",
+   "idee": "Jaguar führt durch die 'Mineral-Höhle'; Quest: die höchste NRV-Zahl finden (Kupfer). (Idee)"
+  },
+  {
+   "tier": "Schildkröte",
+   "thema": "Fermentation, Trocknung, Geduld",
+   "idee": "Schildkröte erklärt, warum Kakao Zeit braucht und wie viel Flavanol dabei wandert (>80 %). (Idee)"
+  },
+  {
+   "tier": "Eule",
+   "thema": "Flavanole und die einzige zugelassene Aussage",
+   "idee": "Eule erzählt vom Epicatechin und der Durchblutungsangabe (200 mg). Hilft zugleich, Mythen von Wissen zu trennen. (Idee)"
+  },
+  {
+   "tier": "Schmetterling",
+   "thema": "Röstung, Aroma, Alkalisierung ('Wandlung')",
+   "idee": "Schmetterling steht für Wandlung: Röstaromen und die Dutching-Waage (Farbe/Flavanole). (Idee)"
+  },
+  {
+   "tier": "Brüllaffe oder Tukan",
+   "thema": "Pulpa und Samen",
+   "idee": "Tier isst das süße Fruchtfleisch und trägt die Samen weiter; Quest: Pulpa-Saft-Zutaten sortieren (Zucker, Zitronensäure, Pektin). (Idee, Rolle der Tiere für den Kakao nicht geprüft)"
+  },
+  {
+   "tier": "Schlange",
+   "thema": "Kakaobutter: Stearin-, Öl-, Palmitinsäure",
+   "idee": "Schlange 'schmilzt' bei Körpertemperatur: Kakaobutter schmilzt bei ca. 32-35 °C. (Idee)"
+  }
+ ],
+ "quellen": [
+  {
+   "id": "U1",
+   "titel": "USDA FoodData Central: Cocoa, dry powder, unsweetened (SR Legacy 169593)",
+   "url": "https://fdc.nal.usda.gov/fdc-app.html#/food-details/169593/nutrients",
+   "gepruft": "ja, per API am 2026-11-05 gelesen"
+  },
+  {
+   "id": "U2",
+   "titel": "USDA FoodData Central: Baking chocolate, unsweetened, squares (SR Legacy 167568) = Stellvertreter für Kakaomasse",
+   "url": "https://fdc.nal.usda.gov/fdc-app.html#/food-details/167568/nutrients",
+   "gepruft": "ja, per API am 2026-11-05 gelesen"
+  },
+  {
+   "id": "U3",
+   "titel": "USDA FoodData Central: Chocolate, dark, 70-85% cacao solids (SR Legacy 170273)",
+   "url": "https://fdc.nal.usda.gov/fdc-app.html#/food-details/170273/nutrients",
+   "gepruft": "ja, per API am 2026-11-05 gelesen"
+  },
+  {
+   "id": "U4",
+   "titel": "USDA FoodData Central: Coffee, brewed, tap water (SR Legacy 171890): Koffein 40 mg/100 g",
+   "url": "https://fdc.nal.usda.gov/fdc-app.html#/food-details/171890/nutrients",
+   "gepruft": "ja, per API"
+  },
+  {
+   "id": "P1",
+   "titel": "Payne et al. 2010, J Agric Food Chem: Fermentation, Trocknung, Röstung, Dutching und Epicatechin/Catechin",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/20843086/",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "P2",
+   "titel": "Hurst et al. 2011, Chem Cent J: Flavan-3-ol-Stereochemie in Bohnen und Kakaozutaten",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/21917164/",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "P3",
+   "titel": "Miller et al. 2008, J Agric Food Chem: Alkalisierung und Flavanolgehalt kommerzieller Kakaopulver",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/18710243/",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "P4",
+   "titel": "Miller et al. 2006, J Agric Food Chem: Antioxidantien, Polyphenole, Procyanidine in Kakao-/Schokoladeprodukten (USA)",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/16719535/",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "P5",
+   "titel": "Katz, Doughty, Ali 2011, Antioxid Redox Signal: Cocoa and chocolate in human health and disease (Review)",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/21470061/",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "P6",
+   "titel": "di Tomaso, Beltramo, Piomelli 1996, Nature 382:677: Brain cannabinoids in chocolate",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/8751435/",
+   "gepruft": "nur Titel/Eckdaten; Abstract nicht abrufbar, Mengenangaben bewusst weggelassen"
+  },
+  {
+   "id": "P7",
+   "titel": "Melzig et al. 2000, J Ethnopharmacol: Salsolinol in Kakao und Schokolade (in vitro)",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/11025151/",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "P8",
+   "titel": "Irsfeld, Spadafore, Prüß 2013 (Review): beta-Phenylethylamin, a small molecule with a large impact",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/24482732/",
+   "gepruft": "teilweise (Abstract gekürzt)"
+  },
+  {
+   "id": "P9",
+   "titel": "Segall et al. 2005, Food Res Int: Triacylglycerin-Isomere in Kakaobutter (Schmelzbereich 32-35 °C)",
+   "url": "https://doi.org/10.1016/j.foodres.2004.09.008",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "P10",
+   "titel": "Motamayor et al. 2002, Heredity: Cacao domestication I (Criollo der Maya)",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/12399997/",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "P11",
+   "titel": "Motamayor et al. 2008, PLoS ONE 3:e3311: 10 genetische Gruppen des Kakaobaums",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/18827930/",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "P12",
+   "titel": "Moretti et al. 2023, Food Res Int: Kakaosorten, Kohlenhydrate und Enzymaktivität der Pulpa",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/37803731/",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "P13",
+   "titel": "Nascimento et al. 2026, ACS Omega: Cocoa Honey (Pulpa-Saft) als Nebenprodukt",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/42222803/",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "P14",
+   "titel": "Silva et al. 2026, J Sci Food Agric: Kakao aus brasilianischer Überschwemmungs- vs. Hochland-Region",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/42272066/",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "P15",
+   "titel": "Goya, Kongor, de Pascual-Teresa 2022, Int J Mol Sci 23:14365: From Cocoa to Chocolate (Flavanole und Methylxanthine im Prozess)",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/36430843/",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "P16",
+   "titel": "Amoah et al. 2022, Foods 11:1962: Kakao, Schokolade und Blutdruck (Metaanalyse)",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/35804776/",
+   "gepruft": "ja, Abstract gelesen (Aussage: Dosis und Matrix bleiben offene Fragen)"
+  },
+  {
+   "id": "P17",
+   "titel": "Kurnik-Łucka et al. 2018, Neurotox Res: Salsolinol (Review)",
+   "url": "https://pubmed.ncbi.nlm.nih.gov/29063289/",
+   "gepruft": "ja, Abstract gelesen"
+  },
+  {
+   "id": "E1",
+   "titel": "EFSA Journal 2012;10(7):2809: Kakaoflavanole und endothelabhängige Gefäßerweiterung",
+   "url": "https://efsa.europa.eu/bg/efsajournal/pub/2809",
+   "gepruft": "ja, über Suchauszug (Wortlaut, 200 mg/Tag)"
+  },
+  {
+   "id": "E2",
+   "titel": "Durchführungsverordnung (EU) 2015/539: Eintrag Kakaoflavanole (Bedingungen; Barry Callebaut 5 Jahre ab 21.04.2015)",
+   "url": "https://www.legislation.gov.uk/eur/2015/539/data.html",
+   "gepruft": "ja, Text gelesen (britische Gesetzesseite, EU-Fassung)"
+  },
+  {
+   "id": "E3",
+   "titel": "EU-Register der nährwert- und gesundheitsbezogenen Angaben",
+   "url": "https://ec.europa.eu/food/food-feed-portal/screen/health-claims/eu-register",
+   "gepruft": "NEIN: Seite ist dynamisch; Wortlaute für Magnesium, Eisen, Zink, Kupfer, Mangan stammen aus Fachwissen und sind VOR dem öffentlichen Einsatz dort nachzuschlagen"
+  },
+  {
+   "id": "E4",
+   "titel": "VO (EG) 1924/2006 (Anhang: 'Quelle von' = 15 % NRV je 100 g; 'reich an' = 30 %) und VO (EU) 1169/2011 (NRV-Werte)",
+   "url": "https://eur-lex.europa.eu/eli/reg/2006/1924/oj",
+   "gepruft": "NEIN: Abruf scheiterte; Schwellen aus Fachwissen, bitte gegen Gesetzestext prüfen"
+  },
+  {
+   "id": "E5",
+   "titel": "EFSA 2015, Safety of caffeine (EFSA Journal 13(5):4102): 400 mg/Tag, 200 mg Einzeldosis für Erwachsene",
+   "url": "https://www.efsa.europa.eu/en/efsajournal/pub/4102",
+   "gepruft": "NEIN: aus Fachwissen, bitte gegenprüfen"
+  },
+  {
+   "id": "E6",
+   "titel": "VO (EU) 2023/915, Höchstgehalt Cadmium in Kakaopulver 0,60 mg/kg; Schokolade ab 50 % Kakao 0,80 mg/kg",
+   "url": "https://daarnhouwer.com/knowledge-center/european-union-limits-contaminants-cacao-chocolate/",
+   "gepruft": "teilweise: nur Sekundärquellen; Gesetzestext bitte gegenprüfen"
+  },
+  {
+   "id": "S1",
+   "titel": "Pulpa-Zusammensetzung (Wasser 83-86 %, Zucker 11-13 %, Pektin 0,5-1,2 %, Zitronensäure 0,3-1,3 %): Sammelangabe in Patentschrift",
+   "url": "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/12063945",
+   "gepruft": "teilweise: Sekundärquelle; die Originalreview (Schwan & Wheals 2004) war nicht abrufbar"
+  },
+  {
+   "id": "S2",
+   "titel": "Kakaoschale: Ballaststoffe 13,8-65,6 g/100 g (Review), Theobromin 7,1-12,8 mg/g (Ghana-Schalenmehl), Kakaoschalen-Tee Malaysia/Venezuela (2022)",
+   "url": "https://doaj.org/article/dafb79284132412781daec9e8ca75841",
+   "gepruft": "teilweise: über Suchauszug, Einzelstudien nicht im Volltext"
+  },
+  {
+   "id": "S3",
+   "titel": "Porcelana = Criollo vom Südufer des Maracaibo-Sees (Universidad del Zulia, Revista de la Facultad de Agronomía)",
+   "url": "https://produccioncientifica.luz.edu.ve/index.php/agronomia/article/download/26975/27600",
+   "gepruft": "teilweise: über Suchauszug"
+  },
+  {
+   "id": "L",
+   "titel": "Lehrbuch-/Branchenwissen (Fermentation, Keim, Bestäubung, Anthocyane in Criollo, Kaliumcarbonat beim Dutching, MAO-B)",
+   "url": "",
+   "gepruft": "NEIN: als solches in den Zeilen markiert; vor dem öffentlichen Einsatz mit Quelle belegen"
+  }
+ ],
+ "offene_fragen": [
+  "Welche Maya-Munay-Produkte sollen im Spiel erklärt werden (Kakaomasse 'roh', Nibs, Pulver, Paste, Shroomcacao)? Von jedem Produkt bräuchte ich die Spezifikation oder ein Laborblatt (Mineralstoffe, Theobromin/Koffein, Flavanole DP 1-10, Cadmium/Blei, Mikrobiologie).",
+  "Welche Genetik haben ALOHA und KUKULKAN (Criollo-/Trinitario-Anteile, Herkunft je Hacienda)? Dann ließe sich der Sortenteil konkret statt allgemein schreiben.",
+  "Wo läuft das Spiel später: neutrale Lernplattform oder direkt im Shop mit Produktbezug? Davon hängt ab, wie streng die Ampel gelesen wird.",
+  "Magst du mit David (Maya Munay) klären, ob eine kurze lebensmittelrechtliche Prüfung vor dem Start möglich ist? Besonders für die Kakaoflavanol-Angabe bei Kakaomasse und für Wörter wie 'Rohkakao'.",
+  "Ist das Spiel auch für Kinder gedacht? Dann bräuchte ich eigene Hinweise zu Theobromin/Koffein und zu Schwangerschaft.",
+  "Magst du, dass ich Lücken mit weiterer Recherche schließe (Vitamine der Pulpa, genaue Zahlen für Schalen-Tee, Theobromin-Halbwertszeit mit Originalquelle, EU-Register-Wortlaute)? Das kostet Kontingent, ich würde es gern bündeln."
+ ]
+}
