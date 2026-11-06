@@ -66,7 +66,7 @@ window.WELT.bereit.then(() => { (() => {
   const klemme = x => Math.max(KAM.min, Math.min(KAM.max, x));
   const kameraZu = x => { KAM.ziel = klemme(x); };
   const umschauErlaubt = () => $('#titel').classList.contains('weg') && $('#erzaehlbild').hidden && $('#buch').hidden && $('#ende').hidden
-    && $('#wunschfenster').hidden && $('#froschkonzert').hidden && $('#urkunde').hidden;
+    && $('#wunschfenster').hidden && $('#froschkonzert').hidden && $('#urkunde').hidden && $('#ernte-spiel').hidden;
   const ziel = { x: 0, y: 0 }, ist = { x: 0, y: 0 };
   let rand = 0, zieh = null, gezogen = false;
   WELT.gezogen = () => gezogen;
@@ -75,18 +75,49 @@ window.WELT.bereit.then(() => { (() => {
     ziel.x = (e.clientX / innerWidth - .5) * 2; ziel.y = (e.clientY / innerHeight - .5) * 2;
     const { x, y } = aufBuehne(e);
     rand = (e.pointerType === 'mouse' && y > 0 && y < 900 && !zieh && !e.target.closest?.('#tasche, .flieger') && WELT.hover()?.name !== 'ablage') ? (x < 110 && x > -40 ? -(1 - x / 110) : x > BREITE - 110 && x < BREITE + 40 ? (x - (BREITE - 110)) / 110 : 0) : 0;
-    if (zieh) { const dx = (e.clientX - zieh.x0) / massstab; if (Math.abs(dx) > 8) gezogen = true; if (gezogen) KAM.ziel = KAM.x = klemme(zieh.kam - dx); }
+    if (finger.has(e.pointerId)) {
+      const alt = finger.get(e.pointerId); finger.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pinch && finger.size >= 2) {   // zwei Finger: zoomen und dabei verschieben
+        const [a, b] = [...finger.values()], d = Math.hypot(a.x - b.x, a.y - b.y), m = WELT.aufBuehne((a.x + b.x) / 2, (a.y + b.y) / 2);
+        WELT.zoom.um(m.x, m.y, d / pinch.d); schiebe(m.x - pinch.m.x, m.y - pinch.m.y);
+        pinch.d = d; pinch.m = m;
+      } else if (zieh) {
+        const dx = (e.clientX - zieh.x0) / massstab, dy = (e.clientY - zieh.y0) / massstab;
+        if (Math.hypot(dx, dy) > 8) gezogen = true;
+        if (gezogen) schiebe((e.clientX - alt.x) / massstab, (e.clientY - alt.y) / massstab);
+      }
+    }
   });
+  // Welt mit dem Finger verschieben: erst wandert die Kamera, was übrig bleibt, verschiebt den Zoom-Ausschnitt
+  function schiebe(dx, dy) {
+    const z = WELT.zoom.z, k = klemme(KAM.x - dx / z), genutzt = (KAM.x - k) * z;
+    KAM.ziel = KAM.x = k;
+    WELT.zoom.schiebe(dx - genutzt, dy);
+  }
+  const finger = new Map(); let pinch = null;
+  // Strg + Mausrad bzw. zwei Finger auf dem Trackpad: zoomen
+  WELT.canvas.addEventListener('wheel', e => {
+    if (!e.ctrlKey || !umschauErlaubt()) return;
+    e.preventDefault();
+    const p = aufBuehne(e); WELT.zoom.um(p.x, p.y, Math.exp(-e.deltaY * .01));
+  }, { passive: false });
+  for (const g of ['gesturestart', 'gesturechange']) document.addEventListener(g, e => e.preventDefault(), { passive: false });   // Safari: Seite nicht mitzoomen
   WELT.canvas.addEventListener('pointerleave', () => { rand = 0; });
   // jeder neue Tipper beginnt ungezogen – sonst blieben Klicks nach einem Wisch hängen
   buehne.addEventListener('pointerdown', () => { gezogen = false; });
   WELT.canvas.addEventListener('pointerdown', e => {
-    gezogen = false;
+    if (!finger.size) gezogen = false;
     if (!umschauErlaubt()) return;
-    zieh = { x0: e.clientX, kam: KAM.x };
+    finger.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (finger.size === 2) {
+      const [a, b] = [...finger.values()];
+      pinch = { d: Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)), m: WELT.aufBuehne((a.x + b.x) / 2, (a.y + b.y) / 2) };
+      gezogen = true; zieh = null;
+    } else if (finger.size === 1) zieh = { x0: e.clientX, y0: e.clientY };
   });
-  addEventListener('pointerup', () => { zieh = null; });
-  addEventListener('pointercancel', () => { zieh = null; });
+  const losgelassen = e => { finger.delete(e.pointerId); if (finger.size < 2) pinch = null; if (!finger.size) zieh = null; };
+  addEventListener('pointerup', losgelassen);
+  addEventListener('pointercancel', losgelassen);
   addEventListener('keydown', e => {
     if (!umschauErlaubt() || e.target.closest?.('input')) return;
     if (e.key === 'ArrowLeft') kameraZu(KAM.ziel - 320);
@@ -105,8 +136,13 @@ window.WELT.bereit.then(() => { (() => {
     ist.y += ((ziel.y * k + sy) - ist.y) * .05;
     WELT.kamera(KAM.x, O, ist.x, ist.y);
     WELT.schritt(zeit);
-    // HTML in der Welt (Wissenskarten, Schilder) wandert wie die Spielfläche
-    if (flaecheHtml.firstChild) flaecheHtml.style.transform = `translate3d(${(-(KAM.x - O) - ist.x * .6 * 24).toFixed(1)}px, ${(-ist.y * .6 * 10).toFixed(1)}px, 0)`;
+    // HTML in der Welt (Wissenskarten, Schilder) wandert und zoomt wie die Spielfläche – die Schilder selbst bleiben gleich groß
+    if (flaecheHtml.firstChild) {
+      const Z = WELT.zoom.z;
+      flaecheHtml.style.transform = `translate3d(${((-(KAM.x - O) - ist.x * .6 * 24) * Z + WELT.zoom.tx).toFixed(1)}px, ${((-ist.y * .6 * 10) * Z + WELT.zoom.ty).toFixed(1)}px, 0) scale(${Z.toFixed(4)})`;
+      flaecheHtml.style.setProperty('--gegen', (1 / Z).toFixed(4));
+    }
+    zoomKnopf.hidden = WELT.zoom.z < 1.02;
     const l = !frei || KAM.x < KAM.min + 20, r = !frei || KAM.x > KAM.max - 20;
     if (pfeilL.hidden !== l) pfeilL.hidden = l;
     if (pfeilR.hidden !== r) pfeilR.hidden = r;
@@ -114,10 +150,44 @@ window.WELT.bereit.then(() => { (() => {
     // Kapitel-Fenster weicht der Seite aus, die gerade ins Bild kommt: Blick wandert nach rechts → Fenster links, und umgekehrt.
     // So deckt es nie zu, wohin man gerade schaut (z. B. die Kokospalme ganz rechts, Tukan und Faultier ganz links).
     const kf = document.getElementById('kapitel-fertig');
-    if (kf && !kf.hidden && Math.abs(KAM.ziel - KAM.x) > 25) { const r = KAM.ziel < KAM.x; if (kf.classList.contains('rechts') !== r) kf.classList.toggle('rechts', r); }
+    if (kf && !kf.hidden && zeit - kfZeit > 400) { kfZeit = zeit; kapitelFensterPlatz(kf); }
     requestAnimationFrame(schleife);
   }
   requestAnimationFrame(schleife);
+  // Das Kapitel-Fenster sucht sich den Platz, an dem es am wenigsten Tiere, Kolibri oder Baumgesicht verdeckt
+  let kfZeit = 0, kfPlatz = null;
+  function kapitelFensterPlatz(kf) {
+    const w = kf.offsetWidth, h = kf.offsetHeight;
+    const PLAETZE = [[20, 16], [(BREITE - w) / 2, 16], [BREITE - w - 20, 96], [20, 900 - h - 20], [(BREITE - w) / 2, 900 - h - 20], [BREITE - w - 20, 900 - h - 20]];
+    const dinge = WELT.wichtigeRechtecke();
+    const deckt = ([x, y]) => dinge.reduce((s, r) => s + Math.max(0, Math.min(x + w + 12, r.r) - Math.max(x - 12, r.l)) * Math.max(0, Math.min(y + h + 12, r.u) - Math.max(y - 12, r.t)), 0)
+      + (y > 450 && !$('#tasche').hidden ? 1e6 : 0);
+    const jetzt = kfPlatz ? deckt(kfPlatz) : Infinity;
+    let best = kfPlatz, bestWert = jetzt;
+    for (const p of PLAETZE) { const v = deckt(p) + (p[1] > 450 ? 400 : 0); if (v < bestWert - 1500) { best = p; bestWert = v; } }
+    if (best && best !== kfPlatz) { kfPlatz = best; kf.style.left = best[0].toFixed(0) + 'px'; kf.style.top = best[1].toFixed(0) + 'px'; }
+  }
+
+  // Ganzer Blick: Zoom zurücksetzen (Knopf erscheint nur, wenn hineingezoomt ist)
+  const zoomKnopf = document.createElement('button'); zoomKnopf.id = 'zoom-knopf'; zoomKnopf.hidden = true;
+  zoomKnopf.setAttribute('aria-label', 'Ganzer Blick'); zoomKnopf.title = 'Ganzer Blick';
+  zoomKnopf.innerHTML = '<svg viewBox="0 0 40 32"><circle cx="17" cy="15" r="9" fill="#EFE6D5" stroke="#7A5C48" stroke-width="2.2"/><path d="M13 15 H21" stroke="#7A5C48" stroke-width="2.4" stroke-linecap="round"/><path d="M24 22 L31 29" stroke="#7A5C48" stroke-width="3" stroke-linecap="round"/></svg>';
+  zoomKnopf.onclick = () => WELT.zoom.zurueck();
+  $('#leiste').prepend(zoomKnopf);
+  // Vollbild: am Computer und auf Android direkt, auf dem iPhone über „Zum Home-Bildschirm“ (Safari kennt dort kein Vollbild für Seiten)
+  const vollbildKnopf = $('#vollbild-knopf'), alsApp = matchMedia('(display-mode: fullscreen), (display-mode: standalone)').matches || navigator.standalone;
+  const kannVollbild = document.fullscreenEnabled || document.webkitFullscreenEnabled;
+  const imVollbild = () => document.fullscreenElement || document.webkitFullscreenElement;
+  if (alsApp) vollbildKnopf.hidden = true;
+  vollbildKnopf.onclick = async () => {
+    if (kannVollbild) {
+      try {
+        if (imVollbild()) await (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+        else { const d = document.documentElement; await (d.requestFullscreen || d.webkitRequestFullscreen).call(d); screen.orientation?.lock?.('landscape').catch(() => {}); }
+      } catch (_) {}
+    } else $('#vollbild-tipp').hidden = false;
+  };
+  $('#vollbild-tipp button').onclick = () => { $('#vollbild-tipp').hidden = true; };
 
   // Name unter dem Mauszeiger (wie in klassischen Abenteuerspielen) – für Dinge in der Welt und im Rucksack
   const zname = $('#zeiger-name');
@@ -205,7 +275,7 @@ window.WELT.bereit.then(() => { (() => {
     let r = null;
     if ($('#erzaehlbild').hidden) r = sprechWer === 'kolibri' ? WELT.aufBuehneRechteck(WELT.kolibri.box()) : sprechWer === 'wald' ? WELT.aufBuehneRechteck(WELT.gesicht.box) : null;
     if (r) {
-      const dx = KAM.x - KAM.ziel;   // dort, wo der Sprecher nach dem Kameraschwenk steht – die Blase springt nicht
+      const dx = (KAM.x - KAM.ziel) * WELT.zoom.z;   // dort, wo der Sprecher nach dem Kameraschwenk steht – die Blase springt nicht
       r = { l: r.l + dx, t: r.t, r: r.r + dx, u: r.u };
       if (r.r < 30 || r.l > BREITE - 30 || r.u < 0 || r.t > 900) r = null;
     }
@@ -221,7 +291,7 @@ window.WELT.bereit.then(() => { (() => {
       if (r.t - 26 - h > 86) { y = r.t - 26 - h; modus = 'oben'; } else { y = Math.min(880 - h, r.u + 26); modus = 'unten'; }
       zipfel = Math.max(28, Math.min(w - 28, mx - x));
     }
-    x -= KAM.x - KAM.ziel;   // während des Schwenks mit der Kamera mitwandern
+    x -= (KAM.x - KAM.ziel) * WELT.zoom.z;   // während des Schwenks mit der Kamera mitwandern
     dialog.style.left = x.toFixed(0) + 'px'; dialog.style.top = y.toFixed(0) + 'px';
     dialog.style.setProperty('--zipfel', zipfel.toFixed(0) + 'px');
     for (const m of ['oben', 'unten', 'rechts']) if (dialog.classList.contains(m) !== (m === modus)) dialog.classList.toggle(m, m === modus);
@@ -241,11 +311,25 @@ window.WELT.bereit.then(() => { (() => {
     dialog.classList.add('spricht'); if (wer === 'kolibri') kolibriSpricht(true); else if (wer === 'wald') baumSpricht(true);
     return KLANG.sprich(d, beiDauer).then(() => { if (wer === 'wald') baumSpricht(false); if (nr === sprechNr) { dialog.classList.remove('spricht'); kolibriSpricht(false); } });
   }
+  // Bild zum Erzählten: erscheint beim passenden Satz und bleibt, bis ein anderes kommt oder das Gespräch endet
+  const foto = $('#erzaehl-foto');
+  function zeigeFoto(text) {
+    const e = (I.erzaehlBilder || []).find(e => text.startsWith(e.satz));
+    if (!e) return;
+    if (!e.bild) { versteckeFoto(); return; }
+    const img = $('img', foto), src = bild(e.bild);
+    if (!foto.hidden && img.getAttribute('src') === src) return;
+    img.src = src; $('figcaption', foto).textContent = e.text;
+    foto.hidden = false; foto.classList.remove('weg'); void foto.offsetWidth; foto.classList.add('da');
+  }
+  function versteckeFoto() { if (foto.hidden) return; foto.classList.remove('da'); foto.classList.add('weg'); setTimeout(() => { if (foto.classList.contains('weg')) foto.hidden = true; }, 500); }
   let kameraBleibt = false;   // z. B. beim Platz-Wählen: der Blick bleibt beim Platz, das Gesicht des Waldes erscheint im Rahmen
   function sage(wer, text, knoepfe = [{ text: 'Weiter', wert: true }]) {
     const nr = ++sprechNr;
     if (!kameraBleibt) { if (wer === 'wald') kameraZu(-500); else if (Math.abs(KAM.ziel) > 220) kameraZu(0); }
+    WELT.zoom.zurueck();   // wenn jemand erzählt, zeigt sich wieder der ganze Wald
     oeffne(wer);
+    if (wer === 'wald') zeigeFoto(text); else versteckeFoto();
     const textEl = $('.text', dialog), leiste = $('.knoepfe', dialog);
     leiste.innerHTML = '';
     return new Promise(res => {
@@ -288,7 +372,7 @@ window.WELT.bereit.then(() => { (() => {
     });
   }
   async function reden(liste) { for (const [wer, text] of liste) await sage(wer, text); }
-  const stille = () => { sprechNr++; clearInterval(tippUhr); dialog.hidden = true; dialog.classList.remove('spricht'); kolibriSpricht(false); baumSpricht(false); };
+  const stille = () => { versteckeFoto(); sprechNr++; clearInterval(tippUhr); dialog.hidden = true; dialog.classList.remove('spricht'); kolibriSpricht(false); baumSpricht(false); };
 
   // ---------- Hinweise und Wissensbuch ----------
   // Gemalte Bilder: vorerst Platzhalter von Muse (bilder/platzhalter/), bis Ekadashi ihr Go für ihren Stil gibt
@@ -312,6 +396,17 @@ window.WELT.bereit.then(() => { (() => {
   $('#buch-knopf').onclick = () => {
     const liste = $('#buch-liste');
     liste.innerHTML = gelernt.length ? '' : '<p class="leer">Noch leer – entdecke die Welt, dann füllt sich dein Buch.</p>';
+    // die 7 Geheimnisse: entdeckte Tiere in Farbe, die anderen als Schattenriss
+    const G = I.geheimnisse, BILD = { banane: 'bananenstaude' }, entdeckt = ENTDECKEN.liste;
+    const box = document.createElement('div'); box.className = 'geheimnisse';
+    box.innerHTML = `<h3></h3><div class="geheimnis-reihe"></div>`; $('h3', box).textContent = `${G.titel} · ${entdeckt.filter(w => I.entdecken.includes(w)).length} / ${I.entdecken.length}`;
+    I.entdecken.forEach(w => {
+      const da = entdeckt.includes(w), k = document.createElement('div'); k.className = 'geheimnis' + (da ? ' da' : '');
+      k.innerHTML = `<span class="g-bild"><img alt="" src="${FIGUR(BILD[w] || w)}"></span><span class="g-name"></span>`;
+      $('.g-name', k).textContent = da ? I.wissen[w].titel.replace(/^(Der|Die|Das) /, '') : G.verborgen;
+      $('.geheimnis-reihe', box).append(k);
+    });
+    liste.prepend(box);
     gelernt.forEach(id => {
       const d = document.createElement('div'); d.className = 'eintrag mit-bild';
       d.innerHTML = `<img alt=""><div><h3></h3><p></p></div>`;
@@ -529,24 +624,28 @@ window.WELT.bereit.then(() => { (() => {
   // Aufgabe erfüllt: Die Welt bleibt offen zum Umsehen, bis man „Kapitel beenden“ wählt.
   function kapitelFertig() {
     const f = $('#kapitel-fertig');
-    $('h2', f).textContent = I.fertig.titel; $('.satz', f).textContent = I.fertig.text.replace('{wunsch}', pate.wunsch); $('button', f).textContent = I.fertig.knopf;
+    $('h2', f).textContent = I.fertig.titel; $('.satz', f).textContent = I.fertig.text.replace('{wunsch}', pate.wunsch); $('.kf-ende', f).textContent = I.fertig.knopf;
+    // Mini-Spiel Fermentieren/Trocknen gehört zu Kapitel 3 und 4 (Entscheidung Yilmaz 06.11.) – hier nur zum Ausprobieren mit ?ernte
+    const ernteKnopf = $('.kf-ernte', f); ernteKnopf.hidden = !/ernte/.test(location.search);
+    ernteKnopf.textContent = I.ernte.knopf; ernteKnopf.onclick = () => ernteSpiel();
+    kameraZu(0); setTimeout(() => WELT.wunschLeuchten(`„${pate.wunsch}“`), SCHNELL ? 50 : 900);   // der Wunsch leuchtet aus den Früchten
     const zeige = () => {
       const r = I.entdecken.length - ENTDECKEN.anzahl;
       $('.rest', f).textContent = r > 0 ? I.fertig.rest.replace('{r}', r) : I.fertig.alle;
     };
     zeige(); f.hidden = false; KLANG.spiel('richtig');
     const uhr = setInterval(zeige, 800);
-    return new Promise(res => { $('button', f).onclick = () => { clearInterval(uhr); f.hidden = true; res(); }; });
+    return new Promise(res => { $('.kf-ende', f).onclick = () => { clearInterval(uhr); f.hidden = true; res(); }; });
   }
   function zeigeEnde() {
     const e = $('#ende');
     $('h1', e).textContent = I.ende.titel;
     $('.intro', e).textContent = I.ende.text;
-    $('.unter', e).textContent = I.ende.weiter;
+    const ab = $('.ausblick', e); $('img', ab).src = bild(I.ausblick.bild); $('h3', ab).textContent = I.ende.weiter; $('p', ab).textContent = I.ausblick.text;
     const n = ENTDECKEN.anzahl, m = I.entdecken.length;
     $('.entdeckt', e).textContent = (n === m ? I.ende.alleEntdeckt : I.ende.entdeckt).replace('{n}', n).replace('{m}', m)
       + ` · ${I.bohnen.ziel}: ${bohnen} / ${BOHNEN.length}`;
-    $('.paten-hinweis', e).textContent = I.ende.patenschaft;
+    $('.paten-hinweis span', e).textContent = I.ende.patenschaft;
     const w = $('#ende-wissen'); w.innerHTML = '';
     gelernt.forEach(id => { const s = document.createElement('span'); s.textContent = I.wissen[id].titel; w.append(s); });
     e.hidden = false; $('#nochmal').focus();
@@ -666,6 +765,71 @@ window.WELT.bereit.then(() => { (() => {
     vorspielen();
   }
 
+  // ---------- Mini-Spiel: Bohnen fermentieren und trocknen, im Takt des Waldes ----------
+  // Ein Ring zieht sich im Takt zusammen und leuchtet golden auf dem Schlag. Wer dann „Wenden“ tippt, wendet die Bohnen.
+  // Beim Trocknen kommt einmal eine Regenwolke: schnell abdecken, danach wieder aufdecken.
+  let ernteLaeuft = false;
+  function ernteSpiel() {
+    if (ernteLaeuft) return;
+    ernteLaeuft = true; stille();
+    const k = $('#ernte-spiel'), T = I.ernte, img = $('.ernte-bild img', k), tun = $('.ernte-tun', k), zu = $('.ernte-zu', k);
+    const takt = $('.ernte-takt', k), rueck = $('.ernte-rueck', k), standEl = $('.ernte-stand', k), balken = $('.ernte-balken i', k);
+    const wolke = $('.ernte-wolke', k), decke = $('.ernte-decke', k), dampf = $('.ernte-dampf', k);
+    $('h2', k).textContent = T.titel; zu.textContent = T.schliessen;
+    const SCHLAG = SCHNELL ? 300 : 900, ZIEL = 4, FENSTER = SCHNELL ? 140 : 230;
+    let phase = 'fermentieren', n = 0, offen = true, t0 = performance.now(), schlagNr = -1, regen = null, regenKam = false;
+    const sprich = text => { const d = datei(text); if (d) KLANG.sprich(d); };
+    const zeigePhase = () => {
+      img.src = bild(phase === 'trocknen' ? 'trocknen' : 'fermentieren');
+      $('.anleitung', k).textContent = phase === 'trocknen' ? T.trocknen : T.fermentieren;
+      tun.textContent = T.wenden; tun.hidden = false; n = 0; zeige(); rueck.textContent = '';
+      k.classList.toggle('trocknen', phase === 'trocknen');
+      sprich(phase === 'trocknen' ? T.trocknen : T.fermentieren);
+    };
+    const zeige = () => { standEl.textContent = `${T.gewendet}: ${n} / ${ZIEL}`; balken.style.width = (n / ZIEL * 100) + '%'; };
+    const meldung = (text, gut) => { rueck.textContent = text; rueck.classList.toggle('gut', !!gut); };
+    // Takt: Ring und Trommel
+    const schlag = t => {
+      if (!offen) return;
+      const el = t - t0, nr = Math.floor(el / SCHLAG), p = (el % SCHLAG) / SCHLAG;
+      if (nr !== schlagNr) { schlagNr = nr; if (!regen) KLANG.spiel('trommel', nr % 4 === 0); takt.classList.remove('schlag'); void takt.offsetWidth; takt.classList.add('schlag'); }
+      takt.style.setProperty('--p', p.toFixed(3));
+      requestAnimationFrame(schlag);
+    };
+    const imTakt = () => { const el = (performance.now() - t0) % SCHLAG; return el < FENSTER || el > SCHLAG - FENSTER; };
+    const weiterPhase = () => {
+      if (phase === 'fermentieren') { lerne('fermentieren'); tun.textContent = T.weiterTrocknen; phase = 'umzug'; KLANG.spiel('richtig'); return; }
+      lerne('trocknen'); phase = 'fertig'; KLANG.spiel('richtig'); meldung(T.geschafft, true); sprich(T.geschafft);
+      tun.textContent = T.nochmal; k.classList.add('geschafft');
+    };
+    tun.onclick = () => {
+      if (phase === 'umzug') { phase = 'trocknen'; zeigePhase(); return; }
+      if (phase === 'fertig') { phase = 'fermentieren'; regenKam = false; k.classList.remove('geschafft'); zeigePhase(); return; }
+      if (regen === 'kommt') {   // abdecken
+        regen = 'regnet'; decke.classList.add('da'); meldung(T.trocken, true); KLANG.spiel('rascheln');
+        setTimeout(() => { if (!offen) return; regen = 'vorbei'; wolke.classList.remove('da', 'regnet'); tun.textContent = T.aufdecken; }, SCHNELL ? 300 : 2600);
+        wolke.classList.add('regnet'); tun.textContent = '…'; return;
+      }
+      if (regen === 'regnet') return;
+      if (regen === 'vorbei') { regen = null; decke.classList.remove('da'); tun.textContent = T.wenden; meldung(''); return; }
+      if (imTakt()) {
+        n += 1; zeige(); meldung(T.gut, true); KLANG.spiel('ablegen', n);
+        img.parentElement.classList.remove('gewendet'); void img.offsetWidth; img.parentElement.classList.add('gewendet');
+        if (phase === 'fermentieren') { dampf.classList.remove('da'); void dampf.offsetWidth; dampf.classList.add('da'); }
+        if (phase === 'trocknen' && n === 2 && !regenKam) {   // jetzt kommt eine Regenwolke
+          regenKam = true;
+          setTimeout(() => { if (!offen || phase !== 'trocknen') return; regen = 'kommt'; wolke.classList.add('da'); tun.textContent = T.abdecken; meldung(T.regen); KLANG.spiel('tropfen');
+            setTimeout(() => { if (regen === 'kommt' && offen) { regen = 'vorbei'; wolke.classList.add('regnet'); meldung(T.nass); setTimeout(() => { wolke.classList.remove('da', 'regnet'); tun.textContent = T.aufdecken; }, SCHNELL ? 200 : 2000); } }, SCHNELL ? 600 : 3600);
+          }, SCHNELL ? 100 : 700);
+        }
+        if (n >= ZIEL) weiterPhase();
+      } else { meldung(T.fast); KLANG.spiel('sanft'); }
+    };
+    const kf = $('#kapitel-fertig'), kfWar = !kf.hidden; kf.hidden = true;   // Kapitel-Fenster ruht, solange gespielt wird
+    zu.onclick = () => { offen = false; k.hidden = true; ernteLaeuft = false; KLANG.hoerAuf(); wolke.classList.remove('da', 'regnet'); decke.classList.remove('da'); if (kfWar) kf.hidden = false; };
+    k.hidden = false; zeigePhase(); requestAnimationFrame(schlag);
+  }
+
   // ---------- Spielstand (automatisch, nur in diesem Browser) ----------
   const SPEICHER = 'kakao-reise-spielstand-1';
   const stand = { punkt: 'anfang', name: '', wunsch: '', bohnen: [], gelernt: [], entdeckt: [] };
@@ -770,6 +934,7 @@ window.WELT.bereit.then(() => { (() => {
     await reden(I.bestaeubt);
     await quiz();
     await reden(I.abschied);
+    if (I.ausblickSatz) await sage(...I.ausblickSatz);
     stille();
     await fliege(470, 360, 1800);   // der Kolibri bleibt in der Nähe und erzählt weiter, bis das Kapitel beendet ist
   }
@@ -795,7 +960,7 @@ window.WELT.bereit.then(() => { (() => {
   // Die Bohnen schweben golden herbei, kreisen um den Kakaobaum, sinken in die Erde – und daneben keimt ein neuer kleiner Baum.
   async function bohnenMoment() {
     while (!dialog.hidden && $('.knoepfe', dialog).children.length) await warte(500);   // laufendes Gespräch nicht unterbrechen
-    stille(); kameraZu(0); await warte(700);
+    stille(); kameraZu(0); WELT.zoom.zurueck(); await warte(700);
     const M = { x: 800, y: 560 };
     const start = Array.from({ length: 7 }, () => [KAM.x - O + 150 + Math.random() * (BREITE - 300), 120 + Math.random() * 300]);
     const flieger = WELT.effekt.bohnenFlug(start);
@@ -838,7 +1003,7 @@ window.WELT.bereit.then(() => { (() => {
     fig.innen.br = -30;
     fig.zeigeGlanz('rgba(255,224,138,1)', 8, 0);
     const schimmer = WELT.kf([[0, { a: 0 }], [.8, { a: 0 }], [.88, { a: 1 }], [1, { a: 0 }]], 4, { ease: 'ease-in-out', iter: Infinity, verz: -i * 1.3 });
-    WELT.lauf(t => { if (b.weg) return false; if (!b.gefunden) { const a = schimmer.wert(t).a; fig.glanzAlpha(a); fig.hellAlpha(a * .2); } return true; });
+    WELT.lauf(t => { if (b.weg) return false; if (!b.gefunden) { const a = schimmer.wert(t)?.a ?? 0; fig.glanzAlpha(a); fig.hellAlpha(a * .2); } return true; });
     b.entfernen = () => { b.weg = true; WELT.weg(fig.aussen); };
     WELT.ziel({ name: 'bohne', box: [x - 14, y - 14, 50, 62], z: WELT.ZRANG.bohne, aktiv: () => !b.weg && !b.gefunden, tap: () => {
       if (gezogen || b.gefunden) return;
@@ -858,7 +1023,7 @@ window.WELT.bereit.then(() => { (() => {
 
   // Entdecken: Klick-Überraschungen und Verstecke (entdecken.js)
   ENTDECKEN.start({ I, lerne, zeigeHinweis, SCHNELL, bild, dialogOffen: () => !dialog.hidden, gezogen: () => gezogen, baumSpricht, kommentar, froschkonzert,
-    baumStufe: () => stufe, istQuest: () => questAn, istWaehlen: () => waehlenAn });
+    baumStufe: () => stufe, istQuest: () => questAn, istWaehlen: () => waehlenAn, frei: () => umschauErlaubt() && dialog.hidden && !waehlenAn });
   plaetze = ENTDECKEN.verstecke(sammelDinge);
   plaetze.forEach(p => { p.onclick = () => versteckKlick(p); });
 

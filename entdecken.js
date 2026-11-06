@@ -87,7 +87,7 @@
       case 'pilz': {   // mystisch, magisch glitzernd
         fig.zeigeGlanz('rgba(255,200,240,.95)', 14, .35);
         const glanz = kf([[0, { a: .3 }], [.5, { a: 1 }], [1, { a: .3 }]], 3.2, { ease: 'ease-in-out', iter: Infinity });
-        W.lauf(t => { if (!fig.hoverAn) fig.glanzAlpha(glanz.wert(t).a); fig.hellAlpha(glanz.wert(t).a * .08); return true; });
+        W.lauf(t => { const g = glanz.wert(t)?.a ?? .3; if (!fig.hoverAn) fig.glanzAlpha(g); fig.hellAlpha(g * .08); return true; });
         const [l, t] = u.box, kw = w + 36, kh = h + 36;
         const PUNKTE = [[.12, .3, 2.2, '#FFF6FF'], [.8, .18, 1.6, '#FFE9F8'], [.64, .72, 2, '#FFFFFF'], [.28, .8, 1.4, '#FFE2F4'], [.92, .55, 1.8, '#FFF6D8'], [.46, .06, 1.4, '#FFFFFF']];
         [[0, 1, 0], [140, .85, -1.3]].forEach(([dreh, sk, verz]) => {
@@ -178,14 +178,15 @@
     }
     // seitlich neben das Tier (zur Bildmitte hin), senkrecht mittig, im sichtbaren Ausschnitt; Zipfel zeigt zum Tier
     $('#spielflaeche').append(k);
-    const K = window.KAMERA || { ziel: 0, o: 0, breite: 1600 }, kx = K.ziel - (K.o || 0), breite = K.breite || 1600, w0 = k.offsetWidth, h0 = k.offsetHeight;
-    const mitteX = box[0] + box[2] / 2, mitteY = box[1] + box[3] / 2, rechts = mitteX - kx < breite / 2;
-    let x = rechts ? box[0] + box[2] + 24 : box[0] - 24 - w0;
-    x = Math.max(kx + 20, Math.min(kx + breite - 20 - w0, x));
-    const y = Math.max(90, Math.min(860 - h0, mitteY - h0 / 2));
+    // sichtbarer Ausschnitt in Weltpunkten (auch hineingezoomt); die Karte selbst bleibt gleich groß (Maße in Weltpunkten = Pixel / Zoom)
+    const S = WW.sicht(window.KAMERA?.ziel), z = S.z, w0 = k.offsetWidth / z, h0 = k.offsetHeight / z;
+    const mitteX = box[0] + box[2] / 2, mitteY = box[1] + box[3] / 2, rechts = mitteX - S.x < S.w / 2;
+    let x = rechts ? box[0] + box[2] + 24 / z : box[0] - 24 / z - w0;
+    x = Math.max(S.x + 20 / z, Math.min(S.x + S.w - 20 / z - w0, x));
+    const y = Math.max(S.y + 90 / z, Math.min(S.y + S.h - 40 / z - h0, mitteY - h0 / 2));
     k.style.left = x + 'px'; k.style.top = y + 'px';
     k.classList.add(rechts ? 'zipfel-links' : 'zipfel-rechts');
-    k.style.setProperty('--zipfel', Math.max(24, Math.min(h0 - 24, mitteY - y)) + 'px');
+    k.style.setProperty('--zipfel', Math.max(24, Math.min(h0 * z - 24, (mitteY - y) * z)) + 'px');
     let zu = false; const weg = () => { if (zu) return; zu = true; k.classList.add('weg'); setTimeout(() => k.remove(), 500); };
     k.onclick = weg;
     const datei = !api.SCHNELL && !api.dialogOffen() && window.STIMMEN ? window.STIMMEN[w.text] : null;
@@ -208,8 +209,20 @@
   const TON = { fisch: 'platsch', frosch: 'frosch', tukan: 'tukan', faultier: 'faultier', ameisen: 'ameisen', morpho: 'falter', pilz: 'puff' };
   let fruchtSichtbar = false;
 
+  // Hinweis: Ist eine Weile nichts Neues entdeckt worden, glitzert ein noch verborgenes Geheimnis, das gerade im Bild ist
+  let letzteEntdeckung = performance.now(), letzterHinweis = 0;
+  function hinweisGlitzern() {
+    const jetzt = performance.now(), warten = api.SCHNELL ? 3000 : 45000, abstand = api.SCHNELL ? 2000 : 25000;
+    if (!api.frei?.() || jetzt - letzteEntdeckung < warten || jetzt - letzterHinweis < abstand) return;
+    const S = WW.sicht(), offen = UEBERRASCHUNGEN.filter(u => api.I.entdecken.includes(u.was) && !entdeckt.has(u.was)
+      && u.box[0] + u.box[2] / 2 > S.x + 40 && u.box[0] + u.box[2] / 2 < S.x + S.w - 40 && u.box[1] + u.box[3] / 2 > S.y && u.box[1] + u.box[3] / 2 < S.y + S.h);
+    if (!offen.length) return;
+    const u = offen[Math.floor(Math.random() * offen.length)];
+    letzterHinweis = jetzt; WW.effekt.glitzern(u.box[0] + u.box[2] / 2, u.box[1] + u.box[3] / 2);
+  }
   function start(a) {
     api = a;
+    setInterval(hinweisGlitzern, 3000);
     for (const u of UEBERRASCHUNGEN) {
       const b = { was: u.was, box: u.box, classList: klassen() };
       if (u.bild !== '') b.fig = figurAnlegen(u);
@@ -229,7 +242,7 @@
         if (b.fig) { bewege(b.fig, u.was, dauer); aktivAnimation(u, b.fig, DAUER[u.was] || 1200); }
         AKTION[u.was]?.(b, p); if (TON[u.was]) KLANG.spiel(TON[u.was]);
         if (api.I.entdecken.includes(u.was) && !entdeckt.has(u.was)) {
-          entdeckt.add(u.was); api.lerne(u.was); karte(u.was, u.box);
+          entdeckt.add(u.was); letzteEntdeckung = performance.now(); api.lerne(u.was); karte(u.was, u.box);
           if (u.was === 'frosch') setTimeout(() => api.zeigeHinweis(api.I.konzert.hinweis, 4800), api.SCHNELL ? 200 : 9800);
         } else api.kommentar?.(u.was, ort);   // schon bekannt: der Kolibri fliegt hin und erzählt
       };
@@ -262,7 +275,7 @@
       });
       W.lauf(t => {
         const A = fig.aussen; A.bdx = dx.v; A.bdy = dy.v; A.br = dr.v; A.balpha = da.v;
-        if (tippAn) fig.glanzAlpha(tippAn.wert(t).a);
+        if (tippAn) fig.glanzAlpha(tippAn.wert(t)?.a ?? 0);
         return true;
       });
       W.ziel({

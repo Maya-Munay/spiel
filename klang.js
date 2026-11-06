@@ -187,6 +187,8 @@
   const fx = {
     klick() { const t = ctx.currentTime; ton(t, { f0: 950, f1: 520, dauer: .08, art: 'triangle', laut: .09, ziel: effekt, zuHall: false }); ton(t, { f0: 2400, f1: 1800, dauer: .03, laut: .02, ziel: effekt, zuHall: false }); },
     plopp() { const t = ctx.currentTime; ton(t, { f0: 340, f1: 90, dauer: .22, laut: .2, ziel: effekt, zuHall: false }); },
+    // Takt des Waldes fürs Mini-Spiel: weiche Holztrommel (betont = erster Schlag)
+    trommel(betont) { const t = ctx.currentTime; ton(t, { f0: betont ? 150 : 120, f1: 52, dauer: .28, laut: betont ? .32 : .2, ziel: effekt, zuHall: false }); ton(t, { f0: 900, f1: 420, dauer: .04, art: 'triangle', laut: .03, ziel: effekt, zuHall: false }); },
     lernen() { const t = ctx.currentTime; glocke(PENTA[4], t, .05); glocke(PENTA[6], t + .12, .05); },
     wachsen(stufe = 1) { const t = ctx.currentTime; [0, 2, 4].forEach((n, i) => glocke(PENTA[Math.min(7, n + stufe - 1)] / 2, t + i * .11, .05, 1.8)); },
     // Regenbogen: sieben Farben, sieben steigende Glöckchen, oben ein heller Schimmer

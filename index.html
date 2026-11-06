@@ -3,9 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Als App vom Home-Bildschirm: ganzer Bildschirm ohne Browserleisten -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Kakao-Reise">
+<meta name="theme-color" content="#2A241E">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/app-symbol-180.png">
 <title>Kakao-Reise · Maya Munay</title>
 <link rel="icon" type="image/png" href="assets/mm-zeichen.png">
-<link rel="stylesheet" href="spiel.css?v=90">
+<link rel="stylesheet" href="spiel.css?v=92">
 </head>
 <body>
 <!-- Ladebildschirm: zeigt Maya Munay, bis Bilder und Klänge da sind -->
@@ -152,6 +160,9 @@
   <!-- Oberleiste -->
   <div id="leiste">
     <div id="questanzeige" hidden></div>
+    <button id="vollbild-knopf" aria-label="Ganzer Bildschirm" title="Ganzer Bildschirm">
+      <svg viewBox="0 0 40 32"><g fill="none" stroke="#7A5C48" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12 V6 H13"/><path d="M27 6 H34 V12"/><path d="M34 20 V26 H27"/><path d="M13 26 H6 V20"/></g></svg>
+    </button>
     <button id="ton-knopf" aria-label="Ton ausschalten" aria-pressed="true">
       <svg viewBox="0 0 40 32"><path d="M6 12 H13 L21 5 V27 L13 20 H6Z" fill="#EFE6D5" stroke="#7A5C48" stroke-width="2" stroke-linejoin="round"/><g class="wellen" stroke="#7A5C48" stroke-width="2.2" fill="none" stroke-linecap="round"><path d="M26 11 Q29 16 26 21"/><path d="M30 7 Q36 16 30 25"/></g><path class="strich" d="M26 10 L36 22 M36 10 L26 22" stroke="#C26547" stroke-width="2.4" stroke-linecap="round"/></svg>
     </button>
@@ -176,10 +187,38 @@
   <button class="pfeil" id="pfeil-rechts" aria-label="Nach rechts schauen" hidden><svg viewBox="0 0 40 60"><path d="M12 8 L30 30 L12 52" stroke="#FFF4D6" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   <div id="zeiger-name" aria-hidden="true"></div>
 
+  <!-- iPhone: Safari kennt kein Vollbild für Webseiten – über den Home-Bildschirm öffnet sich der Wald ohne Leisten -->
+  <section id="vollbild-tipp" class="papier-karte" hidden aria-label="Ganzer Bildschirm">
+    <h2>Der ganze Wald auf deinem Bildschirm</h2>
+    <p>Magst du den Wald ohne Browserleisten erleben? Tippe in Safari unten auf <b>Teilen</b> und dann auf <b>„Zum Home-Bildschirm“</b>.
+      Von dort öffnet sich die Kakao-Reise wie eine App – über den ganzen Bildschirm.</p>
+    <p class="klein-tipp">Mit zwei Fingern kannst du in den Wald hinein- und wieder herauszoomen.</p>
+    <button class="knopf hell">Alles klar</button>
+  </section>
+
+  <!-- Bild zum Erzählten (z. B. Hände mit dem Kakaosamen, eine Bauernfamilie in Macuro) -->
+  <figure id="erzaehl-foto" hidden aria-hidden="true"><img alt=""><figcaption></figcaption></figure>
+
+  <!-- Mini-Spiel: Bohnen fermentieren und trocknen, im Takt des Waldes -->
+  <section id="ernte-spiel" class="papier-karte" hidden aria-label="Fermentieren und Trocknen">
+    <h2></h2>
+    <div class="ernte-bild">
+      <img alt="">
+      <div class="ernte-dampf" aria-hidden="true"></div>
+      <div class="ernte-wolke" aria-hidden="true"><i></i><b></b></div>
+      <div class="ernte-decke" aria-hidden="true"></div>
+      <div class="ernte-takt" aria-hidden="true"><i></i><b></b></div>
+    </div>
+    <p class="anleitung"></p>
+    <div class="ernte-leiste"><span class="ernte-stand"></span><span class="ernte-balken"><i></i></span></div>
+    <p class="ernte-rueck" aria-live="polite"></p>
+    <div class="ernte-knoepfe"><button class="knopf gross ernte-tun"></button><button class="knopf hell ernte-zu"></button></div>
+  </section>
+
   <!-- Nach der Aufgabe: frei umsehen, dann Kapitel beenden -->
   <section id="kapitel-fertig" hidden aria-live="polite">
     <h2></h2><p class="satz"></p><p class="rest"></p>
-    <button class="knopf"></button>
+    <div class="kf-knoepfe"><button class="knopf kf-ende"></button><button class="knopf hell kf-ernte"></button></div>
   </section>
 
   <!-- Baumpatenschaft: Name und Wunsch setzen -->
@@ -237,7 +276,7 @@
       <p class="intro"></p>
     </div>
     <div class="start-knoepfe"><button class="knopf gross" id="start">Los geht’s</button><button class="knopf hell" id="neu-beginnen" hidden></button></div>
-    <p class="klein">Ein Lernspiel mit dem Kakao von Maya&nbsp;Munay · Entwurf, nicht veröffentlicht · Version 90 · WebGL</p>
+    <p class="klein">Ein Lernspiel mit dem Kakao von Maya&nbsp;Munay · Entwurf, nicht veröffentlicht · Version 92 · WebGL</p>
   </section>
 
   <!-- Schluss -->
@@ -247,8 +286,8 @@
     <p class="intro"></p>
     <div id="ende-wissen"></div>
     <p class="entdeckt"></p>
-    <p class="paten-hinweis"></p>
-    <p class="unter"></p>
+    <p class="paten-hinweis"><img class="familie" src="bilder/platzhalter/familie.jpg" alt="" loading="lazy"><span></span></p>
+    <div class="ausblick"><img alt="" loading="lazy"><div><h3></h3><p></p></div></div>
     <button class="knopf" id="nochmal">Noch einmal spielen</button>
   </section>
 
@@ -256,12 +295,12 @@
 </div>
 
 <script src="lib/pixi.min.js?v=8.22.0"></script>
-<script src="inhalt.js?v=90"></script>
-<script src="stimme/stimmen.js?v=90"></script>
-<script src="klang/aufnahmen.js?v=90"></script>
-<script src="klang.js?v=90"></script>
-<script src="welt.js?v=90"></script>
-<script src="entdecken.js?v=90"></script>
-<script src="spiel.js?v=90"></script>
+<script src="inhalt.js?v=92"></script>
+<script src="stimme/stimmen.js?v=92"></script>
+<script src="klang/aufnahmen.js?v=92"></script>
+<script src="klang.js?v=92"></script>
+<script src="welt.js?v=92"></script>
+<script src="entdecken.js?v=92"></script>
+<script src="spiel.js?v=92"></script>
 </body>
 </html>

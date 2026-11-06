@@ -1,0 +1,12 @@
+{
+  "name": "Kakao-Reise · Maya Munay",
+  "short_name": "Kakao-Reise",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "landscape",
+  "background_color": "#2A241E",
+  "theme_color": "#2A241E",
+  "lang": "de",
+  "icons": [{ "src": "assets/app-symbol-180.png", "sizes": "180x180", "type": "image/png" }, { "src": "assets/app-symbol-512.png", "sizes": "512x512", "type": "image/png" }]
+}

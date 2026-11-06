@@ -29,10 +29,11 @@
   const AUFL = Math.min(window.devicePixelRatio || 1, SEHR_LEICHT ? 1 : 2);
   // Texturen nur so groß, wie sie auf diesem Gerät höchstens gezeigt werden (Bildpunkte je Bühnenpunkt)
   const TEXMASS = (() => {
-    const test = SUCHE.match(/texmass=([\d.]+)/); if (test) return +test[1];   // zum Prüfen am PC, z. B. ?texmass=1 wie auf dem iPhone
+    const test = SUCHE.match(/texmass=([\d.]+)/); if (test) return +test[1];   // zum Prüfen am PC, z. B. ?texmass=1.5 wie auf dem iPhone
     const sw = Math.max(screen.width, screen.height) || 1600, sh = Math.min(screen.width, screen.height) || 900;
     const breite = Math.max(1600, Math.min(2560, 900 * sw / sh)), m = Math.min(sw / breite, sh / 900);
-    return Math.max(.5, Math.min(2, m * AUFL * 1.15));
+    // auf Handys etwas Reserve, damit die Figuren auch hineingezoomt scharf bleiben
+    return Math.max(.5, Math.min(2, m * AUFL * (FINGER ? 1.7 : 1.15)));
   })();
 
   // ---------- Hilfen: Zufall, Kurven, Schlüsselbilder wie in CSS ----------
@@ -79,7 +80,8 @@
     return {
       fertig: false, start,
       wert(t) {
-        const el = (t - start) / 1000 - verz;
+        let el = (t - start) / 1000 - verz;
+        if (el < 0 && el > -.1 && verz <= 0) el = 0;   // Bildtakt liegt minimal vor dem Start: schon den Anfang zeigen
         if (el < 0) return o.vorher ? wert(0) : null;
         const z = el / dauer;
         if (z >= n) { this.fertig = true; return o.halten ? wert(ende) : null; }
@@ -107,7 +109,7 @@
   const wurzel = new P.Container();     // in Bühnenpunkten (wird mit MASS skaliert)
   const lagen = [];                       // Ebenen mit Kamera-Faktor k und Tiefe t
   function lage(name, k, t, opt = {}) {
-    const c = new P.Container(); c.label = name; c.k = k; c.t = t; c.fest = !!opt.fest;
+    const c = new P.Container(); c.label = name; c.k = k; c.t = t; c.fest = !!opt.fest; c.off = { x: 0, y: 0 };
     wurzel.addChild(c); lagen.push(c); return c;
   }
   const L = {
@@ -142,6 +144,8 @@
     if (TEX[key]) return TEX[key];
     const im = BILDER[name]; if (!im) return null;
     const iw = im.naturalWidth, ih = im.naturalHeight;
+    // Bild (oder Ausschnitt aus dem Bildblatt) auf eine Leinwand malen
+    const malen = (ctx, dx, dy, dw, dh) => im.blatt ? ctx.drawImage(im.blatt, im.sx, im.sy, iw, ih, dx, dy, dw, dh) : ctx.drawImage(im, dx, dy, dw, dh);
     const zielB = breite ? breite * TEXMASS : iw;
     const s = Math.min(1, zielB / iw);                     // Texturpunkte je Bildpunkt
     const q = breite ? s * iw / breite : s;                 // Texturpunkte je Bühnenpunkt
@@ -152,7 +156,7 @@
     else if (art === 'glanz') pad = Math.ceil((unschaerfe * 1.2 + 2) * q) + 1;
     else if (art === 'weiss') pad = Math.ceil(44 * q) + 1;
     const cw = Math.max(1, Math.round(iw * s)) + 2 * pad, ch = Math.max(1, Math.round(ih * s)) + 2 * pad;
-    if (art === 'roh' && s >= .999) {   // unverändert: direkt als Textur
+    if (art === 'roh' && s >= .999 && !im.blatt) {   // unverändert: direkt als Textur
       const tex = P.Texture.from(im);
       return (TEX[key] = { tex, iw, ih, rand: 0 });
     }
@@ -161,15 +165,24 @@
     const w = cw - 2 * pad, h = ch - 2 * pad;
     const schattenNur = (blur, col, dx = 0, dy = 0) => {   // nur den Schatten zeichnen (Bild weit links außerhalb)
       x.save(); x.shadowColor = col; x.shadowBlur = blur; x.shadowOffsetX = 20000 + dx; x.shadowOffsetY = dy;
-      x.drawImage(im, pad - 20000, pad, w, h); x.restore();
+      malen(x, pad - 20000, pad, w, h); x.restore();
     };
     if (art === 'umriss' || art === 'kolibri') {
       schattenNur(2.6 * q, 'rgba(22,16,10,.3)');
       schattenNur(1.2 * q, art === 'kolibri' ? 'rgba(22,16,10,.95)' : 'rgba(22,16,10,.9)');
       if (art === 'kolibri') schattenNur(6 * q, 'rgba(53,46,38,.25)', 0, 6 * q);
-      x.drawImage(im, pad, pad, w, h);
-    } else if (art === 'roh') {
-      x.drawImage(im, pad, pad, w, h);
+      malen(x, pad, pad, w, h);
+    } else if (art === 'roh' || art === 'blatt') {
+      malen(x, pad, pad, w, h);
+      if (art === 'blatt') {   // weicher Rand: harte Bildkanten verschwinden
+        x.globalCompositeOperation = 'destination-in';
+        const f = .12;
+        for (const [x0, y0, x1, y1] of [[0, 0, w * f, 0], [w, 0, w * (1 - f), 0], [0, 0, 0, h * f], [0, h, 0, h * (1 - f)]]) {
+          const g = x.createLinearGradient(x0, y0, x1, y1); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,1)');
+          x.fillStyle = g; x.fillRect(0, 0, cw, ch);
+        }
+        x.globalCompositeOperation = 'source-over';
+      }
     } else if (art === 'schatten') {      // schwarzer, weicher Wurfschatten
       schattenNur(5 * q, 'rgba(0,0,0,1)');
     } else if (art === 'glanz') {         // nur der farbige Schein um die Figur (drop-shadow 0 0 N px farbe)
@@ -177,12 +190,12 @@
       if (unschaerfe > 6) schattenNur(unschaerfe * .45 * q, farbe);
     } else if (art === 'weiss') {         // weißes Leuchten des Kakaobaums (Silhouette, weich, mit Schein)
       const t = document.createElement('canvas'); t.width = cw; t.height = ch;
-      const y = t.getContext('2d'); y.drawImage(im, pad, pad, w, h); y.globalCompositeOperation = 'source-in'; y.fillStyle = '#fff'; y.fillRect(0, 0, cw, ch);
+      const y = t.getContext('2d'); malen(y, pad, pad, w, h); y.globalCompositeOperation = 'source-in'; y.fillStyle = '#fff'; y.fillRect(0, 0, cw, ch);
       const nur = (blur, col) => { x.save(); x.shadowColor = col; x.shadowBlur = blur; x.shadowOffsetX = 20000; x.drawImage(t, -20000, 0); x.restore(); };
       nur(38 * q, 'rgba(255,255,255,.85)'); nur(16 * q, '#fff'); nur(4 * q, '#fff'); nur(2 * q, '#fff');
     }
     const tex = P.Texture.from(c);
-    return (TEX[key] = { tex, iw, ih, rand: pad / s, maske: art === 'roh' ? maske(c) : null });
+    return (TEX[key] = { tex, iw, ih, rand: pad / s, maske: art === 'roh' || art === 'blatt' ? maske(c) : null });
   }
   function maske(c) {   // kleine Alpha-Maske für Treffer nach Blattform
     try {
@@ -318,19 +331,48 @@
   // Bildschirm ↔ Welt
   let rahmen = { left: 0, top: 0 };
   const aufBuehne = (cx, cy) => ({ x: (cx - rahmen.left) / MASS, y: (cy - rahmen.top) / MASS });
-  const inWelt = (cx, cy, lg = L.flaeche) => { const p = aufBuehne(cx, cy); return { x: p.x - lg.x, y: p.y - lg.y }; };
+  // Zoom (zwei Finger, Strg + Mausrad): Bühnenpunkt p → ZOOM.z · p + (tx, ty); Fenster und Knöpfe bleiben gleich groß
+  const ZOOM = { z: 1, tx: 0, ty: 0, max: 2.6, zurueck: null };
+  const inWelt = (cx, cy, lg = L.flaeche) => { const p = aufBuehne(cx, cy); return { x: (p.x - ZOOM.tx) / ZOOM.z - lg.off.x, y: (p.y - ZOOM.ty) / ZOOM.z - lg.off.y }; };
   W.aufBuehne = aufBuehne; W.inWelt = inWelt;
   // Rechteck eines Weltdings in Bühnenpunkten (für Sprechblasen und Flieger)
-  W.aufBuehneRechteck = ([l, t, w, h], lg = L.flaeche) => ({ l: l + lg.x, t: t + lg.y, r: l + w + lg.x, u: t + h + lg.y });
+  W.aufBuehneRechteck = ([l, t, w, h], lg = L.flaeche) => {
+    const z = ZOOM.z, x = lg.off.x, y = lg.off.y;
+    return { l: (l + x) * z + ZOOM.tx, t: (t + y) * z + ZOOM.ty, r: (l + w + x) * z + ZOOM.tx, u: (t + h + y) * z + ZOOM.ty };
+  };
+  function zoomKlemme() {
+    ZOOM.z = klemme(ZOOM.z, 1, ZOOM.max);
+    ZOOM.tx = klemme(ZOOM.tx, BREITE * (1 - ZOOM.z), 0); ZOOM.ty = klemme(ZOOM.ty, 900 * (1 - ZOOM.z), 0);
+  }
+  W.zoom = {
+    get z() { return ZOOM.z; }, get tx() { return ZOOM.tx; }, get ty() { return ZOOM.ty; },
+    um(sx, sy, faktor) {   // um einen Bühnenpunkt herum vergrößern/verkleinern
+      ZOOM.zurueck = null;
+      const z0 = ZOOM.z, z1 = klemme(z0 * faktor, 1, ZOOM.max);
+      ZOOM.tx = sx - (sx - ZOOM.tx) * z1 / z0; ZOOM.ty = sy - (sy - ZOOM.ty) * z1 / z0; ZOOM.z = z1; zoomKlemme();
+    },
+    schiebe(dx, dy) {   // verschieben (Bühnenpunkte); gibt zurück, was in x nicht mehr ging
+      ZOOM.zurueck = null;
+      const tx0 = ZOOM.tx; ZOOM.tx += dx; ZOOM.ty += dy; zoomKlemme(); return dx - (ZOOM.tx - tx0);
+    },
+    setze(tx, ty) { ZOOM.zurueck = null; ZOOM.tx = tx; ZOOM.ty = ty; zoomKlemme(); },
+    zurueck(sek = .6) { if (ZOOM.z > 1.001) ZOOM.zurueck = { z: new Wert(ZOOM.z), tx: new Wert(ZOOM.tx), ty: new Wert(ZOOM.ty) }, ['z', 'tx', 'ty'].forEach(k => ZOOM.zurueck[k].zu(k === 'z' ? 1 : 0, sek, 'ease-in-out')); },
+  };
+  // sichtbarer Ausschnitt der Spielfläche in Weltpunkten (für Wissenskarten), bei Kamera-Ziel kx
+  W.sicht = kx => { const lg = L.flaeche, offX = kx === undefined ? lg.off.x : -(kx - O) * lg.k - KAM.istX * lg.t * 24;
+    return { x: -ZOOM.tx / ZOOM.z - offX, y: -ZOOM.ty / ZOOM.z - lg.off.y, w: BREITE / ZOOM.z, h: 900 / ZOOM.z, z: ZOOM.z }; };
 
   // ---------- Kamera ----------
   const KAM = { x: 0, istX: 0, istY: 0 };
   W.kamera = (x, o, ix, iy) => { KAM.x = x; O = o; KAM.istX = ix; KAM.istY = iy; };
   function lagenSetzen() {
+    if (ferne) { const a = klemme((ZOOM.z - 1.05) / 1.1, 0, 1) * .9; ferne.alpha = a; ferne.visible = a > .01; }
+    if (ZOOM.zurueck) { const r = ZOOM.zurueck; ZOOM.z = r.z.v; ZOOM.tx = r.tx.v; ZOOM.ty = r.ty.v; if (!r.z.u) ZOOM.zurueck = null; }
     for (const c of lagen) {
-      if (c.fest) { c.x = 0; c.y = 0; continue; }
-      c.x = -(KAM.x - O) * c.k - KAM.istX * c.t * 24;
-      c.y = -KAM.istY * c.t * 10;
+      if (c.fest) { c.x = 0; c.y = 0; c.off = { x: 0, y: 0 }; continue; }
+      const ox = -(KAM.x - O) * c.k - KAM.istX * c.t * 24, oy = -KAM.istY * c.t * 10;
+      c.off = { x: ox, y: oy };
+      c.x = ox * ZOOM.z + ZOOM.tx; c.y = oy * ZOOM.z + ZOOM.ty; c.scale.set(ZOOM.z);
     }
   }
 
@@ -344,6 +386,7 @@
     welt = sprite(wt.tex, L.gemalt); welt.x = -500; welt.y = 0; welt.width = 2600; welt.height = 900;
     if (!SEHR_LEICHT) baueLebendig(wt.tex);
     baueWasser();
+    if (!SEHR_LEICHT) { baueFerne(); baueAbendlicht(); }
     // Schattenfleck zwischen den beiden Stämmen
     sprite(radial([[0, 'rgba(70,96,60,.62)'], [.6, 'rgba(70,96,60,.32)'], [1, 'rgba(70,96,60,0)']]), L.gemalt, { x: 560, y: 560, width: 520, height: 260, blendMode: 'multiply' });
 
@@ -468,6 +511,7 @@
     const glitzer = new P.Container(); L.gemalt.addChild(glitzer);
     const form = new P.Graphics().poly(polygon('M-500 680 L-300 662 L-200 640 L-60 612 L-60 640 L-160 668 L-215 700 L-260 750 L-310 790 L-330 900 L-500 900 Z').flat()).fill(0xffffff);
     L.gemalt.addChild(form); glitzer.mask = form;
+    sprite(radial([[0, 'rgba(205,238,255,.42)'], [.55, 'rgba(190,230,255,.24)'], [1, 'rgba(190,230,255,0)']]), glitzer, { x: -640, y: 590, width: 640, height: 420, blendMode: 'screen' });
     const [sc, sx] = leinwand(40, 12); sx.strokeStyle = '#fff'; sx.lineWidth = 5.2; sx.lineCap = 'round'; sx.beginPath(); sx.moveTo(6, 6); sx.lineTo(34, 6); sx.stroke();
     const strich = P.Texture.from(sc);
     for (const [x, y, dx, dy, v] of [[-284, 825, 16, -4, -.2], [-415, 722, 17, -4, -.4], [-383, 801, 13, -4, -3.5], [-334, 808, 11, -5, -1.8], [-424, 854, 10, -5, -3.8], [-412, 677, 13, -4, -3.5], [-251, 680, 18, -4, -3.9], [-336, 645, 13, -6, -1.1], [-354, 820, 15, -5, -2.8], [-447, 718, 12, -5, -.7], [-305, 679, 12, -6, -3.8], [-345, 729, 14, -4, -1.5], [-176, 740, 16, -5, -3.8], [-428, 694, 17, -4, -2.0], [-158, 695, 14, -5, -3.1], [-341, 705, 13, -6, -.8]]) {
@@ -529,6 +573,38 @@
     const ft = teil(g, 0, 0, 8.75, -2); ft.addChild(fl);
     return { g, ft };
   }
+  let ferne = null;
+  function baueFerne() {   // weiches Abbild der Ferne: kleines Weltbild, nur wo Himmel/Berge sind (Alpha aus der Himmelsmaske)
+    const im = BILDER['welt-tief'] || BILDER.welt, w = 390, h = 135, [c, x] = leinwand(w, h);
+    x.drawImage(im, 0, 0, w, h);
+    const d = x.getImageData(0, 0, w, h), p = d.data;
+    for (let i = 0; i < w * h; i++) {
+      const r = p[i * 4], g = p[i * 4 + 1], b = p[i * 4 + 2], mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+      const blau = (b - Math.max(r, g) + 6) / 22, wolke = mx - mn < 45 ? (mn - 165) / 40 : 0;
+      p[i * 4 + 3] = Math.round(255 * klemme(Math.max(blau, wolke) * 1.15 - .1, 0, 1));
+    }
+    x.putImageData(d, 0, 0);
+    ferne = sprite(P.Texture.from(c), L.gemalt, { x: -500, y: 0, width: 2600, height: 900, alpha: 0, visible: false });
+  }
+  let himmelTex = null;
+  function himmelMaske() {   // weiß = Himmel, Wolken, ferne Berge; schwarz = Bäume, Stämme, Blätter
+    if (himmelTex) return himmelTex;
+    const im = BILDER['welt-tief'] || BILDER.welt, w = 650, h = 225, [c, x] = leinwand(w, h);
+    x.drawImage(im, 0, 0, w, h);
+    const d = x.getImageData(0, 0, w, h), p = d.data, v = new Float32Array(w * h);
+    for (let i = 0; i < w * h; i++) {
+      const r = p[i * 4], g = p[i * 4 + 1], b = p[i * 4 + 2], mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+      const blau = (b - Math.max(r, g) + 6) / 22, wolke = mx - mn < 45 ? (mn - 165) / 40 : 0;
+      v[i] = klemme(Math.max(blau, wolke) * 1.3, 0, 1);
+    }
+    for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) {   // leicht weichzeichnen
+      let s = 0, n = 0;
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) { const a = i + dx, b = j + dy; if (a >= 0 && b >= 0 && a < w && b < h) { s += v[b * w + a]; n++; } }
+      const k = (j * w + i) * 4, m = Math.round(255 * s / n); p[k] = p[k + 1] = p[k + 2] = 255; p[k + 3] = m;
+    }
+    x.putImageData(d, 0, 0);
+    return (himmelTex = P.Texture.from(c));
+  }
   function baueAras() {
     const ROT = { schwanz: '#C8352B', streifen: '#3E7FC4', koerper: '#D63A2E', fluegel: '#E8C33A' };
     const BLAU = { schwanz: '#2A6FC0', streifen: '#F2C12E', koerper: '#2F7FD0', fluegel: '#2A6FC0' };
@@ -542,6 +618,8 @@
       paar.idle = kf([[0, { x: von[0], y: von[1] }], [ende, { x: bis[0], y: bis[1] }], [1, { x: bis[0], y: bis[1] }]], dauer, { ease: 'linear', iter: Infinity, verz });
       paar.bsx = skal; paar.bsy = Math.abs(skal);
       paar.nacht = new Wert(1);
+      // hinter den großen Bäumen: Maske aus dem Weltbild (liegt in Weltpunkten auf der gemalten Ebene)
+      if (!SEHR_LEICHT) { const m = sprite(himmelMaske(), L.gemalt, { x: -500, y: 0, width: 2600, height: 900 }); paar.mask = m; }
       arasListe.push(paar);
     }
   }
@@ -820,7 +898,7 @@
     F.orte.alpha = a; F.orte.visible = a > .005;
     if (!F.orte.visible) return;
     for (const o of orte) {
-      const v = o.puls.wert(t);
+      const v = o.puls.wert(t) || { a: 1, s: 0 };
       o.ring.width = (o.rx + 2 + v.s * 14) * 2 / .93; o.ring.height = (o.ry + 2 + v.s * 14) * 2 / .93; o.ring.alpha = v.a;
     }
   }
@@ -886,7 +964,7 @@
     if (!sofort) keimling.aussen.spiele(kf([[0, { a: 0, sx: .05, sy: 0 }], [.4, { a: 1 }], [1, { a: 1, sx: 1, sy: 1 }]], 2.2, { ease: bez(.3, 1.4, .5, 1) }));
     keimling.zeigeGlanz('rgba(255,216,106,.8)', 10, 0);
     const a = kf([[0, { a: 0 }], [.5, { a: 1 }], [1, { a: 0 }]], 3.4, { ease: 'ease', iter: Infinity });
-    lauf(t => { keimling.glanzAlpha(a.wert(t).a); return true; });
+    lauf(t => { keimling.glanzAlpha(a.wert(t)?.a ?? 0); return true; });
   };
 
   // --- Patenschild neben dem Baum: Name und Wunsch ---
@@ -901,7 +979,7 @@
     const sp = sprite(null, c); setzeBild(sp, backe('patenschild', 'umriss', r[2]), ...r);
     const hl = sprite(sp.texture, c, { x: sp.x, y: sp.y, width: sp.width, height: sp.height, blendMode: 'add', alpha: .22 });
     const schrift = '"Snell Roundhand", "Brush Script MT", "Segoe Script", cursive';
-    const stil = (gr, farbe) => new P.TextStyle({ fontFamily: schrift, fontSize: gr, fill: farbe, align: 'center', wordWrap: true, wordWrapWidth: 104, breakWords: true, lineHeight: gr * 1.02, padding: 8,
+    const stil = (gr, farbe) => new P.TextStyle({ fontFamily: schrift, fontSize: gr, fill: farbe, align: 'center', wordWrap: true, wordWrapWidth: 104, breakWords: true, lineHeight: Math.round(gr * 1.05), padding: 0,
       dropShadow: { color: '#FFFAE8', alpha: .95, blur: 4, distance: 0, angle: 0 } });
     stein.name = new P.Text({ text: '', style: stil(20, '#2E1C12'), resolution: 2 }); stein.name.anchor.set(.5, 0); c.addChild(stein.name);
     stein.wunsch = new P.Text({ text: '', style: stil(18, '#7E2F18'), resolution: 2 }); stein.wunsch.anchor.set(.5, 0); c.addChild(stein.wunsch);
@@ -916,7 +994,10 @@
   W.stein = (name, wunsch, sofort) => {
     stein.name.text = zweiZeilen(name, stein.name.style);
     stein.wunsch.text = zweiZeilen(wunsch, stein.wunsch.style);
-    stein.name.position.set(75, 22 - 8); stein.wunsch.position.set(75, 22 - 8 + stein.name.height - 16 + 2);
+    const zeilen = t => P.CanvasTextMetrics.measureText(t.text, t.style).lines.length;
+    const hName = zeilen(stein.name) * stein.name.style.lineHeight, hWunsch = zeilen(stein.wunsch) * stein.wunsch.style.lineHeight;
+    const oben = 24 + Math.max(0, (52 - hName - hWunsch) / 2);   // im hellen Feld des Schilds mittig
+    stein.name.position.set(75, oben); stein.wunsch.position.set(75, oben + hName + 1);
     stein.c.visible = true;
     if (!sofort) stein.c.spiele(kf([[0, { a: 0, y: -40, s: .6 }], [1, { a: 1, y: 0, s: 1 }]], .9, { ease: bez(.3, 1.4, .5, 1) }));
   };
@@ -959,7 +1040,7 @@
       const im = BILDER[name]; if (!im) return;
       const w = h * im.naturalWidth / im.naturalHeight, haengt = f.includes('h'), gesp = f.includes('g');
       const tl = teil(L.vorn, l, t, w / 2, haengt ? 0 : h);
-      const tx = backe(name, 'roh', w);
+      const tx = backe(name, 'blatt', w);
       const sp = sprite(null, tl); setzeBild(sp, tx, 0, 0, w, h);
       if (gesp) { tl.bsx = -1; }
       const gerade = (i + 1) % 2 === 0, dauer = haengt ? 8 : gerade ? 9 : 7, verz = gerade ? -3 : 0;
@@ -1014,15 +1095,33 @@
   // --- Tageszeit (Abend, Nacht, Morgen), Sterne und Mond ---
   const tag = { sp: null, farbe: [0x1E, 0x24, 0x40], von: [0x1E, 0x24, 0x40], zu: [0x1E, 0x24, 0x40], a: new Wert(0), t0: 0 };
   function baueTageszeit() { tag.sp = sprite(weiss(), L.tag, { blendMode: 'multiply', alpha: 0 }); }
+  // Abend- und Morgenlicht: warmer Schein nur auf dem Laub der Kronen (Maske aus dem Weltbild: grün und oben)
+  let abendlicht = null;
+  function baueAbendlicht() {
+    const im = BILDER['welt-tief'] || BILDER.welt, w = 520, h = 180, [c, x] = leinwand(w, h);
+    x.drawImage(im, 0, 0, w, h);
+    const d = x.getImageData(0, 0, w, h), p = d.data;
+    for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) {
+      const k = (j * w + i) * 4, r = p[k], g = p[k + 1], b = p[k + 2];
+      const laub = klemme((g - Math.max(r, b) + 4) / 40, 0, 1), oben = klemme((.72 - j / h) / .25, 0, 1);
+      const licht = klemme((r + g + b) / 500, .25, 1);   // helles Laub fängt mehr Licht
+      p[k] = 255; p[k + 1] = 146; p[k + 2] = 66; p[k + 3] = Math.round(255 * laub * oben * licht);
+    }
+    x.putImageData(d, 0, 0);
+    abendlicht = sprite(P.Texture.from(c), L.gemalt, { x: -500, y: 0, width: 2600, height: 900, blendMode: 'add', alpha: 0, visible: false });
+    abendlicht.a = new Wert(0);
+  }
   const TAGFARBEN = { abend: ['#E2783A', .34], nacht: ['#141C3C', .68], morgen: ['#F2A08A', .26], '': ['#1E2440', 0] };
   const hex = s => [parseInt(s.slice(1, 3), 16), parseInt(s.slice(3, 5), 16), parseInt(s.slice(5, 7), 16)];
   W.tageszeit = name => {
     const [f, a] = TAGFARBEN[name] || TAGFARBEN[''];
     tag.von = tag.farbe.slice(); tag.zu = hex(f); tag.t0 = jetzt();
-    tag.a.zu(a, SCHNELL ? .14 : 1.4, 'ease');
+    tag.a.zu(a, SCHNELL ? .14 : 2.2, 'ease-in-out');
+    abendlicht?.a.zu({ abend: .42, morgen: .28 }[name] || 0, SCHNELL ? .2 : 2.4, 'ease-in-out');
   };
   function tagSchritt(t) {
-    const p = EASE.ease(klemme((t - tag.t0) / (SCHNELL ? 140 : 1400), 0, 1));
+    const p = EASE['ease-in-out'](klemme((t - tag.t0) / (SCHNELL ? 140 : 2200), 0, 1));
+    if (abendlicht) { abendlicht.alpha = abendlicht.a.v; abendlicht.visible = abendlicht.alpha > .005; }
     tag.farbe = tag.von.map((v, i) => v + (tag.zu[i] - v) * p);
     tag.sp.tint = (Math.round(tag.farbe[0]) << 16) | (Math.round(tag.farbe[1]) << 8) | Math.round(tag.farbe[2]);
     tag.sp.alpha = tag.a.v; tag.sp.visible = tag.sp.alpha > .003;
@@ -1047,7 +1146,7 @@
   W.nachts = v => {
     nachtZustand.nachts = v;
     nachtZustand.sterneA.zu(v ? (nachtZustand.regnet ? .25 : 1) : 0, SCHNELL ? .16 : 1.6, 'ease');
-    nachtZustand.tagA.zu(v ? 0 : 1, SCHNELL ? .14 : 1.4, 'ease');
+    nachtZustand.tagA.zu(v ? 0 : 1, SCHNELL ? .14 : 2.2, 'ease-in-out');
   };
   W.regnet = v => {
     nachtZustand.regnet = v;
@@ -1183,6 +1282,19 @@
         tl.addChild(g);
       }
     },
+    // sanftes Glitzern als Hinweis: hier gibt es noch etwas zu entdecken
+    glitzern(x, y) {
+      const st = sternTex('#FFFBEA', 'rgba(255,224,138,.95)');
+      const schein = sprite(radial([[0, 'rgba(255,240,190,.55)'], [1, 'rgba(255,240,190,0)']]), F.effekte, { anchor: .5, x, y, width: 120, height: 120, alpha: 0, blendMode: 'screen' });
+      const funken = Array.from({ length: 8 }, (_, i) => { const s = sprite(st, F.effekte, { anchor: .5, alpha: 0 }); s.w = i / 8 * Math.PI * 2 + Math.random() * .4; s.d = .1 + Math.random() * .35; return s; });
+      const t0 = jetzt(), dauer = 2400;
+      lauf(t => {
+        const p = (t - t0) / dauer; if (p >= 1) { schein.destroy(); funken.forEach(f => f.destroy()); return false; }
+        schein.alpha = Math.sin(p * Math.PI) * .9;
+        for (const f of funken) { const q = klemme((p - f.d) / .55, 0, 1), a = Math.sin(q * Math.PI); f.alpha = a; f.scale.set(.18 + .22 * a); f.rotation = q * 2; f.position.set(x + Math.cos(f.w) * (14 + 36 * q), y + Math.sin(f.w) * (10 + 26 * q)); }
+        return true;
+      });
+    },
     // Lichtperlen laufen über den Regenbogen
     bogenperlen(schnell) {
       const FARBEN = ['#F0503F', '#FF9A3C', '#FFE15A', '#62C76E', '#4A9BF0', '#5B5FD6', '#A066DE'];
@@ -1250,6 +1362,24 @@
     },
   };
 
+  // --- Der Wunsch leuchtet aus den Früchten und steigt über dem Baum auf ---
+  W.wunschLeuchten = text => {
+    baumGlanz(5, 'rgba(255,214,106,1)', 18, 5, .35, .2);
+    const stil = new P.TextStyle({ fontFamily: 'Palatino, "Palatino Linotype", "MM Pagella", "Book Antiqua", serif', fontStyle: 'italic', fontSize: 46, fill: '#FFF6DA',
+      align: 'center', wordWrap: true, wordWrapWidth: 520, dropShadow: { color: '#C98A1E', alpha: .95, blur: 12, distance: 0, angle: 0 }, padding: 14 });
+    const tx = new P.Text({ text: text, style: stil, resolution: 2 }); tx.anchor.set(.5); F.flug.addChild(tx);
+    const st = sternTex('#FFF6D8', 'rgba(255,214,106,.95)');
+    const funken = Array.from({ length: 14 }, () => { const s = sprite(st, F.flug, { anchor: .5, alpha: 0 }); s.w = Math.random() * Math.PI * 2; s.r = 30 + Math.random() * 120; s.v = .4 + Math.random() * .6; return s; });
+    const a = kf([[0, { a: 0, y: 0, s: .85 }], [.18, { a: 1 }], [.75, { a: 1 }], [1, { a: 0, y: -170, s: 1.05 }]], SCHNELL ? .6 : 6.5, { ease: 'ease-in-out', halten: true });
+    lauf(t => {
+      const v = a.wert(t); if (!v) return true;
+      tx.alpha = v.a; tx.position.set(800, 400 + v.y); tx.scale.set(v.s);
+      for (const f of funken) { f.alpha = v.a * (.5 + .5 * Math.sin(t / 300 * f.v + f.w)); f.position.set(800 + Math.cos(f.w + t / 2000 * f.v) * f.r * 1.6, 400 + v.y + Math.sin(f.w + t / 2000 * f.v) * f.r * .6); f.scale.set(.35); }
+      if (a.fertig) { tx.destroy(); funken.forEach(f => f.destroy()); return false; }
+      return true;
+    });
+  };
+
   // --- Mücken (Gnitzen) um den Baum ---
   W.muecken = n => {
     const tex = TX.muecke || (TX.muecke = (() => { const [c, x] = leinwand(24, 24), g = x.createRadialGradient(12, 12, 0, 12, 12, 12); g.addColorStop(0, '#3B3226'); g.addColorStop(.18, '#3B3226'); g.addColorStop(.24, 'rgba(255,241,192,.7)'); g.addColorStop(1, 'rgba(255,241,192,0)'); x.fillStyle = g; x.fillRect(0, 0, 24, 24); return P.Texture.from(c); })());
@@ -1300,6 +1430,10 @@
     }
   });
   W.vornBlaetter = vornBlaetter;   // zum Prüfen
+  W.arasListe = arasListe;   // zum Prüfen
+  W.ziele = () => ziele;
+  W.wichtigeRechtecke = () => ziele.filter(z => z.aktiv() && (z.z === ZRANG.entdecken || z.z === ZRANG.gesicht || z.z === ZRANG.stein) && z.label !== 'Fluss' && z.name !== 'banane')
+    .map(z => W.aufBuehneRechteck(typeof z.box === 'function' ? z.box() : z.box)).concat([W.aufBuehneRechteck(W.kolibri.box())]);
   W.trifft = (name, cx, cy) => { const z = ziele.find(z => z.name === name); if (!z) return false; const p = inWelt(cx, cy); return z.aktiv() && trifft(z, p.x, p.y); };
   W.hover = () => hoverZiel;
 
@@ -1312,7 +1446,7 @@
     Object.assign(canvas.style, { left: links + 'px', top: oben + 'px', width: w + 'px', height: h + 'px' });
     rahmen = { left: links, top: oben };
     canvasRect = { left: links, top: oben };
-    if (app) { app.renderer.resize(w, h); wurzel.scale.set(mass); vignetteMalen(); }
+    if (app) { app.renderer.resize(w, h); wurzel.scale.set(mass); vignetteMalen(); zoomKlemme(); }
   };
   let fehler = 0;
   W.schritt = t => {
@@ -1324,7 +1458,7 @@
       baumSchritt(); orteSchritt(t); kolibriSchritt(t); vornSchritt(); regenbogenSchritt(t);
       yantraZeichnen(t); tagSchritt(t); nachtSchritt(); wetterSchritt(t);
       if (funkeln) { const a = funkeln.a.v; funkeln.alpha = a; funkeln.visible = a > .005; }
-      if (ablage.an) ablage.schein.alpha = ablage.puls.wert(t).a;
+      if (ablage.an) ablage.schein.alpha = ablage.puls.wert(t)?.a ?? 0;
       for (const f of laeufer) if (f(t) === false) laeufer.delete(f);
       for (const tl of teile) if (!tl.destroyed && tl.worldVisible !== false) tl.schritt(t);
       app.renderer.render(app.stage);
@@ -1341,9 +1475,24 @@
   W.bereit = (async () => {
     const balken = document.querySelector('#laden .laden-balken span');
     const liste = [[FLACH ? 'welt' : 'welt-tief', `bilder/platzhalter/${FLACH ? 'welt' : 'welt-tief'}.jpg`], ...ALLE.map(n => [n, FIG(n)]), ...(FLACH || SEHR_LEICHT ? [] : VORN.map(n => [n, FIG(n)]))];
-    let fertig = 0;
-    const zeige = () => { if (balken) balken.style.width = Math.round(15 + 75 * fertig / liste.length) + '%'; };
-    const geladen = Promise.all(liste.map(async ([n, src]) => { const im = await ladeBild(src); if (im) BILDER[n] = im; fertig++; zeige(); }));
+    let fertig = 0; const gesamt = liste.length;
+    const zeige = () => { if (balken) balken.style.width = Math.round(15 + 75 * Math.min(1, fertig / gesamt)) + '%'; };
+    // Figuren aus dem gemeinsamen Bildblatt (wenige Dateien = schneller online); fehlt es, kommen die Einzelbilder
+    const ausBlatt = async () => {
+      try {
+        const info = await (await fetch('bilder/platzhalter/figuren/bildblatt.json?v=92')).json();
+        const blaetter = await Promise.all(info.blaetter.map(f => ladeBild(`bilder/platzhalter/figuren/${f}?v=92`)));
+        if (blaetter.some(b => !b)) return false;
+        for (const [n, [b, x, y, w, h]] of Object.entries(info.bilder)) BILDER[n] = { blatt: blaetter[b], sx: x, sy: y, naturalWidth: w, naturalHeight: h };
+        return true;
+      } catch (e) { return false; }
+    };
+    const welt0 = liste.shift();
+    const geladen = (async () => {
+      const blattOk = await ausBlatt();
+      if (blattOk) { fertig += liste.length - liste.filter(([n]) => !BILDER[n]).length; zeige(); }
+      await Promise.all([welt0, ...liste.filter(([n]) => !BILDER[n])].map(async ([n, src]) => { const im = await ladeBild(src); if (im) BILDER[n] = im; fertig++; zeige(); }));
+    })();
     app = new P.Application();
     try {
       await app.init({ canvas, width: 1600, height: 900, resolution: AUFL, autoDensity: true, antialias: !LEICHT, backgroundColor: 0x2A241E, autoStart: false, sharedTicker: false, preference: 'webgl', powerPreference: LEICHT ? 'low-power' : 'default' });

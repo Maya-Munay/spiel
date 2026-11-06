@@ -209,3 +209,35 @@ window.INHALT = {
     gnitzen: { titel: 'Die Gnitzen', text: 'Bestäubt werden die winzigen Kakaoblüten vor allem von Gnitzen – Mücken, die nur wenige Millimeter groß sind. Ihre Eier legen sie gern in feuchtes Laub und modrige Pflanzenreste.' },
   },
 };
+
+// ---------- Ergänzungen 06.11. (Wunsch Yilmaz): Bilder beim Erzählen, Ausblick, Sammelübersicht, Mini-Spiel ----------
+// Quellen: Bauernfamilien in Macuro, Fermentation und Trocknen = Angaben von Maya Munay (KONZEPT.md, Faktenliste 🟢).
+Object.assign(window.INHALT, {
+  // Bild, das erscheint, während der Wald einen bestimmten Satz erzählt (Satzanfang → Bild in bilder/platzhalter/)
+  erzaehlBilder: [
+    { satz: 'Aloha, wundervoll, dass du da bist. In deiner Hand liegt ein Kakaosamen.', bild: 'haende', text: 'Ein Kakaosamen in deinen Händen' },
+    { satz: 'Eine Baumpatenschaft gibt es wirklich – bei Maya Munay.', bild: 'familie', text: 'So könnte eine Bauernfamilie in Macuro aussehen (gemalt)' },
+    { satz: 'Schau, deine Urkunde!', bild: '', text: '' },
+  ],
+  // roter Faden zum nächsten Kapitel: der Kolibri macht neugierig
+  ausblickSatz: ['kolibri', 'Weißt du eigentlich, was in einer reifen Kakaofrucht steckt? Das zeige ich dir beim nächsten Mal …'],
+  ausblick: { titel: 'Im nächsten Kapitel', text: 'Wie sieht es in einer Kakaofrucht aus? Du erntest reife Früchte und öffnest sie.', bild: 'kapitel2' },
+  // Sammelübersicht im Wissensbuch
+  geheimnisse: { titel: 'Die 7 Geheimnisse des Waldes', verborgen: 'noch zu entdecken' },
+  // Mini-Spiel: die Bohnen reifen lassen – aufgehoben für Kapitel 3 (Fermentieren) und 4 (Trocknen); zum Ausprobieren: index.html?ernte
+  ernte: {
+    knopf: 'Mini-Spiel: Bohnen fermentieren',
+    titel: 'Fermentieren und Trocknen',
+    fermentieren: 'Jetzt ruhen die Bohnen mit ihrem Fruchtfleisch in einer Holzkiste, zugedeckt mit Bananenblättern. Wende sie im Takt des Waldes – tippe auf „Wenden“, wenn der Ring golden leuchtet.',
+    trocknen: 'Jetzt trocknen die Bohnen in der Sonne. Wende sie wieder im Takt – und wenn eine Regenwolke kommt, deck sie schnell ab!',
+    wenden: 'Wenden', abdecken: 'Abdecken', aufdecken: 'Sonne – aufdecken',
+    gewendet: 'Gewendet', gut: 'Wundervoll – genau im Takt!', fast: 'Fast – lausch noch einmal dem Takt.',
+    regen: 'Eine Regenwolke kommt!', trocken: 'Gut abgedeckt – die Bohnen bleiben trocken.', nass: 'Oh, ein paar Tropfen … Beim nächsten Mal schneller abdecken.',
+    weiterTrocknen: 'Weiter zum Trocknen', geschafft: 'Geschafft! Die Bohnen duften und sind bereit für ihre weitere Reise.',
+    schliessen: 'Zurück in den Wald', nochmal: 'Noch einmal',
+  },
+});
+Object.assign(window.INHALT.wissen, {
+  fermentieren: { titel: 'Fermentieren', text: 'Nach der Ernte ruhen die Kakaobohnen bei Maya Munay mehrere Tage in der Fermentation. Dabei entstehen ihre Aromen.' },
+  trocknen: { titel: 'Trocknen in der Sonne', text: 'Danach trocknen die Bohnen mehrere Tage in der Sonne und werden immer wieder gewendet. Kommt Regen, deckt man sie ab.' },
+});

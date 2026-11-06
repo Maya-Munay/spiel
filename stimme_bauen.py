@@ -13,7 +13,7 @@ import hashlib, json, subprocess, sys, tempfile, wave
 from pathlib import Path
 
 HIER = Path(__file__).resolve().parent
-TTS = HIER.parent.parent / 'tts' / 'tts'
+TTS = next((p / 'tts' / 'tts' for p in HIER.parents if (p / 'tts' / 'tts').exists()), HIER.parent.parent / 'tts' / 'tts')   # findet tts/ auch nach dem Umzug in Unterordner
 ORDNER = HIER / 'stimme'
 
 STIL_KOLIBRI = 'Sprich hell, fröhlich und lebendig, wie ein kleiner, freundlicher Vogel'
@@ -68,6 +68,8 @@ def saetze(I):
     s['kolibri'] += list(I.get('questSchon', {}).values()) + I['quiz'].get('frageNochmal', [])
     s['wald'] += I.get('fruehFund', [])
     if 'moment' in I.get('bohnen', {}): s['wald'].append(I['bohnen']['moment'])
+    if 'ausblickSatz' in I: s[I['ausblickSatz'][0]].append(I['ausblickSatz'][1])   # roter Faden zum nächsten Kapitel
+    if 'ernte' in I: s['kolibri'] += [I['ernte'][k] for k in ('fermentieren', 'trocknen', 'geschafft')]   # Mini-Spiel
     return {w: list(dict.fromkeys(l)) for w, l in s.items()}
 
 

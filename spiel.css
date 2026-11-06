@@ -1126,3 +1126,113 @@ body.traegt #welt { cursor: grabbing; }
   font: 22px var(--schrift); color: var(--dunkel); background: var(--hell); border: 1px solid var(--gold); border-radius: 99px; padding: 6px 16px;
   animation: ortSchild .25s ease; }
 @keyframes ortSchild { from { opacity: 0; margin-top: 6px; } }
+
+/* ---------- Nachbesserung 06.11. nachmittags ---------- */
+/* Dinge im Rucksack und Flieger: Bild passt in sein Fach (beim Anwählen darf es wachsen) */
+.ding-in-tasche img, .flieger img { display: block; width: 100%; height: 100%; object-fit: contain; pointer-events: none;
+  filter: drop-shadow(0 0 1px rgba(22,16,10,.85)) drop-shadow(0 0 2px rgba(22,16,10,.3)); }
+#tasche .fach { overflow: visible; }
+/* Schilder und Karten in der Welt bleiben beim Zoomen gleich groß (die Ebene wird mitvergrößert, sie selbst nicht) */
+#spielflaeche > * { scale: var(--gegen, 1); transform-origin: 0 0; }
+/* Kapitel-Fenster: Platz sucht spiel.js (weicht Tieren aus), weich gleiten */
+#kapitel-fertig { transition: left .6s cubic-bezier(.3,1.2,.5,1), top .6s cubic-bezier(.3,1.2,.5,1); }
+/* Knöpfe Vollbild und Ganzer Blick (wie der Ton-Knopf) */
+#vollbild-knopf, #zoom-knopf { width: 68px; height: 56px; border-radius: 14px; border: 1px solid var(--gold); background: rgba(247,242,234,.92); cursor: pointer; padding: 8px; }
+#vollbild-knopf svg, #zoom-knopf svg { width: 100%; height: 100%; }
+#vollbild-knopf:focus-visible, #zoom-knopf:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+#vollbild-tipp { width: 620px; text-align: center; z-index: 27; }
+#vollbild-tipp p { font-size: 21px; line-height: 1.45; margin: 0 0 14px; }
+#vollbild-tipp .klein-tipp { font-size: 18px; font-style: italic; color: var(--braun); }
+body.handy #vollbild-tipp p { font-size: 27px; }
+body.handy #vollbild-tipp { width: 900px; }
+
+/* ---------- Erzählen mit Bildern, Ausblick, Sammelübersicht, Mini-Spiel (06.11. abends) ---------- */
+/* Bild zum Erzählten: wie ein Foto, schräg angeheftet, oben rechts (dort ist beim Erzählen des Waldes Platz) */
+#erzaehl-foto { position: absolute; right: 34px; top: 100px; width: 440px; margin: 0; padding: 10px 10px 8px; z-index: 11; pointer-events: none;
+  background: #FBF7EE; border-radius: 4px; box-shadow: 0 16px 40px rgba(0,0,0,.38), 0 0 0 1px rgba(203,174,111,.6); rotate: 1.6deg;
+  opacity: 0; translate: 0 14px; transition: opacity .5s ease, translate .6s cubic-bezier(.3,1.3,.5,1); }
+#erzaehl-foto.da { opacity: 1; translate: 0 0; }
+#erzaehl-foto img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 2px; }
+#erzaehl-foto figcaption { font: italic 17px/1.3 var(--schrift); color: var(--braun); text-align: center; padding: 8px 4px 0; }
+body.handy #erzaehl-foto { width: 600px; top: 96px; }
+body.handy #erzaehl-foto figcaption { font-size: 23px; }
+
+/* Kapitel-Fenster: zwei Knöpfe untereinander */
+#kapitel-fertig .kf-knoepfe { grid-column: 2; grid-row: 1 / span 3; display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+#kapitel-fertig .kf-knoepfe .knopf { grid-column: auto; grid-row: auto; }
+#kapitel-fertig .kf-ernte { font-size: 15px; padding: 8px 14px; }
+body.handy #kapitel-fertig .kf-ernte { font-size: 19px; }
+
+/* Schluss: Familie beim Patenschafts-Hinweis, Ausblick auf Kapitel 2 */
+.tafel .paten-hinweis { display: flex; align-items: center; gap: 14px; text-align: left; }
+.tafel .paten-hinweis .familie { flex: none; width: 86px; height: 86px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); }
+.ausblick { display: flex; align-items: center; gap: 18px; max-width: 760px; margin: 4px 0 18px; padding: 10px 14px; text-align: left;
+  background: rgba(255,251,241,.75); border: 1px solid var(--gold); border-radius: 14px; }
+.ausblick img { flex: none; width: 150px; height: 100px; object-fit: cover; border-radius: 10px; }
+.ausblick h3 { margin: 0 0 4px; font: italic 22px var(--schrift); color: var(--terrakotta); }
+.ausblick p { margin: 0; font-size: 19px; line-height: 1.4; }
+
+/* Wissensbuch: die 7 Geheimnisse – entdeckt in Farbe, sonst als Schattenriss */
+.geheimnisse { border-bottom: 1px solid #E2D6C2; padding: 2px 0 16px; margin-bottom: 4px; }
+.geheimnisse h3 { margin: 0 0 10px; font-size: 21px; font-weight: 400; color: var(--braun); }
+.geheimnis-reihe { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+.geheimnis { display: flex; flex-direction: column; align-items: center; gap: 4px; text-align: center; }
+.g-bild { width: 100%; aspect-ratio: 1; border-radius: 14px; background: radial-gradient(circle at 50% 45%, #FFF6E2, #E9D3A6); border: 2px solid var(--gold);
+  display: grid; place-items: center; overflow: hidden; }
+.g-bild img { width: 82%; height: 82%; object-fit: contain; filter: brightness(0) opacity(.32); }
+.geheimnis.da .g-bild img { filter: drop-shadow(0 0 1px rgba(22,16,10,.8)); }
+.geheimnis:not(.da) .g-bild { background: radial-gradient(circle at 50% 45%, #F3EDE2, #DCCDB2); border-style: dashed; }
+.g-name { font-size: 14px; line-height: 1.15; color: var(--dunkel); }
+.geheimnis:not(.da) .g-name { font-style: italic; color: var(--braun); }
+
+/* Mini-Spiel: Fermentieren und Trocknen */
+#ernte-spiel { width: 760px; text-align: center; padding: 22px 30px 24px; }
+#ernte-spiel h2 { margin-bottom: 10px; }
+.ernte-bild { position: relative; height: 300px; border-radius: 12px; overflow: hidden; border: 2px solid var(--gold); }
+.ernte-bild img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ernte-bild.gewendet img { animation: wenden .45s cubic-bezier(.3,1.4,.5,1); }
+@keyframes wenden { 30% { transform: scale(1.03) rotate(-.6deg); } 60% { transform: scale(1.01) rotate(.4deg); } }
+#ernte-spiel .anleitung { font-size: 19px; line-height: 1.4; margin: 12px 0 8px; }
+.ernte-leiste { display: flex; align-items: center; gap: 14px; justify-content: center; font-size: 18px; color: var(--braun); }
+.ernte-balken { width: 220px; height: 10px; border-radius: 5px; background: rgba(122,92,72,.18); overflow: hidden; }
+.ernte-balken i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #C26547, #E8C33A); border-radius: 5px; transition: width .4s ease; }
+.ernte-rueck { min-height: 28px; margin: 8px 0 10px; font-size: 20px; color: var(--braun); font-style: italic; }
+.ernte-rueck.gut { color: var(--terrakotta); font-style: normal; }
+.ernte-knoepfe { display: flex; gap: 14px; justify-content: center; align-items: center; }
+/* Takt-Ring: zieht sich zusammen, leuchtet golden auf dem Schlag */
+.ernte-takt { position: absolute; right: 18px; bottom: 18px; width: 86px; height: 86px; pointer-events: none; }
+.ernte-takt i, .ernte-takt b { position: absolute; inset: 0; border-radius: 50%; }
+.ernte-takt b { border: 4px solid rgba(255,248,230,.9); box-shadow: 0 0 0 2px rgba(53,46,38,.35); background: rgba(53,46,38,.25); }
+.ernte-takt i { border: 4px solid #FFE08A; transform: scale(calc(1.9 - .9 * var(--p, 0))); opacity: calc(.2 + .8 * var(--p, 0)); }
+.ernte-takt.schlag b { animation: taktGold .35s ease-out; }
+@keyframes taktGold { 0% { background: rgba(255,214,106,.95); box-shadow: 0 0 26px 8px rgba(255,214,106,.9); } 100% { background: rgba(53,46,38,.25); } }
+#ernte-spiel.geschafft .ernte-takt { display: none; }
+/* Duft aus der Kiste */
+.ernte-dampf { position: absolute; left: 30%; top: 30%; width: 120px; height: 120px; opacity: 0; pointer-events: none;
+  background: radial-gradient(circle, rgba(255,250,235,.85), rgba(255,250,235,0) 65%); }
+.ernte-dampf.da { animation: dampf 1.4s ease-out; }
+@keyframes dampf { 0% { opacity: 0; transform: translateY(20px) scale(.6); } 30% { opacity: .9; } 100% { opacity: 0; transform: translateY(-80px) scale(1.6); } }
+/* Regenwolke und Abdeckung beim Trocknen */
+.ernte-wolke { position: absolute; top: 14px; left: -40%; width: 38%; height: 90px; opacity: 0; transition: left 1.6s ease-in-out, opacity .8s; pointer-events: none; }
+.ernte-wolke.da { left: 30%; opacity: 1; }
+.ernte-wolke i { position: absolute; inset: 0; filter: drop-shadow(0 6px 8px rgba(40,50,70,.35));
+  background: radial-gradient(circle at 28% 62%, #B8C2CE 0 22%, transparent 23%), radial-gradient(circle at 50% 42%, #CBD3DC 0 28%, transparent 29%),
+    radial-gradient(circle at 72% 58%, #B3BDC9 0 24%, transparent 25%), radial-gradient(ellipse 46% 26% at 50% 74%, #98A3B1 0 98%, transparent 100%); }
+.ernte-wolke b { position: absolute; left: 10%; right: 10%; top: 70px; height: 200px; opacity: 0;
+  background: repeating-linear-gradient(105deg, rgba(220,235,255,.0) 0 10px, rgba(220,235,255,.7) 10px 12px); }
+.ernte-wolke.regnet b { opacity: 1; animation: regenFall .5s linear infinite; }
+@keyframes regenFall { from { background-position: 0 0; } to { background-position: -14px 40px; } }
+.ernte-decke { position: absolute; left: 3%; right: 3%; bottom: 4%; height: 50%; border-radius: 14px 14px 8px 8px; opacity: 0; transform: translateY(40px);
+  /* Jute-Plane über den Bohnen */
+  background: repeating-linear-gradient(0deg, rgba(90,60,30,.18) 0 2px, transparent 2px 6px), repeating-linear-gradient(90deg, rgba(90,60,30,.18) 0 2px, transparent 2px 6px),
+    linear-gradient(180deg, #D9B98A, #B88E5A); border: 2px solid #8A6438; box-shadow: 0 -6px 16px rgba(0,0,0,.3), inset 0 8px 14px rgba(255,240,210,.35);
+  transition: opacity .5s, transform .5s cubic-bezier(.3,1.3,.5,1); pointer-events: none; }
+.ernte-decke.da { opacity: .95; transform: none; }
+body.handy #ernte-spiel { width: 1000px; }
+body.handy #ernte-spiel .anleitung { font-size: 26px; }
+body.handy .ernte-rueck, body.handy .ernte-leiste { font-size: 24px; }
+body.handy .ernte-bild { height: 360px; }
+body.handy .g-name { font-size: 20px; }
+body.handy .geheimnisse h3 { font-size: 26px; }
+body.handy .ausblick p, body.handy .tafel .paten-hinweis { font-size: 23px; }
+body.handy .ausblick h3 { font-size: 27px; }
