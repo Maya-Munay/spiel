@@ -1099,3 +1099,8 @@ body.leicht .wurfschatten { filter: brightness(0); }
 body.leicht #regenbogen i { filter: none; }
 body.leicht .wasserfall, body.leicht .fallglitzer circle { filter: none; }
 body.leicht #baum-licht { filter: brightness(0) invert(1) drop-shadow(0 0 14px #FFFFFF); }
+
+/* Ganz leichter Modus (nach einem Absturz automatisch): Tiefe-Effekte aus, nur das Spiel selbst */
+body.sehr-leicht .vorn-gemalt, body.sehr-leicht .strahl-weich, body.sehr-leicht .sonnenfleck, body.sehr-leicht #vignette,
+body.sehr-leicht .wurfschatten { display: none !important; }
+body.sehr-leicht .ebene { will-change: auto; }

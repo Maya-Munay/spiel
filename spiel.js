@@ -26,10 +26,18 @@
   function skaliere() {
     if (PANORAMA) return;
     const ziel = innerHeight > 0 ? 900 * innerWidth / innerHeight : 1600;
-    BREITE = Math.round(Math.max(1600, Math.min(2560, ziel))); O = (BREITE - 1600) / 2;   // bis fast zur ganzen Weltbreite (2600)
+    const maxB = document.body.classList.contains('sehr-leicht') ? 1600 : 2560;
+    BREITE = Math.round(Math.max(1600, Math.min(maxB, ziel))); O = (BREITE - 1600) / 2;   // bis fast zur ganzen Weltbreite (2600)
     buehne.style.width = BREITE + 'px';
     massstab = Math.min(innerWidth / BREITE, innerHeight / 900);
-    buehne.style.transform = `translate(-50%, -50%) scale(${massstab})`;
+    if (ZOOM) {
+      // zoom: der Browser zeichnet direkt in Bildschirmgröße (transform:scale zeichnet groß und verkleinert danach)
+      const zl = (innerWidth - BREITE * massstab) / 2, zt = (innerHeight - 900 * massstab) / 2;
+      buehne.style.transform = 'none'; buehne.style.zoom = massstab;
+      buehne.style.left = (zl / massstab) + 'px'; buehne.style.top = (zt / massstab) + 'px';
+      const r = buehne.getBoundingClientRect();
+      if (Math.abs(r.left - zl) > 2 || Math.abs(r.top - zt) > 2) { buehne.style.left = zl + 'px'; buehne.style.top = zt + 'px'; }   // ältere zoom-Art
+    } else buehne.style.transform = `translate(-50%, -50%) scale(${massstab})`;
     document.body.classList.toggle('handy', massstab < .62);   // kleine Bildschirme: größere Schrift
     if (window.KAMERA) { const K = window.KAMERA; K.min = -500 + O; K.max = 500 - O; K.o = O; K.breite = BREITE;
       K.ziel = Math.max(K.min, Math.min(K.max, K.ziel)); K.x = Math.max(K.min, Math.min(K.max, K.x)); }
@@ -44,6 +52,15 @@
   // Speicher, Safari lädt die Seite dann neu („wiederholt ein Problem aufgetreten“).
   if (!PANORAMA && matchMedia('(pointer: coarse)').matches) { buehne.classList.add('sparsam'); document.body.classList.add('leicht'); }
   if (/leicht/.test(location.search)) { buehne.classList.add('sparsam'); document.body.classList.add('leicht'); }   // zum Prüfen am PC
+  // Absturz-Erkennung: Wurde die Seite beim letzten Mal nicht ordentlich verlassen (Safari hat sie wegen Speicher beendet),
+  // läuft sie jetzt im ganz leichten Modus
+  try {
+    if (sessionStorage.getItem('kakao-laeuft') === '1' || /sehrleicht/.test(location.search)) {
+      buehne.classList.add('sparsam'); document.body.classList.add('leicht', 'sehr-leicht');
+    }
+    const lauf = () => sessionStorage.setItem('kakao-laeuft', '1');
+    lauf(); addEventListener('pageshow', lauf); addEventListener('pagehide', () => sessionStorage.removeItem('kakao-laeuft'));
+  } catch (e) {}
   // Wellen und wiegende Kronen kosten Rechenleistung: kurz die Bildrate messen, auf schwachen Geräten abschalten
   if (!PANORAMA) {
     let n = 0, t0 = 0;
@@ -68,6 +85,15 @@
   // Start ganz links beim großen Baum – er spricht zuerst, so schwenkt der Blick nicht gleich von rechts nach links
   const KAM = { x: -500, ziel: -500, min: -500, max: 500, o: 0, breite: 1600 };
   window.KAMERA = KAM;
+  // zoom nur nutzen, wenn der Browser es so umsetzt, dass alle Umrechnungen stimmen (Rechtecke verkleinert, Maße unverkleinert)
+  const ZOOM = (() => {
+    if (PANORAMA || !document.body.classList.contains('leicht') || !('zoom' in document.body.style)) return false;
+    try {
+      const t = document.createElement('div'); t.style.cssText = 'position:fixed;left:0;top:0;zoom:.5;visibility:hidden;pointer-events:none';
+      const k = document.createElement('div'); k.style.cssText = 'width:100px;height:100px'; t.append(k); document.body.append(t);
+      const r = k.getBoundingClientRect(), ok = Math.abs(r.width - 50) < 1 && Math.abs(k.offsetWidth - 100) < 1; t.remove(); return ok;
+    } catch (e) { return false; }
+  })();
   addEventListener('resize', skaliere); skaliere();
   const klemme = x => Math.max(KAM.min, Math.min(KAM.max, x));
   const kameraZu = x => { KAM.ziel = klemme(x); };
