@@ -1082,3 +1082,20 @@ body.handy #hinweis { font-size: 25px; }
 body.handy .wissenskarte p { font-size: 22px; }
 body.handy #kapitel-fertig .satz, body.handy #kapitel-fertig .rest { font-size: 21px; }
 body.handy #kapitel-fertig .knopf { font-size: 23px; }
+
+/* ---------- Speicher sparen (06.11.: iPhone stürzte beim Querlegen ab) ---------- */
+/* Blätter vorn sind jetzt fertig weichgezeichnet – kein Filter mehr nötig */
+.vorn-gemalt img { filter: none; }
+/* Sternenhimmel und weißes Baum-Leuchten nur zeichnen, wenn sie gebraucht werden */
+.sternenhimmel { display: none; }
+#buehne.nachts .sternenhimmel { display: block; animation: sterneAuf 1.6s ease both; }
+@keyframes sterneAuf { from { opacity: 0; } to { opacity: 1; } }
+#buehne.nachts.regnet .sternenhimmel { animation: none; opacity: .25; }
+#baum-licht:not(.blitzt) { display: none; }
+/* Leichter Modus (Handy/Tablet): keine teuren Filter auf großen Flächen */
+body.leicht #dialog { -webkit-backdrop-filter: none; backdrop-filter: none; background: rgba(247,242,234,.9); }
+body.leicht .strahl-weich { filter: none; background: radial-gradient(ellipse 50% 70% at 50% 0, rgba(255,240,190,.42), rgba(255,226,150,.14) 55%, rgba(255,226,150,0) 100%); }
+body.leicht .wurfschatten { filter: brightness(0); }
+body.leicht #regenbogen i { filter: none; }
+body.leicht .wasserfall, body.leicht .fallglitzer circle { filter: none; }
+body.leicht #baum-licht { filter: brightness(0) invert(1) drop-shadow(0 0 14px #FFFFFF); }

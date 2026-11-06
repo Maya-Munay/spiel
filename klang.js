@@ -378,6 +378,7 @@
         .then(b => new Promise((ok, nein) => ctx.decodeAudioData(b, ok, nein)));
       p.catch(() => stimmPuffer.delete(src));
       stimmPuffer.set(src, p);
+      while (stimmPuffer.size > 6) stimmPuffer.delete(stimmPuffer.keys().next().value);   // Speicher schonen (Handys)
     }
     return stimmPuffer.get(src);
   }

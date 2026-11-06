@@ -39,6 +39,11 @@
   if (!PANORAMA && !/svg/.test(location.search)) {
     const fb = new Image(); fb.onload = () => { buehne.classList.add('mit-figuren'); $('#baumgesicht').hidden = false; }; fb.src = 'bilder/platzhalter/figuren/baum5.webp';
   }
+  // Handys und Tablets (Finger als Haupteingabe): leichter Modus von Anfang an. Das Wiegen der Kronen und die Wellen
+  // brauchen vier unsichtbare Kopien des großen Weltbilds mit Filtern – auf dem iPhone sprengt das beim Querlegen den
+  // Speicher, Safari lädt die Seite dann neu („wiederholt ein Problem aufgetreten“).
+  if (!PANORAMA && matchMedia('(pointer: coarse)').matches) { buehne.classList.add('sparsam'); document.body.classList.add('leicht'); }
+  if (/leicht/.test(location.search)) { buehne.classList.add('sparsam'); document.body.classList.add('leicht'); }   // zum Prüfen am PC
   // Wellen und wiegende Kronen kosten Rechenleistung: kurz die Bildrate messen, auf schwachen Geräten abschalten
   if (!PANORAMA) {
     let n = 0, t0 = 0;
