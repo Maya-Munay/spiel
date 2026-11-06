@@ -276,10 +276,10 @@
     }
     // seitlich neben das Tier (zur Bildmitte hin), senkrecht mittig, im sichtbaren Ausschnitt; Zipfel zeigt zum Tier
     $('#spielflaeche').append(k);
-    const kx = window.KAMERA ? window.KAMERA.ziel : 0, w0 = k.offsetWidth, h0 = k.offsetHeight;
-    const mitteX = box[0] + box[2] / 2, mitteY = box[1] + box[3] / 2, rechts = mitteX - kx < 800;
+    const K = window.KAMERA || { ziel: 0, o: 0, breite: 1600 }, kx = K.ziel - (K.o || 0), breite = K.breite || 1600, w0 = k.offsetWidth, h0 = k.offsetHeight;
+    const mitteX = box[0] + box[2] / 2, mitteY = box[1] + box[3] / 2, rechts = mitteX - kx < breite / 2;
     let x = rechts ? box[0] + box[2] + 24 : box[0] - 24 - w0;
-    x = Math.max(kx + 20, Math.min(kx + 1580 - w0, x));
+    x = Math.max(kx + 20, Math.min(kx + breite - 20 - w0, x));
     const y = Math.max(90, Math.min(860 - h0, mitteY - h0 / 2));
     k.style.left = x + 'px'; k.style.top = y + 'px';
     k.classList.add(rechts ? 'zipfel-links' : 'zipfel-rechts');

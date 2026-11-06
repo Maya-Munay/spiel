@@ -4,7 +4,7 @@
 // in klang/ (Kolibri: Fliegen, Anflug, Abflug; Waldvögel – Herkunft siehe klang/QUELLEN.md).
 // Fehlt eine Aufnahme, springt automatisch der live erzeugte Ersatz ein.
 (() => {
-  let ctx = null, master, amb, effekt, tiere, hall, rausch;
+  let ctx = null, master, amb, effekt, tiere, hall, rausch, stimmBus;
   let stumm = false;
   try { stumm = localStorage.getItem('kakao-stumm') === '1'; } catch (e) {}
   const zufall = (a, b) => a + Math.random() * (b - a);
@@ -62,6 +62,12 @@
     ctx = new AC();
     master = ctx.createGain(); master.gain.value = stumm ? 0 : 1; master.connect(ctx.destination);
     amb = ctx.createGain(); amb.gain.value = .9; amb.connect(master);
+    stimmBus = ctx.createGain(); stimmBus.gain.value = 1; stimmBus.connect(master);   // Stimmen laufen im selben Ton-System wie der Wald
+    // Handys halten den Ton manchmal an (andere Wiedergabe, Anruf, Sperrbildschirm) – dann gleich wieder wecken
+    ctx.onstatechange = () => { if (ctx.state !== 'running' && !document.hidden) ctx.resume().catch(() => {}); };
+    const wecken = () => { if (ctx && ctx.state !== 'running') ctx.resume().catch(() => {}); };
+    ['pointerdown', 'touchend', 'keydown'].forEach(n => addEventListener(n, wecken, { passive: true }));
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) wecken(); });
     effekt = ctx.createGain(); effekt.gain.value = .8; effekt.connect(master);
     // eigener, kräftiger Kanal für Tierlaute (Wunsch Yilmaz: viel lauter), mit Begrenzer gegen Übersteuern
     const begrenzer = ctx.createDynamicsCompressor(); begrenzer.threshold.value = -12; begrenzer.knee.value = 6; begrenzer.ratio.value = 8;
@@ -363,9 +369,41 @@
   };
 
   // ---------- Stimme ----------
+  // Stimmen werden als Ton-Puffer im selben Web-Audio-System abgespielt. Früher lief jede Stimme über ein eigenes
+  // Audio-Element – auf Handys (vor allem iPhone) hielt das danach die Waldgeräusche an.
+  const stimmPuffer = new Map();
+  function stimmeLaden(src) {
+    if (!stimmPuffer.has(src)) {
+      const p = fetch(src).then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+        .then(b => new Promise((ok, nein) => ctx.decodeAudioData(b, ok, nein)));
+      p.catch(() => stimmPuffer.delete(src));
+      stimmPuffer.set(src, p);
+    }
+    return stimmPuffer.get(src);
+  }
   function sprich(src, beiDauer) {
     hoerAuf();
     if (!src) return Promise.resolve();
+    if (ctx && location.protocol !== 'file:') {
+      const marke = { muted: stumm, quelle: null, stopp() { try { this.quelle && this.quelle.stop(); } catch (e) {} } };
+      stimme = marke;
+      amb.gain.setTargetAtTime(.45, ctx.currentTime, .3);
+      return new Promise(res => {
+        let sicher = null;
+        const fertig = () => { clearTimeout(sicher); if (stimme === marke) { stimme = null; amb.gain.setTargetAtTime(.9, ctx.currentTime, .8); } res(); };
+        stimmeLaden(src).then(buf => {
+          if (stimme !== marke) return res();
+          if (ctx.state !== 'running') ctx.resume().catch(() => {});
+          if (beiDauer) beiDauer(buf.duration);
+          const q = ctx.createBufferSource(); q.buffer = buf; q.connect(stimmBus); q.onended = fertig; marke.quelle = q; q.start();
+          sicher = setTimeout(fertig, (buf.duration + 1.2) * 1000);   // falls der Ton angehalten ist: das Spiel läuft trotzdem weiter
+        }).catch(() => { if (stimme === marke) { stimme = null; sprichElement(src, beiDauer).then(res); } else res(); });
+      });
+    }
+    return sprichElement(src, beiDauer);
+  }
+  // Rückfall (z. B. Spiel als Datei geöffnet): Audio-Element wie bisher
+  function sprichElement(src, beiDauer) {
     const a = new Audio(src); a.muted = stumm; stimme = a;
     if (beiDauer) a.addEventListener('loadedmetadata', () => beiDauer(a.duration), { once: true });   // damit der Text im Sprechtempo erscheint
     if (ctx) amb.gain.setTargetAtTime(.45, ctx.currentTime, .3); // Dschungel leiser, solange der Kolibri spricht
@@ -375,7 +413,7 @@
       a.play().catch(fertig);
     });
   }
-  function hoerAuf() { if (stimme) { const a = stimme; stimme = null; a.pause(); } if (ctx) amb.gain.setTargetAtTime(.9, ctx.currentTime, .8); }
+  function hoerAuf() { if (stimme) { const a = stimme; stimme = null; if (a.pause) a.pause(); else a.stopp(); } if (ctx) amb.gain.setTargetAtTime(.9, ctx.currentTime, .8); }
 
   window.KLANG = {
     an,
@@ -391,6 +429,7 @@
     kolibriOrt(x) { if (ctx && kolPan && kolPan.pan) kolPan.pan.setTargetAtTime(Math.max(-.9, Math.min(.9, x / 800 - 1)), ctx.currentTime, .05); },
     stopp(name) { if (laufend[name]) { laufend[name](); delete laufend[name]; } },
     sprich, hoerAuf,
+    vorladen(src) { if (ctx && src && location.protocol !== 'file:') stimmeLaden(src).catch(() => {}); },
     get geladen() { return Object.keys(puffer); },   // zum Prüfen: welche Aufnahmen bereit sind
   };
 })();

@@ -5,9 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kakao-Reise · Maya Munay</title>
 <link rel="icon" type="image/png" href="assets/mm-zeichen.png">
-<link rel="stylesheet" href="spiel.css?v=75">
+<link rel="stylesheet" href="spiel.css?v=77">
 </head>
 <body>
+<!-- Ladebildschirm: zeigt Maya Munay, bis Bilder und Klänge da sind -->
+<div id="laden" role="status" aria-live="polite">
+  <img class="laden-logo" src="assets/mayamunay-logo.png" alt="Maya Munay">
+  <div class="laden-keim" aria-hidden="true"><i></i><b></b><b></b></div>
+  <p class="laden-text">Der Wald erwacht …</p>
+  <div class="laden-balken" aria-hidden="true"><span></span></div>
+</div>
+<!-- Hochkant am Handy: eigener Hinweis außerhalb der Bühne (sonst würde er mit verkleinert) -->
+<div id="hochkant">
+    <img src="assets/mayamunay-logo.png" alt="Maya Munay">
+    <div class="dreh" aria-hidden="true"><i></i></div>
+    <p>Magst du dein Handy quer halten?<br>Dann hat der Wald genug Platz.</p>
+    <button class="knopf hell" id="hochkant-weiter">Trotzdem so spielen</button>
+</div>
 
 <!-- Gemeinsame Zeichen-Werkzeuge (Aquarell-Filter, Farbverläufe) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -579,7 +593,7 @@
   </section>
   <!-- Urkunde (Platzhalter im Maya-Munay-Stil; die echte Urkunde gestaltet der Künstler Panambi) -->
   <section id="urkunde" hidden aria-label="Patenschaftsurkunde">
-    <img class="urkunde-bild" src="assets/urkunde-caripito.jpg" alt="Urkunde über die Patenschaft eines Kakaobaumes von Maya Munay">
+    <img class="urkunde-bild" loading="lazy" src="assets/urkunde-caripito.jpg" alt="Urkunde über die Patenschaft eines Kakaobaumes von Maya Munay">
     <p class="urkunde-streifen"><span class="u-fuer"></span> <b class="u-name"></b> · <span class="u-mit"></span> <b class="u-wunsch"></b></p>
     <p class="u-ort"></p>
     <button class="knopf hell u-zu" hidden></button>
@@ -639,15 +653,14 @@
     <button class="knopf" id="nochmal">Noch einmal spielen</button>
   </section>
 
-  <div id="hochkant">Magst du dein Gerät quer halten? Dann wird die Szene größer.</div>
 </main>
 </div>
 
-<script src="inhalt.js?v=75"></script>
-<script src="stimme/stimmen.js?v=75"></script>
-<script src="klang/aufnahmen.js?v=75"></script>
-<script src="klang.js?v=75"></script>
-<script src="entdecken.js?v=75"></script>
-<script src="spiel.js?v=75"></script>
+<script src="inhalt.js?v=77"></script>
+<script src="stimme/stimmen.js?v=77"></script>
+<script src="klang/aufnahmen.js?v=77"></script>
+<script src="klang.js?v=77"></script>
+<script src="entdecken.js?v=77"></script>
+<script src="spiel.js?v=77"></script>
 </body>
 </html>

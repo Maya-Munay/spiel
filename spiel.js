@@ -18,16 +18,22 @@
   const buehne = $('#buehne'), baum = $('#baum'), dialog = $('#dialog');
 
   // ---------- Bühne an Fenstergröße anpassen ----------
-  let massstab = 1;
+  let massstab = 1, BREITE = 1600, O = 0;   // Bühnenbreite passt sich breiten Handys an (O = halber Zuwachs)
   // ?panorama: zeigt die ganze Welt (2600 × 900) ohne Figuren und Knöpfe – nur als Vorlage für das gemalte Weltbild
   const PANORAMA = /panorama/.test(location.search);
   if (PANORAMA) document.body.classList.add('panorama');
+  // Breite Handys (quer) zeigen mehr vom Wald statt schwarzer Ränder: Bühne 1600–2560 px breit, immer 900 hoch
   function skaliere() {
     if (PANORAMA) return;
-    massstab = Math.min(innerWidth / 1600, innerHeight / 900);
+    const ziel = innerHeight > 0 ? 900 * innerWidth / innerHeight : 1600;
+    BREITE = Math.round(Math.max(1600, Math.min(2560, ziel))); O = (BREITE - 1600) / 2;   // bis fast zur ganzen Weltbreite (2600)
+    buehne.style.width = BREITE + 'px';
+    massstab = Math.min(innerWidth / BREITE, innerHeight / 900);
     buehne.style.transform = `translate(-50%, -50%) scale(${massstab})`;
+    document.body.classList.toggle('handy', massstab < .62);   // kleine Bildschirme: größere Schrift
+    if (window.KAMERA) { const K = window.KAMERA; K.min = -500 + O; K.max = 500 - O; K.o = O; K.breite = BREITE;
+      K.ziel = Math.max(K.min, Math.min(K.max, K.ziel)); K.x = Math.max(K.min, Math.min(K.max, K.x)); }
   }
-  addEventListener('resize', skaliere); skaliere();
 
   // Gemalte Figuren (Kakaobaum, Kolibri) nutzen, sobald sie geladen sind
   if (!PANORAMA && !/svg/.test(location.search)) {
@@ -54,8 +60,10 @@
   // Die Welt ist breiter als der Bildschirm (−500 … 2100). Umschauen: Maus an den Rand, Pfeiltasten,
   // mit dem Finger/der Maus ziehen oder die Pfeil-Knöpfe. Jede Ebene wandert nach ihrer Tiefe (data-kamera).
   const ebenen = $$('[data-tiefe]').map(el => ({ el, t: PANORAMA ? 0 : +el.dataset.tiefe, k: PANORAMA ? 1 : +(el.dataset.kamera ?? 1) }));
-  const KAM = { x: PANORAMA ? -500 : 0, ziel: PANORAMA ? -500 : 0, min: -500, max: 500 };
+  // Start ganz links beim großen Baum – er spricht zuerst, so schwenkt der Blick nicht gleich von rechts nach links
+  const KAM = { x: -500, ziel: -500, min: -500, max: 500, o: 0, breite: 1600 };
   window.KAMERA = KAM;
+  addEventListener('resize', skaliere); skaliere();
   const klemme = x => Math.max(KAM.min, Math.min(KAM.max, x));
   const kameraZu = x => { KAM.ziel = klemme(x); };
   const umschauErlaubt = () => $('#titel').classList.contains('weg') && $('#erzaehlbild').hidden && $('#buch').hidden && $('#ende').hidden
@@ -66,7 +74,7 @@
   addEventListener('pointermove', e => {
     ziel.x = (e.clientX / innerWidth - .5) * 2; ziel.y = (e.clientY / innerHeight - .5) * 2;
     const { x, y } = aufBuehne(e);
-    rand = (e.pointerType === 'mouse' && y > 0 && y < 900 && !zieh && !e.target.closest?.('#tasche, #ablage, .flieger')) ? (x < 110 && x > -40 ? -(1 - x / 110) : x > 1490 && x < 1640 ? (x - 1490) / 110 : 0) : 0;
+    rand = (e.pointerType === 'mouse' && y > 0 && y < 900 && !zieh && !e.target.closest?.('#tasche, #ablage, .flieger')) ? (x < 110 && x > -40 ? -(1 - x / 110) : x > BREITE - 110 && x < BREITE + 40 ? (x - (BREITE - 110)) / 110 : 0) : 0;
     if (zieh) { const dx = (e.clientX - zieh.x0) / massstab; if (Math.abs(dx) > 8) gezogen = true; if (gezogen) KAM.ziel = KAM.x = klemme(zieh.kam - dx); }
   });
   buehne.addEventListener('pointerleave', () => { rand = 0; });
@@ -92,7 +100,7 @@
     const k = RUHIG ? 0 : 1;
     ist.x += ((ziel.x * k + sx) - ist.x) * .05;
     ist.y += ((ziel.y * k + sy) - ist.y) * .05;
-    for (const { el, t, k: kk } of ebenen) el.style.transform = `translate3d(${(-KAM.x * kk - ist.x * t * 24).toFixed(1)}px, ${(-ist.y * t * 10).toFixed(1)}px, 0)`;
+    for (const { el, t, k: kk } of ebenen) el.style.transform = `translate3d(${(-(KAM.x - O) * kk - ist.x * t * 24).toFixed(1)}px, ${(-ist.y * t * 10).toFixed(1)}px, 0)`;
     const l = !frei || KAM.x < KAM.min + 20, r = !frei || KAM.x > KAM.max - 20;
     if (pfeilL.hidden !== l) pfeilL.hidden = l;
     if (pfeilR.hidden !== r) pfeilR.hidden = r;
@@ -437,17 +445,17 @@
     if (r) {
       const dx = KAM.x - KAM.ziel;   // dort, wo der Sprecher nach dem Kameraschwenk steht – die Blase springt nicht
       r = { l: (r.left - b.left) / massstab + dx, t: (r.top - b.top) / massstab, r: (r.right - b.left) / massstab + dx, u: (r.bottom - b.top) / massstab };
-      if (r.r < 30 || r.l > 1570 || r.u < 0 || r.t > 900) r = null;
+      if (r.r < 30 || r.l > BREITE - 30 || r.u < 0 || r.t > 900) r = null;
     }
     if (!r) { if (dialog.classList.contains('blase')) { dialog.classList.remove('blase', 'oben', 'unten', 'rechts'); dialog.style.left = dialog.style.top = ''; } return; }
     dialog.classList.add('blase');
     const w = dialog.offsetWidth, h = dialog.offsetHeight;
     let x, y, modus, zipfel;
     if (sprechWer === 'wald') {
-      x = Math.min(1580 - w, r.r + 28); y = Math.max(90, Math.min(880 - h, (r.t + r.u) / 2 - h / 2)); modus = 'rechts'; zipfel = (r.t + r.u) / 2 - y;
+      x = Math.min(BREITE - 20 - w, r.r + 28); y = Math.max(90, Math.min(880 - h, (r.t + r.u) / 2 - h / 2)); modus = 'rechts'; zipfel = (r.t + r.u) / 2 - y;
     } else {
       const mx = (r.l + r.r) / 2;
-      x = Math.max(20, Math.min(1580 - w, mx - w / 2));
+      x = Math.max(20, Math.min(BREITE - 20 - w, mx - w / 2));
       if (r.t - 26 - h > 86) { y = r.t - 26 - h; modus = 'oben'; } else { y = Math.min(880 - h, r.u + 26); modus = 'unten'; }
       zipfel = Math.max(28, Math.min(w - 28, mx - x));
     }
@@ -585,9 +593,11 @@
   const ebBilder = I.legende.map(teil => {
     const im = new Image(); im.alt = ''; im.dataset.bild = teil.bild; im.onerror = () => im.remove();
     im.onload = () => $('#erzaehlbild .eb-buehne').classList.add('mit-bildern');
-    im.src = bild(teil.bild); $('#erzaehlbild .eb-bilder').append(im); return im;
+    $('#erzaehlbild .eb-bilder').append(im); return im;
   });
+  const legendeLaden = () => ebBilder.forEach((im, i) => { if (!im.getAttribute('src')) im.src = bild(I.legende[i].bild); });
   async function legende() {
+    legendeLaden();
     const eb = $('#erzaehlbild');
     $('figcaption', eb).textContent = I.legendeHinweis;
     const erstes = ebBilder.find(im => im.dataset.bild === I.legende[0].bild);   // erstes Bild ohne Einblenden, sonst schimmert die Zeichnung durch
@@ -1025,6 +1035,7 @@
     if (st) { $('#start').textContent = I.weiter; const nb = $('#neu-beginnen'); nb.textContent = I.neu; nb.hidden = false; }
     const wahl = await new Promise(r => { $('#start').onclick = () => r('weiter'); $('#neu-beginnen').onclick = () => r('neu'); });
     KLANG.an();
+    [...I.pflanzen, ...I.patenschaft].forEach(([, t]) => KLANG.vorladen(datei(t)));   // erste Sätze schon holen
     $('#titel').classList.add('weg');
     let punkt = 'anfang';
     if (st && wahl === 'weiter') { wiederherstellen(st); punkt = st.punkt; await warte(700); }
@@ -1045,7 +1056,7 @@
     const M = { x: 800, y: 560 }, flieger = [];
     for (let i = 0; i < 7; i++) {
       const b = document.createElement('div'); b.className = 'bohne-flug'; b.innerHTML = `<img src="${FIGUR('bohne')}" alt="">`;
-      b.style.left = (KAM.x + 150 + Math.random() * 1300) + 'px'; b.style.top = (120 + Math.random() * 300) + 'px';
+      b.style.left = (KAM.x - O + 150 + Math.random() * (BREITE - 300)) + 'px'; b.style.top = (120 + Math.random() * 300) + 'px';
       $('#spielflaeche').append(b); flieger.push(b);
     }
     KLANG.spiel('funkeln');
@@ -1103,6 +1114,23 @@
   plaetze = ENTDECKEN.verstecke($$('.sammel'));
   plaetze.forEach(p => { p.onclick = () => versteckKlick(p); });
   const fruchtFeld = $('.ueber-kakaofrucht'); if (fruchtFeld) fruchtFeld.hidden = true;   // erst, wenn der Baum Früchte trägt
+
+  // Ladebildschirm: Fortschritt nach geladenen Bildern, weg sobald alles da ist (spätestens nach 15 s)
+  (function laden() {
+    const el = $('#laden'); if (!el) return;
+    const balken = $('.laden-balken span', el);
+    const bilder = [...document.images].filter(im => !im.closest('#laden') && im.getAttribute('loading') !== 'lazy');
+    const stand = () => { const n = bilder.filter(im => im.complete).length; balken.style.width = Math.round(15 + 85 * n / Math.max(1, bilder.length)) + '%'; };
+    const uhr = setInterval(stand, 150); stand();
+    const fertig = () => {
+      clearInterval(uhr); balken.style.width = '100%';
+      setTimeout(() => { el.classList.add('weg'); setTimeout(() => el.remove(), 900); }, 250);
+      setTimeout(legendeLaden, 2500);   // Legendenbilder in Ruhe nachladen
+    };
+    if (document.readyState === 'complete') fertig(); else { addEventListener('load', fertig, { once: true }); setTimeout(fertig, 15000); }
+  })();
+  // Hochkant am Handy: großer Hinweis zum Drehen, auf Wunsch trotzdem weiter
+  $('#hochkant-weiter')?.addEventListener('click', () => document.body.classList.add('hochkant-ok'));
 
   // ?blick=-500: zum Testen/Zeigen direkt in die Welt schauen (ohne Titel), Kamera an diese Stelle
   const blick = location.search.match(/blick=(-?\d+)/);

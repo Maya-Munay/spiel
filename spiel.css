@@ -1038,3 +1038,47 @@ body.flach .vorn-gemalt, body.flach #vignette, body.flach .strahl-weich { displa
 .buch-x span { font-size: 17px; line-height: 1; }
 .buch-x:hover { background: #F6E7C6; transform: translateY(-1px); }
 .buch-x:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+/* ---------- Online / Handy (06.11.) ---------- */
+/* Legende mittig, auch wenn die Bühne breiter ist */
+#erzaehlbild { left: calc(50% - 450px); }
+/* Ladebildschirm in den Farben von Maya Munay */
+#laden { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px;
+  background: radial-gradient(ellipse at center, #F7F2EA 0%, #EFE6D5 55%, #CBAE6F 100%); transition: opacity .8s ease; }
+#laden.weg { opacity: 0; pointer-events: none; }
+.laden-logo { width: min(320px, 62vw); height: auto; }
+.laden-text { margin: 0; font: italic clamp(16px, 2.4vw, 22px) var(--schrift); color: var(--braun); }
+.laden-balken { width: min(320px, 62vw); height: 6px; border-radius: 3px; background: rgba(122,92,72,.18); overflow: hidden; }
+.laden-balken span { display: block; height: 100%; width: 15%; background: linear-gradient(90deg, #C26547, #E8C33A); border-radius: 3px; transition: width .4s ease; }
+/* kleiner Keimling, der wächst */
+.laden-keim { position: relative; width: 60px; height: 60px; }
+.laden-keim i { position: absolute; left: 29px; bottom: 6px; width: 3px; height: 34px; background: #5E8A3C; border-radius: 2px; transform-origin: 50% 100%; animation: keimWachsen 2.4s ease-in-out infinite; }
+.laden-keim b { position: absolute; bottom: 30px; width: 18px; height: 10px; background: #79B24E; border-radius: 100% 0; transform-origin: 0 100%; animation: blattAuf 2.4s ease-in-out infinite; }
+.laden-keim b { left: 31px; transform: rotate(-20deg); }
+.laden-keim b + b { left: 12px; border-radius: 0 100%; transform-origin: 100% 100%; transform: rotate(20deg); }
+@keyframes keimWachsen { 0% { transform: scaleY(.2); } 50%, 100% { transform: scaleY(1); } }
+@keyframes blattAuf { 0%, 30% { opacity: 0; scale: .2; } 60%, 100% { opacity: 1; scale: 1; } }
+@media (prefers-reduced-motion: reduce) { .laden-keim i, .laden-keim b { animation: none; } }
+/* Hochkant: eigener großer Hinweis statt winziger Szene */
+@media (orientation: portrait) and (max-width: 700px) {
+  #hochkant { position: fixed; inset: 0; z-index: 90; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+    padding: 30px; font-size: 20px; line-height: 1.45; background: radial-gradient(ellipse at center, #F7F2EA 0%, #EFE6D5 60%, #CBAE6F 100%); color: var(--dunkel); }
+  #hochkant img { width: 62vw; max-width: 280px; height: auto; }
+  #hochkant p { margin: 0; }
+  #hochkant .knopf { font-size: 17px; padding: 10px 22px; }
+  #hochkant .dreh { width: 46px; height: 80px; border: 3px solid var(--braun); border-radius: 10px; animation: drehen 2.6s ease-in-out infinite; }
+  #hochkant .dreh i { display: block; width: 14px; height: 3px; margin: 6px auto 0; background: var(--braun); border-radius: 2px; }
+  body.hochkant-ok #hochkant { display: none; }
+}
+@keyframes drehen { 0%, 25% { transform: rotate(0); } 55%, 85% { transform: rotate(-90deg); } 100% { transform: rotate(0); } }
+/* Kleine Bildschirme (Handy quer): Texte und Knöpfe größer, damit sie lesbar bleiben */
+body.handy #dialog .text { font-size: 34px; }
+body.handy #dialog.blase .text { font-size: 31px; }
+body.handy #dialog .sprecher { font-size: 19px; }
+body.handy #dialog { max-width: 1100px; }
+body.handy #dialog.blase { max-width: 760px; }
+body.handy .knopf { font-size: 27px; padding: 14px 30px; }
+body.handy #hinweis { font-size: 25px; }
+body.handy .wissenskarte p { font-size: 22px; }
+body.handy #kapitel-fertig .satz, body.handy #kapitel-fertig .rest { font-size: 21px; }
+body.handy #kapitel-fertig .knopf { font-size: 23px; }
