@@ -117,7 +117,7 @@ window.STIMMEN = {
  "Hallo, kleiner Mensch. Schau dich ruhig in Ruhe um.": "stimme/64098cf578.mp3",
  "Hihi, das kitzelt in meiner Rinde!": "stimme/d87aee1b76.mp3",
  "Psst … im Wald gibt es überall etwas zu entdecken.": "stimme/db9c1d7cf7.mp3",
- "Schau, deine Urkunde! In Macuro, einem Dorf am Meer in Venezuela, pflanzen Bauernfamilien echte Kakaobäume für ihre Paten.": "stimme/7675a3f40e.mp3",
+ "Schau, deine Urkunde! In Macuro, einem Dorf am Meer in Venezuela, pflanzen Bauernfamilien echte Kakaobäume für ihre Paten.": "stimme/951dbb02ab.mp3",
  "Wo möchte dein Samen wachsen? Schau dich um und wähle einen Platz.": "stimme/99d30e2df5.mp3",
  "Bevor dein Samen in die Erde kommt, zeichnen wir ein Kraftsymbol in den Boden – das Sri Yantra. Es stärkt den Segen für deinen Kakaobaum.": "stimme/35285e6dd8.mp3",
  "Und jetzt singen wir ihm ein Lied. Hör nur – die Vögel kommen dazu.": "stimme/7d93c4552c.mp3",

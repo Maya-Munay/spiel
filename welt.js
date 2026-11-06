@@ -1480,8 +1480,8 @@
     // Figuren aus dem gemeinsamen Bildblatt (wenige Dateien = schneller online); fehlt es, kommen die Einzelbilder
     const ausBlatt = async () => {
       try {
-        const info = await (await fetch('bilder/platzhalter/figuren/bildblatt.json?v=92')).json();
-        const blaetter = await Promise.all(info.blaetter.map(f => ladeBild(`bilder/platzhalter/figuren/${f}?v=92`)));
+        const info = await (await fetch('bilder/platzhalter/figuren/bildblatt.json?v=93')).json();
+        const blaetter = await Promise.all(info.blaetter.map(f => ladeBild(`bilder/platzhalter/figuren/${f}?v=93`)));
         if (blaetter.some(b => !b)) return false;
         for (const [n, [b, x, y, w, h]] of Object.entries(info.bilder)) BILDER[n] = { blatt: blaetter[b], sx: x, sy: y, naturalWidth: w, naturalHeight: h };
         return true;

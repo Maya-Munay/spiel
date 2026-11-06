@@ -313,14 +313,16 @@ window.WELT.bereit.then(() => { (() => {
   }
   // Bild zum Erzählten: erscheint beim passenden Satz und bleibt, bis ein anderes kommt oder das Gespräch endet
   const foto = $('#erzaehl-foto');
-  function zeigeFoto(text) {
-    const e = (I.erzaehlBilder || []).find(e => text.startsWith(e.satz));
+  const fotoFuer = text => (I.erzaehlBilder || []).find(e => text.startsWith(e.satz));
+  // ab welchem Zeichen das Bild erscheint (dort, wo das passende Wort gesprochen wird)
+  const fotoAb = (e, text) => e && e.ab ? Math.max(0, text.indexOf(e.ab)) : 0;
+  function zeigeFoto(e) {
     if (!e) return;
     if (!e.bild) { versteckeFoto(); return; }
     const img = $('img', foto), src = bild(e.bild);
-    if (!foto.hidden && img.getAttribute('src') === src) return;
+    if (!foto.hidden && img.getAttribute('src') === src && !foto.classList.contains('weg')) { $('figcaption', foto).textContent = e.text; return; }
     img.src = src; $('figcaption', foto).textContent = e.text;
-    foto.hidden = false; foto.classList.remove('weg'); void foto.offsetWidth; foto.classList.add('da');
+    foto.className = e.art || ''; foto.hidden = false; void foto.offsetWidth; foto.classList.add('da');
   }
   function versteckeFoto() { if (foto.hidden) return; foto.classList.remove('da'); foto.classList.add('weg'); setTimeout(() => { if (foto.classList.contains('weg')) foto.hidden = true; }, 500); }
   let kameraBleibt = false;   // z. B. beim Platz-Wählen: der Blick bleibt beim Platz, das Gesicht des Waldes erscheint im Rahmen
@@ -329,7 +331,8 @@ window.WELT.bereit.then(() => { (() => {
     if (!kameraBleibt) { if (wer === 'wald') kameraZu(-500); else if (Math.abs(KAM.ziel) > 220) kameraZu(0); }
     WELT.zoom.zurueck();   // wenn jemand erzählt, zeigt sich wieder der ganze Wald
     oeffne(wer);
-    if (wer === 'wald') zeigeFoto(text); else versteckeFoto();
+    const fotoE = fotoFuer(text), fotoI = fotoAb(fotoE, text);
+    if (fotoE && !fotoE.bild) versteckeFoto(); else if (!fotoE && wer !== 'wald') versteckeFoto();
     const textEl = $('.text', dialog), leiste = $('.knoepfe', dialog);
     leiste.innerHTML = '';
     return new Promise(res => {
@@ -351,7 +354,7 @@ window.WELT.bereit.then(() => { (() => {
         if (buehne.dataset.eingabe === 'tasten') leiste.firstChild?.focus({ preventScroll: true });   // Fokus-Rahmen nur für Tastatur
       };
       // noch nicht getippter Rest bleibt unsichtbar im Text, damit die Blase nicht wächst und springt
-      function male() { textEl.textContent = text.slice(0, i); if (i < text.length) { const r = document.createElement('span'); r.className = 'rest'; r.textContent = text.slice(i); textEl.append(r); } }
+      function male() { if (fotoE && fotoE.bild && i >= fotoI) zeigeFoto(fotoE); textEl.textContent = text.slice(0, i); if (i < text.length) { const r = document.createElement('span'); r.className = 'rest'; r.textContent = text.slice(i); textEl.append(r); } }
       male();
       if (i >= text.length) fertig();
       else starte();
@@ -363,10 +366,14 @@ window.WELT.bereit.then(() => { (() => {
     const nr = ++sprechNr;
     oeffne(wer);
     $('.text', dialog).textContent = text; $('.knoepfe', dialog).innerHTML = '';
+    const fotoE = fotoFuer(text); let fotoUhr = null;
+    if (fotoE?.bild && (SCHNELL || !datei(text))) zeigeFoto(fotoE);
     return new Promise(res => {
-      const weg = () => { if (nr === sprechNr) { dialog.hidden = true; dialog.classList.remove('spricht'); kolibriSpricht(false); } res(); };
+      const weg = () => { clearTimeout(fotoUhr); if (nr === sprechNr) { dialog.hidden = true; dialog.classList.remove('spricht'); kolibriSpricht(false); if (fotoE?.bild) versteckeFoto(); } res(); };
       dialog.onclick = () => { KLANG.hoerAuf(); weg(); };
-      const laut = sprichLaut(wer, text, nr);
+      const laut = sprichLaut(wer, text, nr, dauer => {   // Bild, wenn die Stimme beim Wort ankommt
+        if (fotoE?.bild && dauer > 0) fotoUhr = setTimeout(() => { if (nr === sprechNr) zeigeFoto(fotoE); }, dauer * 1000 * fotoAb(fotoE, text) / text.length * .94);
+      });
       if (laut) { laut.then(() => setTimeout(weg, 700)); setTimeout(weg, 12000); }
       else setTimeout(weg, SCHNELL ? 300 : 1600 + text.length * 50);
     });

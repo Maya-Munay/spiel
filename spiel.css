@@ -1236,3 +1236,26 @@ body.handy .g-name { font-size: 20px; }
 body.handy .geheimnisse h3 { font-size: 26px; }
 body.handy .ausblick p, body.handy .tafel .paten-hinweis { font-size: 23px; }
 body.handy .ausblick h3 { font-size: 27px; }
+
+/* Erzähl-Foto: Bildbereich mit Platz für kleine Animationen */
+#erzaehl-foto .foto-bild { position: relative; overflow: hidden; border-radius: 2px; aspect-ratio: 3 / 2; }
+#erzaehl-foto .foto-bild img { width: 100%; height: 100%; }
+#erzaehl-foto .foto-glanz, #erzaehl-foto .foto-funken { display: none; }
+/* „In deiner Hand liegt ein Kakaosamen“: sanft näher an die Bohne, die Bohne leuchtet warm, kleine Lichtfunken steigen auf */
+#erzaehl-foto.samen .foto-bild img { transform-origin: 51% 56%; animation: samenNah 6s ease-out forwards; }
+@keyframes samenNah { from { transform: scale(1); } to { transform: scale(1.16); } }
+#erzaehl-foto.samen .foto-glanz { display: block; position: absolute; left: 51%; top: 56%; width: 42%; aspect-ratio: 1.5; translate: -50% -50%; border-radius: 50%;
+  mix-blend-mode: screen; background: radial-gradient(closest-side, rgba(0,0,0,0) 34%, rgba(255,206,110,.42) 52%, rgba(255,190,90,.16) 74%, rgba(255,190,90,0));
+  opacity: 0; animation: samenGlanz 2.8s ease-in-out .6s infinite; }
+@keyframes samenGlanz { 0%, 100% { opacity: .2; scale: .9; } 50% { opacity: .85; scale: 1.06; } }
+#erzaehl-foto.samen .foto-funken { display: block; position: absolute; left: 51%; top: 54%; }
+#erzaehl-foto.samen .foto-funken b { position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #FFF6D2; box-shadow: 0 0 8px 3px rgba(255,214,106,.85);
+  opacity: 0; animation: samenFunke 2.6s ease-out infinite; }
+#erzaehl-foto.samen .foto-funken b:nth-child(1) { --x: -46px; animation-delay: .9s; }
+#erzaehl-foto.samen .foto-funken b:nth-child(2) { --x: 30px; animation-delay: 1.3s; }
+#erzaehl-foto.samen .foto-funken b:nth-child(3) { --x: -14px; animation-delay: 1.8s; width: 4px; height: 4px; }
+#erzaehl-foto.samen .foto-funken b:nth-child(4) { --x: 52px; animation-delay: 2.2s; width: 4px; height: 4px; }
+#erzaehl-foto.samen .foto-funken b:nth-child(5) { --x: -30px; animation-delay: 2.7s; }
+#erzaehl-foto.samen .foto-funken b:nth-child(6) { --x: 12px; animation-delay: 3.1s; width: 5px; height: 5px; }
+@keyframes samenFunke { 0% { opacity: 0; transform: translate(0, 10px) scale(.4); } 25% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--x), -90px) scale(1); } }
+@media (prefers-reduced-motion: reduce) { #erzaehl-foto.samen .foto-bild img, #erzaehl-foto.samen .foto-funken b { animation: none; } }

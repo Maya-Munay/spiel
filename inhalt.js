@@ -17,6 +17,7 @@ window.INHALT = {
   // nur für die Aussprache (wird so gesprochen, aber nicht so angezeigt)
   aussprache: {
     'In lak’ech hala ken': 'In Lakesch, Hala Ken',
+    'Urkunde': 'Ur-Kunde',   // Wunsch Yilmaz 06.11.: Hörprobe Variante 2
   },
 
   sprecher: {
@@ -215,9 +216,14 @@ window.INHALT = {
 Object.assign(window.INHALT, {
   // Bild, das erscheint, während der Wald einen bestimmten Satz erzählt (Satzanfang → Bild in bilder/platzhalter/)
   erzaehlBilder: [
-    { satz: 'Aloha, wundervoll, dass du da bist. In deiner Hand liegt ein Kakaosamen.', bild: 'haende', text: 'Ein Kakaosamen in deinen Händen' },
-    { satz: 'Eine Baumpatenschaft gibt es wirklich – bei Maya Munay.', bild: 'familie', text: 'So könnte eine Bauernfamilie in Macuro aussehen (gemalt)' },
-    { satz: 'Schau, deine Urkunde!', bild: '', text: '' },
+    // satz = Anfang des Satzes, ab = ab diesem Wort erscheint das Bild (wenn die Stimme dort ist), art = kleine Animation
+    { satz: 'Aloha, wundervoll, dass du da bist.', ab: 'In deiner Hand', bild: 'haende', text: 'Ein Kakaosamen in deinen Händen', art: 'samen' },
+    { satz: 'Eine Baumpatenschaft gibt es wirklich – bei Maya Munay.', ab: 'Bauernfamilien', bild: 'familie', text: 'So könnte eine Bauernfamilie in Macuro aussehen (gemalt)' },
+    { satz: 'Schau, deine Urkunde!', bild: '' },   // hier ist die Urkunde das Bild
+    { satz: 'In Macuro bemalen Juan und Diego Steine', ab: 'In Macuro', bild: 'familie', text: 'In Macuro, einem Dorf am Meer (gemalt)' },
+    { satz: 'Kokospalmen mögen warme Küsten', ab: 'Dort arbeitet', bild: 'familie', text: 'Rund 40 Bauernfamilien in Macuro (gemalt)' },
+    { satz: 'Bei Maya Munay werden die Kakaofrüchte erst geerntet', ab: 'von Hand', bild: 'familie', text: 'Geerntet wird von Hand (gemalt)' },
+    { satz: 'Aus den leeren Kakaoschalen machen die Bauern', ab: 'die Bauern', bild: 'familie', text: 'Die Bauernfamilien kompostieren die Schalen (gemalt)' },
   ],
   // roter Faden zum nächsten Kapitel: der Kolibri macht neugierig
   ausblickSatz: ['kolibri', 'Weißt du eigentlich, was in einer reifen Kakaofrucht steckt? Das zeige ich dir beim nächsten Mal …'],
