@@ -13,7 +13,7 @@
 <link rel="apple-touch-icon" href="assets/app-symbol-180.png">
 <title>Kakao-Reise · Maya Munay</title>
 <link rel="icon" type="image/png" href="assets/mm-zeichen.png">
-<link rel="stylesheet" href="spiel.css?v=93">
+<link rel="stylesheet" href="spiel.css?v=95">
 </head>
 <body>
 <!-- Ladebildschirm: zeigt Maya Munay, bis Bilder und Klänge da sind -->
@@ -197,6 +197,8 @@
   </section>
 
   <!-- Bild zum Erzählten (z. B. Hände mit dem Kakaosamen, eine Bauernfamilie in Macuro) -->
+  <!-- „In deiner Hand liegt ein Kakaosamen“: die eigenen Hände steigen vom unteren Bildschirmrand ins Bild -->
+  <div id="samen-haende" hidden aria-hidden="true"><img src="bilder/platzhalter/figuren/haende-frei.webp" alt=""><i class="foto-glanz"></i><span class="foto-funken"><b></b><b></b><b></b><b></b><b></b><b></b></span></div>
   <figure id="erzaehl-foto" hidden aria-hidden="true"><div class="foto-bild"><img alt=""><i class="foto-glanz"></i><span class="foto-funken"><b></b><b></b><b></b><b></b><b></b><b></b></span></div><figcaption></figcaption></figure>
 
   <!-- Mini-Spiel: Bohnen fermentieren und trocknen, im Takt des Waldes -->
@@ -276,7 +278,7 @@
       <p class="intro"></p>
     </div>
     <div class="start-knoepfe"><button class="knopf gross" id="start">Los geht’s</button><button class="knopf hell" id="neu-beginnen" hidden></button></div>
-    <p class="klein">Ein Lernspiel mit dem Kakao von Maya&nbsp;Munay · Entwurf, nicht veröffentlicht · Version 93 · WebGL</p>
+    <p class="klein">Ein Lernspiel mit dem Kakao von Maya&nbsp;Munay · Entwurf, nicht veröffentlicht · Version 95 · WebGL</p>
   </section>
 
   <!-- Schluss -->
@@ -295,12 +297,12 @@
 </div>
 
 <script src="lib/pixi.min.js?v=8.22.0"></script>
-<script src="inhalt.js?v=93"></script>
-<script src="stimme/stimmen.js?v=93"></script>
-<script src="klang/aufnahmen.js?v=93"></script>
-<script src="klang.js?v=93"></script>
-<script src="welt.js?v=93"></script>
-<script src="entdecken.js?v=93"></script>
-<script src="spiel.js?v=93"></script>
+<script src="inhalt.js?v=95"></script>
+<script src="stimme/stimmen.js?v=95"></script>
+<script src="klang/aufnahmen.js?v=95"></script>
+<script src="klang.js?v=95"></script>
+<script src="welt.js?v=95"></script>
+<script src="entdecken.js?v=95"></script>
+<script src="spiel.js?v=95"></script>
 </body>
 </html>

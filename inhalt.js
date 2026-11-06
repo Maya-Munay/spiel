@@ -218,7 +218,7 @@ Object.assign(window.INHALT, {
   erzaehlBilder: [
     // satz = Anfang des Satzes, ab = ab diesem Wort erscheint das Bild (wenn die Stimme dort ist), art = kleine Animation
     { satz: 'Aloha, wundervoll, dass du da bist.', ab: 'In deiner Hand', bild: 'haende', text: 'Ein Kakaosamen in deinen Händen', art: 'samen' },
-    { satz: 'Eine Baumpatenschaft gibt es wirklich – bei Maya Munay.', ab: 'Bauernfamilien', bild: 'familie', text: 'So könnte eine Bauernfamilie in Macuro aussehen (gemalt)' },
+    // (Familie bei der Vorstellung am Anfang auf Wunsch Yilmaz 06.11. herausgenommen – sie erscheint später, wenn von ihr erzählt wird)
     { satz: 'Schau, deine Urkunde!', bild: '' },   // hier ist die Urkunde das Bild
     { satz: 'In Macuro bemalen Juan und Diego Steine', ab: 'In Macuro', bild: 'familie', text: 'In Macuro, einem Dorf am Meer (gemalt)' },
     { satz: 'Kokospalmen mögen warme Küsten', ab: 'Dort arbeitet', bild: 'familie', text: 'Rund 40 Bauernfamilien in Macuro (gemalt)' },

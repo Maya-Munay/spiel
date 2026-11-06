@@ -20,21 +20,19 @@ window.WELT.bereit.then(() => { (() => {
   // ---------- Bühne an Fenstergröße anpassen ----------
   let massstab = 1, BREITE = 1600, O = 0;   // Bühnenbreite passt sich breiten Handys an (O = halber Zuwachs)
   // Breite Handys (quer) zeigen mehr vom Wald statt schwarzer Ränder: Bühne 1600–2560 px breit, immer 900 hoch
+  let fensterB = 0, fensterH = 0;
   function skaliere() {
+    fensterB = innerWidth; fensterH = innerHeight;
     const ziel = innerHeight > 0 ? 900 * innerWidth / innerHeight : 1600;
     const maxB = document.body.classList.contains('sehr-leicht') ? 1600 : 2560;
     BREITE = Math.round(Math.max(1600, Math.min(maxB, ziel))); O = (BREITE - 1600) / 2;   // bis fast zur ganzen Weltbreite (2600)
     buehne.style.width = BREITE + 'px';
     massstab = Math.min(innerWidth / BREITE, innerHeight / 900);
-    const zl = (innerWidth - BREITE * massstab) / 2, zt = (innerHeight - 900 * massstab) / 2;
-    if (ZOOM) {
-      // zoom: der Browser zeichnet direkt in Bildschirmgröße (transform:scale zeichnet groß und verkleinert danach)
-      buehne.style.transform = 'none'; buehne.style.zoom = massstab;
-      buehne.style.left = (zl / massstab) + 'px'; buehne.style.top = (zt / massstab) + 'px';
-      const r = buehne.getBoundingClientRect();
-      if (Math.abs(r.left - zl) > 2 || Math.abs(r.top - zt) > 2) { buehne.style.left = zl + 'px'; buehne.style.top = zt + 'px'; }   // ältere zoom-Art
-    } else buehne.style.transform = `translate(-50%, -50%) scale(${massstab})`;
-    WELT.groesse(BREITE, massstab, zl, zt);   // die Zeichenfläche liegt genau unter der Bühne, in Bildschirmgröße
+    // Bühne (Fenster, Knöpfe) und Zeichenfläche (Welt) werden auf dieselbe Weise mittig gesetzt – so liegen sie auf jedem
+    // Gerät genau übereinander. (Früher half auf Handys CSS-zoom beim Speichern; jetzt trägt die Bühne nur leichte Fenster,
+    // und zoom setzen Safari/Brave auf dem iPhone anders um als Chrome – darum überall transform.)
+    buehne.style.transform = `translate(-50%, -50%) scale(${massstab})`;
+    WELT.groesse(BREITE, massstab);
     document.body.classList.toggle('handy', massstab < .62);   // kleine Bildschirme: größere Schrift
     if (window.KAMERA) { const K = window.KAMERA; K.min = -500 + O; K.max = 500 - O; K.o = O; K.breite = BREITE;
       K.ziel = Math.max(K.min, Math.min(K.max, K.ziel)); K.x = Math.max(K.min, Math.min(K.max, K.x)); }
@@ -53,16 +51,9 @@ window.WELT.bereit.then(() => { (() => {
   // Start ganz links beim großen Baum – er spricht zuerst, so schwenkt der Blick nicht gleich von rechts nach links
   const KAM = { x: -500, ziel: -500, min: -500, max: 500, o: 0, breite: 1600 };
   window.KAMERA = KAM;
-  // zoom nur nutzen, wenn der Browser es so umsetzt, dass alle Umrechnungen stimmen (Rechtecke verkleinert, Maße unverkleinert)
-  const ZOOM = (() => {
-    if (!document.body.classList.contains('leicht') || !('zoom' in document.body.style)) return false;
-    try {
-      const t = document.createElement('div'); t.style.cssText = 'position:fixed;left:0;top:0;zoom:.5;visibility:hidden;pointer-events:none';
-      const k = document.createElement('div'); k.style.cssText = 'width:100px;height:100px'; t.append(k); document.body.append(t);
-      const r = k.getBoundingClientRect(), ok = Math.abs(r.width - 50) < 1 && Math.abs(k.offsetWidth - 100) < 1; t.remove(); return ok;
-    } catch (e) { return false; }
-  })();
-  addEventListener('resize', skaliere); skaliere();
+  addEventListener('resize', skaliere); addEventListener('orientationchange', () => setTimeout(skaliere, 250));
+  window.visualViewport?.addEventListener('resize', skaliere);   // iPhone: Browserleisten auf/zu
+  skaliere();
   const klemme = x => Math.max(KAM.min, Math.min(KAM.max, x));
   const kameraZu = x => { KAM.ziel = klemme(x); };
   const umschauErlaubt = () => $('#titel').classList.contains('weg') && $('#erzaehlbild').hidden && $('#buch').hidden && $('#ende').hidden
@@ -127,6 +118,7 @@ window.WELT.bereit.then(() => { (() => {
   pfeilL.onclick = () => kameraZu(KAM.ziel - 500);
   pfeilR.onclick = () => kameraZu(KAM.ziel + 500);
   function schleife(zeit) {
+    if (innerWidth !== fensterB || innerHeight !== fensterH) skaliere();   // Größe geändert, auch ohne resize-Ereignis (iPhone-Leisten)
     const frei = umschauErlaubt();
     if (frei && rand) KAM.ziel = klemme(KAM.ziel + rand * 13);
     KAM.x += (KAM.ziel - KAM.x) * .07;
@@ -316,15 +308,25 @@ window.WELT.bereit.then(() => { (() => {
   const fotoFuer = text => (I.erzaehlBilder || []).find(e => text.startsWith(e.satz));
   // ab welchem Zeichen das Bild erscheint (dort, wo das passende Wort gesprochen wird)
   const fotoAb = (e, text) => e && e.ab ? Math.max(0, text.indexOf(e.ab)) : 0;
+  const haende = $('#samen-haende');
   function zeigeFoto(e) {
     if (!e) return;
     if (!e.bild) { versteckeFoto(); return; }
+    if (e.art === 'samen') {   // die Hände kommen von unten ins Bild (freigestellt, ganz zu sehen)
+      if (!haende.hidden && haende.classList.contains('da')) return;
+      versteckeFoto(); haende.hidden = false; haende.classList.remove('weg'); void haende.offsetWidth; haende.classList.add('da'); return;
+    }
     const img = $('img', foto), src = bild(e.bild);
     if (!foto.hidden && img.getAttribute('src') === src && !foto.classList.contains('weg')) { $('figcaption', foto).textContent = e.text; return; }
     img.src = src; $('figcaption', foto).textContent = e.text;
     foto.className = e.art || ''; foto.hidden = false; void foto.offsetWidth; foto.classList.add('da');
   }
-  function versteckeFoto() { if (foto.hidden) return; foto.classList.remove('da'); foto.classList.add('weg'); setTimeout(() => { if (foto.classList.contains('weg')) foto.hidden = true; }, 500); }
+  function versteckeFoto() {
+    for (const el of [foto, haende]) {
+      if (!el || el.hidden || el.classList.contains('weg')) continue;
+      el.classList.remove('da'); el.classList.add('weg'); setTimeout(() => { if (el.classList.contains('weg')) el.hidden = true; }, 1300);
+    }
+  }
   let kameraBleibt = false;   // z. B. beim Platz-Wählen: der Blick bleibt beim Platz, das Gesicht des Waldes erscheint im Rahmen
   function sage(wer, text, knoepfe = [{ text: 'Weiter', wert: true }]) {
     const nr = ++sprechNr;

@@ -1259,3 +1259,47 @@ body.handy .ausblick h3 { font-size: 27px; }
 #erzaehl-foto.samen .foto-funken b:nth-child(6) { --x: 12px; animation-delay: 3.1s; width: 5px; height: 5px; }
 @keyframes samenFunke { 0% { opacity: 0; transform: translate(0, 10px) scale(.4); } 25% { opacity: 1; } 100% { opacity: 0; transform: translate(var(--x), -90px) scale(1); } }
 @media (prefers-reduced-motion: reduce) { #erzaehl-foto.samen .foto-bild img, #erzaehl-foto.samen .foto-funken b { animation: none; } }
+
+/* Zeichenfläche mittig wie die Bühne (06.11.: iPhone/Brave legten Welt und Fenster sonst versetzt übereinander) */
+#welt { left: 50%; top: 50%; transform: translate(-50%, -50%); }
+.laden-text b { font-style: normal; color: var(--terrakotta); }
+
+.laden-text { text-align: center; padding: 0 24px; line-height: 1.5; }
+
+/* Erzähl-Bilder fein eingeblendet (Wunsch Yilmaz 06.11.): kein Foto-Rahmen, weicher Rand, der in den Wald ausläuft, langsames Einblenden */
+#erzaehl-foto { width: 520px; right: 22px; top: 86px; padding: 0; background: none; box-shadow: none; border-radius: 0; rotate: 0deg;
+  opacity: 0; translate: 0 0; scale: .985; filter: blur(3px);
+  transition: opacity 2s ease, scale 3s ease-out, filter 2s ease; }
+#erzaehl-foto.da { opacity: 1; scale: 1; filter: blur(0); }
+#erzaehl-foto.weg { opacity: 0; filter: blur(2px); transition: opacity 1.2s ease, filter 1.2s ease; }
+#erzaehl-foto .foto-bild { border-radius: 0;
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 52%, rgba(0,0,0,.6) 72%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 52%, rgba(0,0,0,.6) 72%, transparent 100%); }
+#erzaehl-foto figcaption { margin-top: -22px; position: relative; padding: 0 20px; font: italic 16px/1.3 var(--schrift); color: #FFF6E2;
+  text-shadow: 0 0 6px rgba(20,14,8,.9), 0 1px 2px rgba(20,14,8,.9); }
+body.handy #erzaehl-foto { width: 680px; }
+body.handy #erzaehl-foto figcaption { font-size: 22px; }
+@media (prefers-reduced-motion: reduce) { #erzaehl-foto { filter: none; transition: opacity 1s ease; } }
+
+/* Die eigenen Hände mit dem Kakaosamen: freigestellt, steigen vom unteren Bildschirmrand auf und schweben leicht */
+#samen-haende { position: absolute; left: 64%; bottom: -6px; width: 560px; z-index: 10; pointer-events: none;
+  transform: translate(-50%, 105%); opacity: 0; transition: transform 2.2s cubic-bezier(.22,.9,.3,1), opacity 1.2s ease; }
+#samen-haende.da { transform: translate(-50%, 0); opacity: 1; }
+#samen-haende.weg { transform: translate(-50%, 105%); opacity: 0; transition: transform 1.4s ease-in, opacity 1.2s ease; }
+#samen-haende img { display: block; width: 100%; height: auto; filter: drop-shadow(0 -4px 18px rgba(0,0,0,.28));
+  animation: haendeSchweben 5s ease-in-out 2.2s infinite alternate; }
+@keyframes haendeSchweben { to { transform: translateY(-8px); } }
+#samen-haende .foto-glanz { position: absolute; left: 42%; top: 50%; width: 30%; aspect-ratio: 1.4; translate: -50% -50%; border-radius: 50%; mix-blend-mode: screen;
+  background: radial-gradient(closest-side, rgba(0,0,0,0) 38%, rgba(255,206,110,.45) 56%, rgba(255,190,90,.16) 76%, rgba(255,190,90,0)); opacity: 0; }
+#samen-haende.da .foto-glanz { animation: samenGlanz 2.8s ease-in-out 1.6s infinite; }
+#samen-haende .foto-funken { position: absolute; left: 42%; top: 46%; }
+#samen-haende .foto-funken b { position: absolute; width: 7px; height: 7px; border-radius: 50%; background: #FFF6D2; box-shadow: 0 0 9px 3px rgba(255,214,106,.85); opacity: 0; }
+#samen-haende.da .foto-funken b { animation: samenFunke 2.8s ease-out infinite; }
+#samen-haende .foto-funken b:nth-child(1) { --x: -50px; animation-delay: 1.8s; }
+#samen-haende .foto-funken b:nth-child(2) { --x: 34px; animation-delay: 2.2s; }
+#samen-haende .foto-funken b:nth-child(3) { --x: -16px; animation-delay: 2.7s; width: 5px; height: 5px; }
+#samen-haende .foto-funken b:nth-child(4) { --x: 58px; animation-delay: 3.1s; width: 5px; height: 5px; }
+#samen-haende .foto-funken b:nth-child(5) { --x: -34px; animation-delay: 3.6s; }
+#samen-haende .foto-funken b:nth-child(6) { --x: 14px; animation-delay: 4s; width: 6px; height: 6px; }
+body.handy #samen-haende { width: 640px; }
+@media (prefers-reduced-motion: reduce) { #samen-haende, #samen-haende.weg { transition: opacity 1s ease; } #samen-haende img, #samen-haende .foto-funken b { animation: none; } }

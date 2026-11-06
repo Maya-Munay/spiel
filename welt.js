@@ -329,8 +329,8 @@
   W.ziel = ziel; W.ZRANG = ZRANG;
 
   // Bildschirm ↔ Welt
-  let rahmen = { left: 0, top: 0 };
-  const aufBuehne = (cx, cy) => ({ x: (cx - rahmen.left) / MASS, y: (cy - rahmen.top) / MASS });
+  // Bildschirm → Bühne: immer an der echten Lage der Zeichenfläche messen (stimmt auch, wenn der Browser die Leisten verschiebt)
+  const aufBuehne = (cx, cy) => { const r = canvas.getBoundingClientRect(); return { x: (cx - r.left) / MASS, y: (cy - r.top) / MASS }; };
   // Zoom (zwei Finger, Strg + Mausrad): Bühnenpunkt p → ZOOM.z · p + (tx, ty); Fenster und Knöpfe bleiben gleich groß
   const ZOOM = { z: 1, tx: 0, ty: 0, max: 2.6, zurueck: null };
   const inWelt = (cx, cy, lg = L.flaeche) => { const p = aufBuehne(cx, cy); return { x: (p.x - ZOOM.tx) / ZOOM.z - lg.off.x, y: (p.y - ZOOM.ty) / ZOOM.z - lg.off.y }; };
@@ -1051,7 +1051,7 @@
     });
   }
   function blattTreffer(tl, cx, cy, nurRechteck = false) {
-    const g = { x: cx - canvasRect.left, y: cy - canvasRect.top };
+    const cr = canvas.getBoundingClientRect(), g = { x: cx - cr.left, y: cy - cr.top };
     const p = tl.sp.toLocal(g);   // in Bildpunkten der (ggf. gespiegelten, gedrehten) Textur
     const tw = tl.sp.texture.width, th = tl.sp.texture.height;
     if (p.x < 0 || p.y < 0 || p.x > tw || p.y > th) return false;
@@ -1393,7 +1393,7 @@
   // ======================================================================
   //  Eingabe: Treffer, Mauszeiger-Namen, Blätter durchsichtig
   // ======================================================================
-  let canvasRect = { left: 0, top: 0 }, hoverZiel = null, druckZiel = null;
+  let hoverZiel = null, druckZiel = null;
   W.gezogen = () => false;          // spiel.js setzt das
   W.beimDruck = () => {};           // z. B. Klick-Ton
   W.beimZeigen = () => {};          // Name unter dem Mauszeiger
@@ -1440,12 +1440,11 @@
   // ======================================================================
   //  Größe, Zeichnen, Laden
   // ======================================================================
-  W.groesse = (breite, mass, links, oben) => {
+  W.groesse = (breite, mass) => {
     BREITE = breite; MASS = mass;
     const w = Math.round(breite * mass), h = Math.round(900 * mass);
-    Object.assign(canvas.style, { left: links + 'px', top: oben + 'px', width: w + 'px', height: h + 'px' });
-    rahmen = { left: links, top: oben };
-    canvasRect = { left: links, top: oben };
+    // mittig wie die Bühne (CSS: left/top 50 %, translate −50 %) – nur die Größe kommt von hier
+    Object.assign(canvas.style, { width: w + 'px', height: h + 'px' });
     if (app) { app.renderer.resize(w, h); wurzel.scale.set(mass); vignetteMalen(); zoomKlemme(); }
   };
   let fehler = 0;
@@ -1474,14 +1473,20 @@
   const VORN = ['vorn-rechts-vorn', 'vorn-links-vorn', 'haengt-1-vorn', 'haengt-2-vorn'];
   W.bereit = (async () => {
     const balken = document.querySelector('#laden .laden-balken span');
+    if (location.protocol === 'file:') {   // Browser sperren lokale Bilder für WebGL – das Spiel braucht einen kleinen Webserver
+      const t = document.querySelector('#laden .laden-text');
+      if (t) t.innerHTML = 'Die Kakao-Reise läuft über einen kleinen Webserver.<br>Bitte im Ordner <b>„Spiel starten.command“</b> doppelklicken – dann öffnet sich der Wald im Browser.';
+      document.querySelector('#laden .laden-balken')?.remove();
+      throw new Error('Als Datei geöffnet (file://) – bitte über „Spiel starten.command“ öffnen.');
+    }
     const liste = [[FLACH ? 'welt' : 'welt-tief', `bilder/platzhalter/${FLACH ? 'welt' : 'welt-tief'}.jpg`], ...ALLE.map(n => [n, FIG(n)]), ...(FLACH || SEHR_LEICHT ? [] : VORN.map(n => [n, FIG(n)]))];
     let fertig = 0; const gesamt = liste.length;
     const zeige = () => { if (balken) balken.style.width = Math.round(15 + 75 * Math.min(1, fertig / gesamt)) + '%'; };
     // Figuren aus dem gemeinsamen Bildblatt (wenige Dateien = schneller online); fehlt es, kommen die Einzelbilder
     const ausBlatt = async () => {
       try {
-        const info = await (await fetch('bilder/platzhalter/figuren/bildblatt.json?v=93')).json();
-        const blaetter = await Promise.all(info.blaetter.map(f => ladeBild(`bilder/platzhalter/figuren/${f}?v=93`)));
+        const info = await (await fetch('bilder/platzhalter/figuren/bildblatt.json?v=95')).json();
+        const blaetter = await Promise.all(info.blaetter.map(f => ladeBild(`bilder/platzhalter/figuren/${f}?v=95`)));
         if (blaetter.some(b => !b)) return false;
         for (const [n, [b, x, y, w, h]] of Object.entries(info.bilder)) BILDER[n] = { blatt: blaetter[b], sx: x, sy: y, naturalWidth: w, naturalHeight: h };
         return true;
